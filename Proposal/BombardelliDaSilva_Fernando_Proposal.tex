@@ -1,0 +1,254 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Structured General Purpose Assignment
+% LaTeX Template
+%
+% This template has been downloaded from:
+% http://www.latextemplates.com
+%
+% Original author:
+% Ted Pavlic (http://www.tedpavlic.com)
+%
+% Note:
+% The \lipsum[#] commands throughout this template generate dummy text
+% to fill the template out. These commands should all be removed when 
+% writing assignment content.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass{article}
+
+%\usepackage[brazilian]{babel}
+%\usepackage[german]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr} % Required for custom headers
+\usepackage{lastpage} % Required to determine the last page for the footer
+\usepackage{extramarks} % Required for headers and footers
+\usepackage{graphicx} % Required to insert images
+\usepackage{float}
+\usepackage{listings}
+\usepackage{alltt}
+\usepackage{hyperref}
+
+\graphicspath{ {img/} }
+
+% Margins
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in 
+
+% Font
+\renewcommand*{\familydefault}{\sfdefault}
+
+% Set up the header and footer
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName} % Top left header
+%\chead{\hmwkClass\ (\hmwkClassInstructor\ \hmwkClassTime): \hmwkTitle} % Top center header
+\rhead{\hmwkClass: \hmwkTitle} % Top center header
+%\rhead{\firstxmark} % Top right header
+\lfoot{\lastxmark} % Bottom left footer
+\cfoot{} % Bottom center footer
+\rfoot{Page \thepage\ of\ \pageref{LastPage}} % Bottom right footer
+\renewcommand\headrulewidth{0.4pt} % Size of the header rule
+\renewcommand\footrulewidth{0.4pt} % Size of the footer rule
+
+%\setlength\parindent{0pt} % Removes all indentation from paragraphs
+
+%----------------------------------------------------------------------------------------
+%	DOCUMENT STRUCTURE COMMANDS
+%	Skip this unless you know what you're doing
+%----------------------------------------------------------------------------------------
+
+% Header and footer for when a page split occurs within a problem environment
+\newcommand{\enterProblemHeader}[1]{
+\nobreak\extramarks{#1}{continues at the next page\ldots}\nobreak
+\nobreak\extramarks{#1 }{continues at the next page\ldots}\nobreak
+}
+
+% Header and footer for when a page split occurs between problem environments
+\newcommand{\exitProblemHeader}[1]{
+\nobreak\extramarks{#1}{continues at the next page\ldots}\nobreak
+\nobreak\extramarks{#1}{}\nobreak
+}
+
+\setcounter{secnumdepth}{0} % Removes default section numbers
+\newcounter{homeworkProblemCounter} % Creates a counter to keep track of the number of problems
+
+\newcommand{\homeworkProblemName}{}
+\newenvironment{homeworkProblem}[1][Task \arabic{homeworkProblemCounter}]{ % Makes a new environment called homeworkProblem which takes 1 argument (custom name) but the default is "Problem #"
+\stepcounter{homeworkProblemCounter} % Increase counter for number of problems
+\renewcommand{\homeworkProblemName}{#1} % Assign \homeworkProblemName the name of the problem
+\section{\homeworkProblemName} % Make a section in the document with the custom problem count
+\enterProblemHeader{\homeworkProblemName} % Header and footer within the environment
+}{
+\exitProblemHeader{\homeworkProblemName} % Header and footer after the environment
+}
+
+\newcommand{\problemAnswer}[1]{ % Defines the problem answer command with the content as the only argument
+\noindent\framebox[\columnwidth][c]{\begin{minipage}{0.98\columnwidth}#1\end{minipage}} % Makes the box around the problem answer and puts the content inside
+}
+
+\newcommand{\homeworkSectionName}{}
+\newenvironment{homeworkSection}[1]{ % New environment for sections within homework problems, takes 1 argument - the name of the section
+\renewcommand{\homeworkSectionName}{#1} % Assign \homeworkSectionName to the name of the section from the environment argumen
+\subsection{\homeworkSectionName} % Make a subsection with the custom name of the subsection
+\enterProblemHeader{\homeworkProblemName\ [\homeworkSectionName]} % Header and footer within the environment
+}{
+\enterProblemHeader{\homeworkProblemName} % Header and footer after the environment
+}
+   
+%----------------------------------------------------------------------------------------
+%	NAME AND CLASS SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\hmwkTitle}{Proposal of Subject} % Assignment title
+\newcommand{\hmwkDueDate}{Juli 2015} % Due date
+\newcommand{\hmwkClass}{Bachelorarbeit $-$ Informatik} % Course/class
+\newcommand{\hmwkClassFull}{Proposal of \emph{Bachelorarbeit} $-$ B.Sc. Informatik} % Course/class
+\newcommand{\hmwkClassTime}{Wintersemester 2015/2016} % Class/lecture time
+\newcommand{\hmwkClassInstructor}{} % Teacher/lecturer
+\newcommand{\hmwkAuthorName}{Fernando Bombardelli da Silva $-$ 364924} % Your name
+\newcommand{\hmwkAuthorRemark}{Exchange student of double degree from UFRGS (Porto Alegre / Brazil)}
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title{
+%\vspace{2in}
+\Large\textmd{\textbf{\hmwkClassFull}}\\
+\normalsize{\textbf{\hmwkTitle}}\\
+\normalsize\vspace{0.1in}\small{\hmwkDueDate}\\
+%\vspace{0.1in}
+\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}
+%\vspace{3in}
+}
+
+\author{\textbf{\hmwkAuthorName}}
+\date{} % Insert date here if you want it to appear below your name
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+%\maketitle
+{\centering
+\Large\textmd{\textbf{\hmwkClassFull}}\\
+\normalsize{\textbf{\hmwkTitle}}\\
+\normalsize\vspace{0.1in}\small{\hmwkDueDate}\\
+\small{\hmwkClassInstructor\ \hmwkClassTime}\\
+%\vspace{0.1in}
+\large\textbf{\hmwkAuthorName}\\
+\normalsize{\hmwkAuthorRemark}\\
+}
+%----------------------------------------------------------------------------------------
+%	TABLE OF CONTENTS
+%----------------------------------------------------------------------------------------
+
+%\setcounter{tocdepth}{1} % Uncomment this line if you don't want subsections listed in the ToC
+
+%\newpage
+%\tableofcontents
+%\newpage
+
+\linespread{1.5} % Line spacing
+
+%----------------------------------------------------------------------------------------
+%	Exercício 1
+%----------------------------------------------------------------------------------------
+
+% To have just one problem per page, simply put a \clearpage after each problem
+
+\begin{homeworkProblem}[Introduction]
+{\large
+This document has the objective of presenting a proposal of subject for the bachelor's thesis in the course of computer science (\emph{Informatik}) of the \emph{Technische Universität Berlin} by the student \textbf{Fernando Bombardelli da Silva} (\emph{Matrikelnummer} 364924) to be written in the winter semester 2015/2016.
+
+The proposed theme lies in the area of theoretical computer science, more precisely combinatorial optimization.
+
+The student comes originally from the \emph{Universidade Federal do Rio Grande do Sul} in Brazil and participates from an exchange program of dual degree, which consists of attending to three semesters of lectures at the TU Berlin including the \emph{Bachelorarbeit}.
+
+}
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[Context]
+{\large
+
+The theme of the bachelor's thesis consists basically in the problem of defining a set of public transportation lines of a city, or alternatively, a set of railway lines in a region.
+
+The approach to handle the issue would be seeing this as an optimization problem. It means, given the maps of the streets (or rails) and the stations, and additionally also the data of the transport demands, which shows for each station how many people travel to each other station on the map, both in graph representations, one could define a cost function for the operation of public transport lines subjected to the constraints of attending the demand and then minimize these costs.
+
+Keywords: Operations research, combinatorial optimization, computational complexity, meta-heuristics, heuristics, graph theory, artificial intelligence, network design problem, ant colony optimization.
+
+}
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[Objectives]
+{\large
+
+Some of the objectives of the work are:
+\begin{itemize}
+\item investigate the features of such problem (cost function, constraints, etc.);
+\item build a robust and scalable model for the optimization problem;
+\item study the literature;
+\item investigate meta-heuristics in order to solve the problem;
+\item implement a solver;
+\item evaluate the results.
+\end{itemize}
+
+}
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[Time Schedule]
+{\large
+
+\begin{tabular}{ l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c}
+\textbf{Month} & \multicolumn{4}{c}{1}\vline & \multicolumn{4}{c}{2}\vline & \multicolumn{4}{c}{3}\vline & \multicolumn{4}{c}{4} \\ \hline
+\textbf{Week}	& 1	& 2	& 3	& 4	& 5	& 6	& 7	& 8	& 9	& 10	& 11	& 12	& 13	& 14	& 15	& 16 \\ \hline
+Literature study & $\bullet$	& $\bullet$	& $\bullet$	& $\bullet$	&	&	&	&	&	&	& $\bullet$	& $\bullet$	&	&	&	& \\
+Problem definition & 	&	& $\bullet$	& $\bullet$	& $\bullet$	&	&	&	&	&	& $\bullet$	&	&	&	&	& \\
+Collect data &	&	&	&	& $\bullet$	& $\bullet$	&	&	&	&	&	&	&	&	&	& \\
+Implementation &	&	&	&	&	& $\bullet$	& $\bullet$	& $\bullet$	& $\bullet$	&	& $\bullet$	& $\bullet$	& $\bullet$	& $\bullet$	&	& \\
+Experiments &	&	&	&	&	&	&	& $\bullet$	& $\bullet$	& $\bullet$	&	&	& $\bullet$	& $\bullet$	& $\bullet$	& \\
+Evaluation &	&	&	&	&	&	&	&	& $\bullet$	& $\bullet$	&	&	&	& $\bullet$	& $\bullet$	& $\bullet$ \\
+Document writing &	&	&	&	&	&	&	&	&	& $\bullet$	&	&	&	& $\bullet$	& $\bullet$	& $\bullet$ \\
+
+\end{tabular}
+
+}
+\end{homeworkProblem}
+
+\begin{thebibliography}{1}
+
+\bibitem{vitins}
+VITINS, Basil J.; AZHAUSEN, Kay W. \textbf{Optimization of Large Transport Networks Using the Ant Colony Heuristic}. 7th Swiss Transport Research Conference (2007). Available at: \url{http://www.strc.ch/conferences/2007/2007_vitins.pdf}
+
+\bibitem{yu}
+YU, Bin; YANG, Zhongzhen; CHENG, Chuntian; LIU, Chong. \textbf{Optimizing Bus Transit Network With Parallel Ant Colony Algorithm}. Proceedings of the Eastern Asia Society for Transportation Studies (2005). Available at: \url{http://www.easts.info/on-line/proceedings_05/374.pdf}
+
+\bibitem{transportationboard}
+\textbf{Artificial Intelligence Applications to Critical Transportation Issues} (2012). Available at: \url{http://onlinepubs.trb.org/onlinepubs/circulars/ec168.pdf}
+
+\bibitem{molina}
+MOLINA, Martin. \textbf{An Intelligent Assistant for Public Transport Management} (2005). Available at: \url{http://core.ac.uk/download/pdf/12001339.pdf}
+
+\bibitem{wellman}
+WELLMAN, Michael P. \textbf{Transportation Applications of Artificial Intelligence (Extended Abstract)}. AAAI Workshop on AI in Intelligent-Vehicle Highway Systems (1993). Available at: \url{http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.47.4817&rep=rep1&type=pdf}
+
+\bibitem{liu}
+LIU, Chao-Lin; PAI, Tun-Wen; CHANG, Chun-Tien; HSIEH, Chang-Ming. \textbf{Path-Planning Algorithms for Public Transportation Systems}. The Fourth International Ieee Conference On Intelligent Transportation Systems, Oakland, California, USA (2001). Available at: \url{http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.12.1259&rep=rep1&type=pdf}
+
+\bibitem{crescenzi}
+CRESCENZI, Pierluigi; KANN, Viggo. \textbf{A compendium of NP optimization problems} (1998). Available at: \url{ftp://ftp.nada.kth.se/Theory/Viggo-Kann/compendium.pdf}
+
+\bibitem{schrijver}
+SCHRIJVER, Alexander. \textbf{A Course in Combinatorial Optimization} (2013). Available at: \url{http://homepages.cwi.nl/~lex/files/dict.pdf}
+
+\end{thebibliography}
+
+\end{document}
