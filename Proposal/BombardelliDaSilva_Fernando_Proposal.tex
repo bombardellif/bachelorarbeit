@@ -67,13 +67,13 @@
 
 % Header and footer for when a page split occurs within a problem environment
 \newcommand{\enterProblemHeader}[1]{
-\nobreak\extramarks{#1}{continues at the next page\ldots}\nobreak
-\nobreak\extramarks{#1 }{continues at the next page\ldots}\nobreak
+\nobreak\extramarks{#1}{}\nobreak
+\nobreak\extramarks{#1 }{}\nobreak
 }
 
 % Header and footer for when a page split occurs between problem environments
 \newcommand{\exitProblemHeader}[1]{
-\nobreak\extramarks{#1}{continues at the next page\ldots}\nobreak
+\nobreak\extramarks{#1}{}\nobreak
 \nobreak\extramarks{#1}{}\nobreak
 }
 
@@ -107,14 +107,14 @@
 %	NAME AND CLASS SECTION
 %----------------------------------------------------------------------------------------
 
-\newcommand{\hmwkTitle}{Proposal of Subject} % Assignment title
-\newcommand{\hmwkDueDate}{Juli 2015} % Due date
+\newcommand{\hmwkTitle}{Thesis Proposal} % Assignment title
+\newcommand{\hmwkDueDate}{October 2015} % Due date
 \newcommand{\hmwkClass}{Bachelorarbeit $-$ Informatik} % Course/class
 \newcommand{\hmwkClassFull}{Proposal of \emph{Bachelorarbeit} $-$ B.Sc. Informatik} % Course/class
 \newcommand{\hmwkClassTime}{Wintersemester 2015/2016} % Class/lecture time
 \newcommand{\hmwkClassInstructor}{} % Teacher/lecturer
 \newcommand{\hmwkAuthorName}{Fernando Bombardelli da Silva $-$ 364924} % Your name
-\newcommand{\hmwkAuthorRemark}{Exchange student of double degree from UFRGS (Porto Alegre / Brazil)}
+\newcommand{\hmwkAuthorRemark}{Exchange student of double degree from then UFRGS (Porto Alegre / Brazil)}
 
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
@@ -165,83 +165,121 @@
 
 % To have just one problem per page, simply put a \clearpage after each problem
 
+{\large
 \begin{homeworkProblem}[Introduction]
-{\large
-This document has the objective of presenting a proposal of subject for the bachelor's thesis in the course of computer science (\emph{Informatik}) of the \emph{Technische Universität Berlin} by the student \textbf{Fernando Bombardelli da Silva} (\emph{Matrikelnummer} 364924) to be written in the winter semester 2015/2016.
 
-The proposed theme lies in the area of theoretical computer science, more precisely combinatorial optimization.
+This document shows a bachelor thesis proposal to be researched by the student Fernando Bombardelli da Silva (\emph{Matrikelnummer} 364924) in the \emph{Technische Universität Berlin} in the course of Computer Science (\emph{Informatik}).
 
-The student comes originally from the \emph{Universidade Federal do Rio Grande do Sul} in Brazil and participates from an exchange program of dual degree, which consists of attending to three semesters of lectures at the TU Berlin including the \emph{Bachelorarbeit}.
+The proposed research subject has theoretical bases from the areas of multi-agent system, swarm intelligence and mathematical optimization. The context of the problem to be described involves themes of growing concern nowadays, such as transportation and traffic issues, like multi-modal mobility.
 
-}
-\end{homeworkProblem}
+\begin{homeworkSection}{Problem Description}
+In current urban areas, mainly in very populated cities, there is a huge number of mobility problems. These problems have been seen with much interest by the scientific community, which has been strongly contributing to the improvement of transportation and logistic networks, thus promoting advances towards a better mobility.
 
-\begin{homeworkProblem}[Context]
-{\large
+The here addressed problem is known as the dial-a-ride problem (DARP). Shortly, it consists of a system with a set of requests of pick up and delivery entered by customers and a fleet of vehicles. The goal is planning the route of the vehicles and the assignment of requests to them in a feasible way, once there are constraints from both the requests and the vehicles to which a solution is subject. These can be several conditions, like location and time limit for picking up and delivering or how much time each vehicle can operate. Besides, it is not only searched a feasible solution but an optimal one that minimizes the costs of the operation defined by a function.
 
-The theme of the bachelor's thesis consists basically in the problem of defining a set of public transportation lines of a city, or alternatively, a set of railway lines in a region.
+Many difficulties are found when trying to solve the described problem, the combinatorial nature of its solution space make it hard to treat for large inputs because of the high complexity, it leads then to a special difficulty in building a scalable application.
 
-The approach to handle the issue would be seeing this as an optimization problem. It means, given the maps of the streets (or rails) and the stations, and additionally also the data of the transport demands, which shows for each station how many people travel to each other station on the map, both in graph representations, one could define a cost function for the operation of public transport lines subjected to the constraints of attending the demand and then minimize these costs.
+%- Context of the problem (Traffic problems, Alternative public transportation, goal: plan the operation and reduce its costs)\\
+%- Description of the problem (Specifications, requirements, objective ...)\\
+%- Difficulties in solving (high algorithmic complexity, scalability, need for REAL-TIME response ...)\\
+\end{homeworkSection}
 
-Keywords: Operations research, combinatorial optimization, computational complexity, meta-heuristics, heuristics, graph theory, artificial intelligence, network design problem, ant colony optimization.
+\begin{homeworkSection}{Problem Approach}
 
-}
-\end{homeworkProblem}
+The chosen approach to solve the problem in this work is considering this as the optimization of the cost function subject to the constraints. Moreover, in order to better evaluate the results, two different methods are proposed, namely,
 
-\begin{homeworkProblem}[Objectives]
-{\large
-
-Some of the objectives of the work are:
 \begin{itemize}
-\item investigate the features of such problem (cost function, constraints, etc.);
-\item build a robust and scalable model for the optimization problem;
-\item study the literature;
-\item investigate meta-heuristics in order to solve the problem;
-\item implement a solver;
-\item evaluate the results.
+	\item a mathematical program executed by a solver that delivers an exact optimal solution if there is one;
+	\item an implementation of the swarming metaheuristic Firefly to obtain a near-optimal solution in polynomial time.
 \end{itemize}
+%Approach as an optimization problem, reducing costs of operation subject to the constraints of the customers requests.
+% - 2 different ways of solving:\\
+%   - Mathematical programming for exact solution with GNU LPK solver\\
+%   - Implementing a swarm metaheuristic to obtain a feasible near-optimal solution (Firefly)
+\end{homeworkSection}
 
-}
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[Justification]
+
+It is expected that the results of this work may bring relevant contributions to the handling of the presented problem, and even of other ones. By having two distinct approaches it is possible to compare results regarding important features of the problem, such as scalability, feasibility and deviation to an optimal solution. Furthermore, the application of the relatively new firefly algorithm to the problem can show how it performs in a such a solution space.
+
+In addition to the contributions to the understanding of the behavior of swarming metaheuristics applied to optimization problems of transportation, the new procedure of solving the problem serves as a prototype and brings a new perspective to commercial applications which seek constantly to treat the problem in a more efficient and scalable way.
+
+With regard to the current cities' mobility, there is a growing demand for an efficient alternative to the classical means of transportation. The implementation of such a system improves the possibility of movement of the population and makes it more efficient, once it allows the decrease of the number of cars that drive through the urban network everyday causing traffic jams in big cities. Moreover, it helps to solve an demanding problem in today's society where there is an increasing number of elderly or handicapped people, who have the right to mobility and need assistance to travel in the town.
+
+
+- Expected results and contribution (Evaluation of the application of swarm metaheuristic to solve the transportation problem comparing to an exact solution, feasibility, scalability, optimality ...)\\
+- Importance for today's mobility in urban areas with alternative public transportation systems\\
+- Economical relevance, costs minimization, concurrence advantages\\
+- Ecological relevance, waste of energy and carbon fuels
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[Literature Review]
+
+- Short overview at the state-of-the-art regarding the problem
+- What leaks? (for instance, complete framework for the problem, or, use of swarm optimization)
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[Theoretical Framework]
+
+- Theoretical background and base\\
+  - Mathematical optimization\\
+  - Complexity theory\\
+  - Meta heuristics\\
+  - Swarm intelligence\\
+  - Dial-a-ride Problem\\
+  - Vehicle routing problem\\
+- Optimization problem representation (Formulas)\\
+- Firefly algorithm (pseudo code)\\
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[Methodology]
+
+- Prototypes implementation (WITH TRANSFER??)\\
+- Description of the problem in the form of a Linear Program\\
+- Solving with the GNU LPK solver tool\\
+- Implement the Firefly metaheuristic in a program\\
+- Evaluate the results by comparing solver against metaheuristic (against other works? Maybe)\\
+
 \end{homeworkProblem}
 
 \begin{homeworkProblem}[Time Schedule]
-{\large
 
-\begin{tabular}{ l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c}
-\textbf{Month} & \multicolumn{4}{c}{1}\vline & \multicolumn{4}{c}{2}\vline & \multicolumn{4}{c}{3}\vline & \multicolumn{4}{c}{4} \\ \hline
-\textbf{Week}	& 1	& 2	& 3	& 4	& 5	& 6	& 7	& 8	& 9	& 10	& 11	& 12	& 13	& 14	& 15	& 16 \\ \hline
-Literature study & $\bullet$	& $\bullet$	& $\bullet$	& $\bullet$	&	&	&	&	&	&	& $\bullet$	& $\bullet$	&	&	&	& \\
-Problem definition & 	&	& $\bullet$	& $\bullet$	& $\bullet$	&	&	&	&	&	& $\bullet$	&	&	&	&	& \\
-Collect data &	&	&	&	& $\bullet$	& $\bullet$	&	&	&	&	&	&	&	&	&	& \\
-Implementation &	&	&	&	&	& $\bullet$	& $\bullet$	& $\bullet$	& $\bullet$	&	& $\bullet$	& $\bullet$	& $\bullet$	& $\bullet$	&	& \\
-Experiments &	&	&	&	&	&	&	& $\bullet$	& $\bullet$	& $\bullet$	&	&	& $\bullet$	& $\bullet$	& $\bullet$	& \\
-Evaluation &	&	&	&	&	&	&	&	& $\bullet$	& $\bullet$	&	&	&	& $\bullet$	& $\bullet$	& $\bullet$ \\
-Document writing &	&	&	&	&	&	&	&	&	& $\bullet$	&	&	&	& $\bullet$	& $\bullet$	& $\bullet$ \\
+\begin{tabular}{ l | p{0.25cm} | p{0.25cm} | p{0.25cm} | p{0.25cm} | p{0.25cm} | p{0.25cm} | p{0.25cm} | p{0.25cm} | p{0.25cm} | p{0.25cm} | p{0.25cm} | p{0.25cm} | p{0.25cm} | p{0.25cm} | p{0.25cm} | p{0.25cm} | p{0.25cm} | p{0.25cm} | p{0.25cm} | p{0.25cm} |}
+\textbf{Month} & \multicolumn{4}{c}{1}\vline & \multicolumn{4}{c}{2}\vline & \multicolumn{4}{c}{3}\vline & \multicolumn{4}{c}{4}\vline & \multicolumn{4}{c}{5} \vline \\ \hline
+\textbf{Week}	& 1	& 2	& 3	& 4	& 5	& 6	& 7	& 8	& 9	& 10	& 11	& 12	& 13	& 14	& 15	& 16	& 17	& 18	& 19	& 20 \\ \hline
+Define the topic & $\bullet$	& $\bullet$	& $\bullet$	& $\bullet$	&	&	&	&	&	&	&	&	&	&	&	&	&	&	&	& \\
+Literature study &	&	& $\bullet$	& $\bullet$	& $\bullet$	& $\bullet$	& $\bullet$	& $\bullet$	&	&	&	&	&	&	& $\bullet$	& $\bullet$	&	&	&	& \\
+Problem definition &	&	&	&	& 	& $\bullet$	& $\bullet$	& $\bullet$	& $\bullet$	&	&	&	&	&	& $\bullet$	&	&	&	&	& \\
+Collect data &	&	&	&	&	&	&	& $\bullet$	& $\bullet$	& $\bullet$	&	&	&	&	&	&	&	&	&	& \\
+Implementation &	&	&	&	&	&	&	&	& $\bullet$	& $\bullet$	& $\bullet$	& $\bullet$	& $\bullet$	&	& $\bullet$	& $\bullet$	& $\bullet$	& $\bullet$	&	& \\
+Experiments &	&	& $\bullet$	& $\bullet$	&	&	&	&	&	& $\bullet$	&	& $\bullet$	& $\bullet$	& $\bullet$	&	&	& $\bullet$	& $\bullet$	& $\bullet$	& \\
+Evaluation &	&	&	&	&	&	&	&	&	&	&	&	& $\bullet$	& $\bullet$	&	&	&	& $\bullet$	& $\bullet$	& $\bullet$ \\
+Document writing &	&	&	&	&	&	&	& $\bullet$	& $\bullet$	&	&	&	& $\bullet$	& $\bullet$	&	&	&	& $\bullet$	& $\bullet$	& $\bullet$ \\
 
 \end{tabular}
 
-}
 \end{homeworkProblem}
 
+\begin{homeworkProblem}[Milestones]
+
+\begin{enumerate}
+\item \textbf{31st October:} Well defined subject, goals, methodology, 1st prototype of the LP
+\item \textbf{30th November:} Linear program ready and executed; Problem defined; Creation of test cases; Partial documentation
+\item \textbf{24th December:} Run the first version of the metaheuristic implementation
+\item \textbf{24th January:} First results and evaluations done; Documentation; Adjusts in the model and in the implementation (possible)
+\item \textbf{14th February:} Final evaluation of results; Documentation
+\end{enumerate}
+
+\end{homeworkProblem}
+
+}
+
 \begin{thebibliography}{1}
-
-\bibitem{vitins}
-VITINS, Basil J.; AZHAUSEN, Kay W. \textbf{Optimization of Large Transport Networks Using the Ant Colony Heuristic}. 7th Swiss Transport Research Conference (2007). Available at: \url{http://www.strc.ch/conferences/2007/2007_vitins.pdf}
-
-\bibitem{yu}
-YU, Bin; YANG, Zhongzhen; CHENG, Chuntian; LIU, Chong. \textbf{Optimizing Bus Transit Network With Parallel Ant Colony Algorithm}. Proceedings of the Eastern Asia Society for Transportation Studies (2005). Available at: \url{http://www.easts.info/on-line/proceedings_05/374.pdf}
-
-\bibitem{transportationboard}
-\textbf{Artificial Intelligence Applications to Critical Transportation Issues} (2012). Available at: \url{http://onlinepubs.trb.org/onlinepubs/circulars/ec168.pdf}
-
-\bibitem{molina}
-MOLINA, Martin. \textbf{An Intelligent Assistant for Public Transport Management} (2005). Available at: \url{http://core.ac.uk/download/pdf/12001339.pdf}
-
-\bibitem{wellman}
-WELLMAN, Michael P. \textbf{Transportation Applications of Artificial Intelligence (Extended Abstract)}. AAAI Workshop on AI in Intelligent-Vehicle Highway Systems (1993). Available at: \url{http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.47.4817&rep=rep1&type=pdf}
-
-\bibitem{liu}
-LIU, Chao-Lin; PAI, Tun-Wen; CHANG, Chun-Tien; HSIEH, Chang-Ming. \textbf{Path-Planning Algorithms for Public Transportation Systems}. The Fourth International Ieee Conference On Intelligent Transportation Systems, Oakland, California, USA (2001). Available at: \url{http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.12.1259&rep=rep1&type=pdf}
 
 \bibitem{crescenzi}
 CRESCENZI, Pierluigi; KANN, Viggo. \textbf{A compendium of NP optimization problems} (1998). Available at: \url{ftp://ftp.nada.kth.se/Theory/Viggo-Kann/compendium.pdf}
