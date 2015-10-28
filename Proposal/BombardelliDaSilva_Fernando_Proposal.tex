@@ -114,7 +114,7 @@
 \newcommand{\hmwkClassTime}{Wintersemester 2015/2016} % Class/lecture time
 \newcommand{\hmwkClassInstructor}{} % Teacher/lecturer
 \newcommand{\hmwkAuthorName}{Fernando Bombardelli da Silva $-$ 364924} % Your name
-\newcommand{\hmwkAuthorRemark}{Exchange student of double degree from then UFRGS (Porto Alegre / Brazil)}
+\newcommand{\hmwkAuthorRemark}{Exchange student of double degree from the UFRGS (Porto Alegre / Brazil)}
 
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
@@ -175,7 +175,7 @@ The proposed research subject has theoretical bases from the areas of multi-agen
 \begin{homeworkSection}{Problem Description}
 In current urban areas, mainly in very populated cities, there is a huge number of mobility problems. These problems have been seen with much interest by the scientific community, which has been strongly contributing to the improvement of transportation and logistic networks, thus promoting advances towards a better mobility.
 
-The here addressed problem is known as the dial-a-ride problem (DARP). Shortly, it consists of a system with a set of requests of pick up and delivery entered by customers and a fleet of vehicles. The goal is planning the route of the vehicles and the assignment of requests to them in a feasible way, once there are constraints from both the requests and the vehicles to which a solution is subject. These can be several conditions, like location and time limit for picking up and delivering or how much time each vehicle can operate. Besides, it is not only searched a feasible solution but an optimal one that minimizes the costs of the operation defined by a function.
+The here addressed problem is known as the dial-a-ride problem (DARP). Shortly, it consists of a system with a set of requests of pick up and delivery entered by customers and a fleet of vehicles. The goal is planning the route of the vehicles and the assignment of requests to them in a feasible way, since there are constraints from both the requests and the vehicles to which a solution is subject. These can be several conditions, like location and time limit for picking up and delivering or how much time each vehicle can operate. Besides, it is not only searched a feasible solution but an optimal one that minimizes the costs of the operation defined by a function.
 
 Many difficulties are found when trying to solve the described problem, the combinatorial nature of its solution space make it hard to treat for large inputs because of the high complexity, it leads then to a special difficulty in building a scalable application.
 
@@ -206,20 +206,33 @@ It is expected that the results of this work may bring relevant contributions to
 
 In addition to the contributions to the understanding of the behavior of swarming metaheuristics applied to optimization problems of transportation, the new procedure of solving the problem serves as a prototype and brings a new perspective to commercial applications which seek constantly to treat the problem in a more efficient and scalable way.
 
-With regard to the current cities' mobility, there is a growing demand for an efficient alternative to the classical means of transportation. The implementation of such a system improves the possibility of movement of the population and makes it more efficient, once it allows the decrease of the number of cars that drive through the urban network everyday causing traffic jams in big cities. Moreover, it helps to solve an demanding problem in today's society where there is an increasing number of elderly or handicapped people, who have the right to mobility and need assistance to travel in the town.
+With regard to the current cities' mobility, there is a growing demand for an efficient alternative to the classical means of transportation. The implementation of such a system improves the possibility of movement of the population and makes it more efficient, since it allows the decrease of the number of cars that drive through the urban network everyday causing traffic jams in big cities. Moreover, it helps to solve an demanding problem in today's society where there is an increasing number of elderly or handicapped people, who have the right to mobility and need assistance to travel in the town.
 
+Also in an economical view this research contributes to the win of new markets by companies who aim to enter the branch of public transportation since its main goal is minimizing the operation costs. With such a model a company can take great advantages against competitors in order to capture marketplace.
 
-- Expected results and contribution (Evaluation of the application of swarm metaheuristic to solve the transportation problem comparing to an exact solution, feasibility, scalability, optimality ...)\\
-- Importance for today's mobility in urban areas with alternative public transportation systems\\
-- Economical relevance, costs minimization, concurrence advantages\\
-- Ecological relevance, waste of energy and carbon fuels
+At last, the concerns of the proposed model shows also an ecological relevance by enabling the decrease of the emission of greenhouse gases in the urban area, directly, considering that in this case costs are direct proportional to the consume of fuel, and consequently to the emission of gases, such as CO$_{2}$, and indirectly by reducing the circulation of other automobiles.
+
+%- Expected results and contribution (Evaluation of the application of swarm metaheuristic to solve the transportation problem comparing %to an exact solution, feasibility, scalability, optimality ...)\\
+%- Importance for today's mobility in urban areas with alternative public transportation systems\\
+%- Economical relevance, costs minimization, concurrence advantages\\
+%- Ecological relevance, waste of energy and carbon fuels
 
 \end{homeworkProblem}
 
 \begin{homeworkProblem}[Literature Review]
 
-- Short overview at the state-of-the-art regarding the problem
-- What leaks? (for instance, complete framework for the problem, or, use of swarm optimization)
+The Dial-a-ride Problem (DARP) is very similar to other problems studied in the scientific society, namely, it can be cited the Pickup and Delivery Vehicle Routing Problem (PDVRP) and the Vehicle Routing Problem with Time Windows (VRPTW), problems with application in logistics. according to \cite{ref:cordeau2007}, what basically differs the DARP from these other ones is the human perspective, by the fact that people are transported. It often appears presenting two goals, minimizing operation costs subject to the constraints and maximizing the availability and quality of the service. The quality criteria include frequently aspects like route duration, customer waiting and ride time, maximum vehicle ride time, among others and are usually treated in the constraints of the optimization.
+
+\cite{ref:cordeau2007} realized a survey on the subject, he presents three mathematical models that occur in the literature, two as formulation of a mathematical optimization and one as a scheduling problem. Therefore there are several other approaches made by other authors.
+
+Although there are works handling the problem in an exact way, that tries to find an optimal solution, for instance, with the branch-and-cut algorithm, most of them focus on applying a determined heuristic in order to find a near-optimal solution in the search space, for example, tabu search, genetic algorithms or simulated annealing.
+
+What has not been tried is using swarm-based metaheuristics to solve the problem, such as particle swarming optimization, ant colony or the firefly algorithm. Swarm intelligence is a technique applied in the computer science, more precisely in artificial intelligence and operations research, that is based on nature patterns or behaviors. In this point of view, these metaheuristics resemble the genetic algorithms, since these are also nature-based, but they differ by the fact that, genetic algorithms have mutation and crossover operators and are based on the theory of evolution of the species, whereas swarm intelligence techniques are based on the observation of the behavior of swarms.
+
+In this work we will study and apply the firefly algorithm (FA), that has been showing good results in the solution of nonlinear global optimization problems. \cite{Yang2012} presents a theoretical analysis on swarm intelligence having as study cases the firefly algorithm and particle swarm optimization (PSO). \cite{Yang2013} introduce the FA approaching parameter settings, complexity and applications in a didactic way with examples, at the end he draws a conclusion showing a growing application of the method in scientific articles and foreseeing an expansion in the subject and the improvement of such metaheuristic. Additionally, \cite{Yang2009} compares the FA against the PSO running simulations in a variety of objective function and concludes affirming the superiority of the FA over the PSO and that it is potentially more powerful in solving NP-Hard problems.
+
+%- Short overview at the state-of-the-art regarding the problem
+%- What leaks? (for instance, complete framework for the problem, or, use of swarm optimization)
 
 \end{homeworkProblem}
 
