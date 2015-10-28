@@ -221,42 +221,58 @@ At last, the concerns of the proposed model shows also an ecological relevance b
 
 \begin{homeworkProblem}[Literature Review]
 
-The Dial-a-ride Problem (DARP) is very similar to other problems studied in the scientific society, namely, it can be cited the Pickup and Delivery Vehicle Routing Problem (PDVRP) and the Vehicle Routing Problem with Time Windows (VRPTW), problems with application in logistics. according to \cite{ref:cordeau2007}, what basically differs the DARP from these other ones is the human perspective, by the fact that people are transported. It often appears presenting two goals, minimizing operation costs subject to the constraints and maximizing the availability and quality of the service. The quality criteria include frequently aspects like route duration, customer waiting and ride time, maximum vehicle ride time, among others and are usually treated in the constraints of the optimization.
+The Dial-a-ride Problem (DARP) is very similar to other problems studied in the scientific society, namely, it can be cited the Pickup and Delivery Vehicle Routing Problem (PDVRP) and the Vehicle Routing Problem with Time Windows (VRPTW), problems with application in logistics. According to Cordeau (2007, \cite{Cordeau2007}), what basically differs the DARP from these other ones is the human perspective, by the fact that people are transported. It often appears presenting two goals, minimizing operation costs subject to the constraints and maximizing the availability and quality of the service. The quality criteria include frequently aspects like route duration, customer waiting and ride time, maximum vehicle ride time, among others and are usually treated in the constraints of the optimization.
 
-\cite{ref:cordeau2007} realized a survey on the subject, he presents three mathematical models that occur in the literature, two as formulation of a mathematical optimization and one as a scheduling problem. Therefore there are several other approaches made by other authors.
+Cordeau (2007, \cite{Cordeau2007}) realized a survey on the subject, he presents three mathematical models that occur in the literature, two as formulation of a mathematical optimization and one as a scheduling problem. Therefore there are several other approaches made by other authors.
 
 Although there are works handling the problem in an exact way, that tries to find an optimal solution, for instance, with the branch-and-cut algorithm, most of them focus on applying a determined heuristic in order to find a near-optimal solution in the search space, for example, tabu search, genetic algorithms or simulated annealing.
 
 What has not been tried is using swarm-based metaheuristics to solve the problem, such as particle swarming optimization, ant colony or the firefly algorithm. Swarm intelligence is a technique applied in the computer science, more precisely in artificial intelligence and operations research, that is based on nature patterns or behaviors. In this point of view, these metaheuristics resemble the genetic algorithms, since these are also nature-based, but they differ by the fact that, genetic algorithms have mutation and crossover operators and are based on the theory of evolution of the species, whereas swarm intelligence techniques are based on the observation of the behavior of swarms.
 
-In this work we will study and apply the firefly algorithm (FA), that has been showing good results in the solution of nonlinear global optimization problems. \cite{Yang2012} presents a theoretical analysis on swarm intelligence having as study cases the firefly algorithm and particle swarm optimization (PSO). \cite{Yang2013} introduce the FA approaching parameter settings, complexity and applications in a didactic way with examples, at the end he draws a conclusion showing a growing application of the method in scientific articles and foreseeing an expansion in the subject and the improvement of such metaheuristic. Additionally, \cite{Yang2009} compares the FA against the PSO running simulations in a variety of objective function and concludes affirming the superiority of the FA over the PSO and that it is potentially more powerful in solving NP-Hard problems.
+In this work we will study and apply the firefly algorithm (FA), that has been showing good results in the solution of nonlinear global optimization problems. Yang (2012, \cite{Yang2012}) presents a theoretical analysis on swarm intelligence having as study cases the firefly algorithm and particle swarm optimization (PSO). Yang (2013, \cite{Yang2013}) introduce the FA approaching parameter settings, complexity and applications in a didactic way with examples, at the end he draws a conclusion showing a growing application of the method in scientific articles and foreseeing an expansion in the subject and the improvement of such metaheuristic. Additionally, Yang (2009, \cite{Yang2009}) compares the FA against the PSO running simulations in a variety of objective function and concludes affirming the superiority of the FA over the PSO and that it is potentially more powerful in solving NP-Hard problems.
 
 %- Short overview at the state-of-the-art regarding the problem
 %- What leaks? (for instance, complete framework for the problem, or, use of swarm optimization)
 
 \end{homeworkProblem}
 
-\begin{homeworkProblem}[Theoretical Framework]
+%\begin{homeworkProblem}[Theoretical Framework]
 
-- Theoretical background and base\\
-  - Mathematical optimization\\
-  - Complexity theory\\
-  - Meta heuristics\\
-  - Swarm intelligence\\
-  - Dial-a-ride Problem\\
-  - Vehicle routing problem\\
-- Optimization problem representation (Formulas)\\
-- Firefly algorithm (pseudo code)\\
+%- Theoretical background and base\\
+%  - Mathematical optimization\\
+%  - Complexity theory\\
+%  - Meta heuristics\\
+%  - Swarm intelligence\\
+%  - Dial-a-ride Problem\\
+%  - Vehicle routing problem\\
+%- Optimization problem representation (Formulas)\\
+%- Firefly algorithm (pseudo code)\\
 
-\end{homeworkProblem}
+%\end{homeworkProblem}
 
 \begin{homeworkProblem}[Methodology]
 
-- Prototypes implementation (WITH TRANSFER??)\\
-- Description of the problem in the form of a Linear Program\\
-- Solving with the GNU LPK solver tool\\
-- Implement the Firefly metaheuristic in a program\\
-- Evaluate the results by comparing solver against metaheuristic (against other works? Maybe)\\
+The proposed work methodology is basically approaching the problem in two different ways, firstly it is wanted an exact solution through the solving of a mathematical optimization model with the help of a generic solver, secondly it is wanted a near-optimal solution capable of being computed in a shorter period and of being scalable. The sequence should be the following:
+
+\begin{itemize}
+\item describe the mathematical model of the integer optimization problem;
+\item transcribe the model into the AMPL language (A Mathematical Programming Language, \cite{Fourer2003})
+\item write a program implementing the firefly metaheuristic;
+\item determine the algorithm parameters empirically by means of experimentation;
+\item gather or generate data for test cases;
+\item solve the problem by executing the metaheuristic implementation and the mathematical problem with the GNU LPK (Linear Programming Kit, \cite{glpk-guide});
+\item collect the results of both methods and evaluate them comparing against each other.
+\end{itemize}
+
+In addition, an iterative development will be followed, it means, the whole research process will be performed in several cycles of gradual progress in order have a more agile reaction to possible problems that may appear in the process. For that it is intended to develop several prototypes throughout the research period.
+
+A time schedule and a list of milestones have been made to control the evolution of the bachelor thesis, so that the project can succeed at the end.
+
+%- Prototypes implementation\\
+%- Description of the problem in the form of a Linear Program\\
+%- Solving with the GNU LPK solver tool\\
+%- Implement the Firefly metaheuristic in a program\\
+%- Evaluate the results by comparing solver against metaheuristic (against other works? Maybe)\\
 
 \end{homeworkProblem}
 
@@ -280,13 +296,28 @@ Document writing &	&	&	&	&	&	&	& $\bullet$	& $\bullet$	&	&	&	& $\bullet$	& $\bul
 
 \begin{homeworkProblem}[Milestones]
 
-\begin{enumerate}
-\item \textbf{31st October:} Well defined subject, goals, methodology, 1st prototype of the LP
-\item \textbf{30th November:} Linear program ready and executed; Problem defined; Creation of test cases; Partial documentation
-\item \textbf{24th December:} Run the first version of the metaheuristic implementation
-\item \textbf{24th January:} First results and evaluations done; Documentation; Adjusts in the model and in the implementation (possible)
-\item \textbf{14th February:} Final evaluation of results; Documentation
-\end{enumerate}
+Following are the milestones of the project, at each date is described the documentation or functionalities that must be ready.
+
+\begin{tabular}{l | p{12cm}}
+\textbf{Milestone}	&	\textbf{Goals} \\
+\hline
+
+\textbf{2nd November}	& \parbox[t]{12cm}{Well defined theme, problem description, goals, methodology\\
+											First prototype of the LP} \\
+\textbf{30th November}	& \parbox[t]{12cm}{Problem definition reviewed and reworked\\
+											Mathematical program written and executed in the solver\\
+											Creation of test cases, alternatively gahtering of test data\\
+											Partial documentation and sketch of the document to be delivered} \\
+\textbf{24th December}	& \parbox[t]{12cm}{Run of a first stable version of the metaheuristic implementation\\
+											First experimental evaluation of the method\\
+											Refined sketch of the document to be delivered} \\
+\textbf{24th January}	& \parbox[t]{12cm}{Concrete results and evaluations\\
+											Further documentation for the thesis\\
+											Adjusts in the model and in the implementation, if necessary} \\
+\textbf{14th February}	& \parbox[t]{12cm}{Final evaluation of results after adjusts and second run\\
+											Finalization of the written work}
+
+\end{tabular}
 
 \end{homeworkProblem}
 
@@ -294,11 +325,55 @@ Document writing &	&	&	&	&	&	&	& $\bullet$	& $\bullet$	&	&	&	& $\bullet$	& $\bul
 
 \begin{thebibliography}{1}
 
-\bibitem{crescenzi}
-CRESCENZI, Pierluigi; KANN, Viggo. \textbf{A compendium of NP optimization problems} (1998). Available at: \url{ftp://ftp.nada.kth.se/Theory/Viggo-Kann/compendium.pdf}
+\bibitem{Cordeau2007}
+Cordeau, Jean-François, and Gilbert Laporte. \textbf{“The dial-a-ride problem: models and algorithms”}. Annals of Operations Research 153, Nr 1. (2007).
 
-\bibitem{schrijver}
-SCHRIJVER, Alexander. \textbf{A Course in Combinatorial Optimization} (2013). Available at: \url{http://homepages.cwi.nl/~lex/files/dict.pdf}
+\bibitem{Braekers2014}
+Braekers, Kris, An Caris, and Gerrit K. Janssens. \textbf{“Exact and Meta-Heuristic Approach for a General Heterogeneous Dial-a-Ride Problem with Multiple Depots”}. Transportation Research Part B: Methodological 67 (2014).
+
+\bibitem{Kirchler2013}
+Kirchler, Dominik, and Roberto Wolfler Calvo. \textbf{“A Granular Tabu Search Algorithm for the Dial-a-Ride Problem”}. Transportation Research Part B: Methodological 56 (2013).
+
+\bibitem{Parragh2010}
+Parragh, Sophie N., Jean-François Cordeau, Karl F. Doerner, and Richard F. Hartl. \textbf{“Models and Algorithms for the Heterogeneous Dial-a-Ride Problem with Driver-Related Constraints”}. OR Spectrum 34, no. 3 (2010).
+
+\bibitem{Yang2012}
+X. S. Yang. \textbf{“Efficiency analysis of swarm intelligence and randomization techniques”}. Journal of Computational and Theoretical Nanoscience, Vol. 9, No. 2, pp. 189–198 (2012).
+
+\bibitem{Yang2013}
+Xin-She Yang and Xingshi He. \textbf{“Firefly Algorithm: Recent Advances and Applications”}, Int. J. Swarm Intelligence,
+Vol. 1, No. 1, pp. 36–50 (2013).
+
+\bibitem{Yang2009}
+X.-S. Yang, \textbf{“Firefly algorithms for multimodal optimization”}. Stochastic Algorithms: Foundations and Applications, SAGA 2009,
+Lecture Notes in Computer Sciences, Vol. 5792, pp. 169-178 (2009).
+
+\bibitem{Wassan2014}
+Wassan, Niaz Ahmed and Gábor Nagy. \textbf{“Vehicle Routing Problem with Deliveries and Pickups: Modelling Issues and Meta-Heuristics Solution Approaches”}. International Journal of Transportation 2, no. 1 (2014): 95–110.
+
+\bibitem{Nanry2000}
+Nanry, William P, and J Wesley Barnes. \textbf{“Solving the Pickup and Delivery Problem with Time Windows Using Reactive Tabu Search”}. Transportation Research Part B: Methodological 34, no. 2 (2000): 107–21.
+
+\bibitem{Hua2013}
+Hua, Ta-Yin, Chin-Ping Chang. \textbf{“Exact Algorithm for Dial-A-Ride Problems with Time-Dependent Travel Cost”}. Proceedings of the Eastern Asia Society for Transportation Studies, Vol.9, (2013).
+
+\bibitem{Fourer2003}
+Fourer, Robert, David M. Gay and Brian W. Kernighan. \textbf{“AMPL A Modeling Language for Mathematical Programming Second Edition”} (2003). Available at: \url{http://ampl.com/BOOK/CHAPTERS/}.
+
+\bibitem{Hansen2010}
+Hansen, Jesper Bjerring. \textbf{“The Dial-a-Ride Problem and Exploiting Knowledge about Future Customer Requests”} (2010). Available at: \url{http://home.math.au.dk/jesperbh/main.pdf}.
+
+\bibitem{Woitzik2007}
+Woitzik, Nils. \textbf{“Das Dial-a-Ride-Problem”} (2007). Available at: \url{http://www.zaik.uni-koeln.de/AFS/teachings/ws0708/ORSeminar/ausarbeitungen/handout_DialARide_NilsWoitzik.pdf}.
+
+\bibitem{Crescenzi}
+Crescenzi, Pierluigi; Kann, Viggo. \textbf{A compendium of NP optimization problems} (1998). Available at: \url{ftp://ftp.nada.kth.se/Theory/Viggo-Kann/compendium.pdf}.
+
+\bibitem{Schrijver}
+Schrijver, Alexander. \textbf{A Course in Combinatorial Optimization} (2013). Available at: \url{http://homepages.cwi.nl/~lex/files/dict.pdf}.
+
+\bibitem{glpk-guide}
+GLPK (GNU Linear Programming Kit). \url{https://www.gnu.org/software/glpk/}.
 
 \end{thebibliography}
 
