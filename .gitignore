@@ -3,6 +3,9 @@
 /template/
 *~
 
+## Python files
+__pycache__/
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
