@@ -124,6 +124,8 @@ B = 35
 
 configRequests = numpy.random.randint(B, size=R)
 print(configRequests)
+pdb.set_trace()
+#[numpy.flatnonzero(x) for x in configRequests == [[0],[1],[3]]] << Req per bus
 routes = generateBusesRoutesFromConfig(configRequests)
 print(routes)
 requestsEachBus = scipy.bincount(configRequests)
