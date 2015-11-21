@@ -7,9 +7,8 @@ import pdb
 
 class Solution:
 
-    def __init__(self, requestComponent=None, routesComponent=None):
-        self.requestComponent = requestComponent
-        self.routesComponent = routesComponent
+    def __init__(self, requestsGraph, totalRequests, totalBuses, vectorRep=None):
+        ### Null initialized values ###
         self._numRequestsEachBus = None
         self._requestsEachBus = None
         self._alightMatrix = {}
@@ -17,33 +16,73 @@ class Solution:
         self._childrenSizeMatrix = {}
         self._routeEachBus = None
         self._cost = None
+        ### Argument initialized values ###
+        self._requestsGraph = requestsGraph
+        self._totalRequests = totalRequests
+        self._totalBuses = totalBuses
+        if vectorRep is not None:
+            self.assignComponentValues(vectorRep)
+        else:
+            self._vectorRep = None
+            self._requestComponent = None
+            self._routesComponent = None
+
+    # Operators
+    def __lt__(self, b):
+        return self.intensity() < b.intensity()
+
+    def __le__(self, b):
+        return self.intensity() <= b.intensity()
+
+    def __eq__(self, b):
+        return self.intensity() == b.intensity()
+
+    def __ne__(self, b):
+        return self.intensity() != b.intensity()
+
+    def __ge__(self, b):
+        return self.intensity() >= b.intensity()
+
+    def __gt__(self, b):
+        return self.intensity() > b.intensity()
 
     # Lazy getters
+    def getVectorRep(self):
+        if self._vectorRep is None:
+            # Assertion
+            assert self._requestComponent is not None
+            assert self._routesComponent is not None
+
+            self._vectorRep = numpy.append(self._requestComponent, self._routesComponent)
+
+        return self._vectorRep
+
     def getNumRequestsEachBus(self):
         # Assertion
-        assert self.requestComponent is not None
+        assert self._requestComponent is not None
+        assert self._totalBuses is not None
 
         if self._numRequestsEachBus is None:
-            self._numRequestsEachBus = scipy.bincount(self.requestComponent)
+            self._numRequestsEachBus = scipy.bincount(self._requestComponent, minlength=self._totalBuses)
 
         return self._numRequestsEachBus
 
     def getRequestsEachBus(self):
         # Assertion
-        assert self.requestComponent is not None
+        assert self._requestComponent is not None
 
         # Check cache
         if self._requestsEachBus is None:
 
             # 1. Create a matrix like [[0],[1],[2],...] of size N
-            # 2. Compare the elements of equestComponent to this matrix, the comparison
+            # 2. Compare the elements of requestComponent to this matrix, the comparison
             # returns an array of size N, with True in the positions where requestComponent
             # equals the number
             # 3. Apply to each element "flatzero" which returns the indices where we have True
             # 4. In the end we have for each bus in the result the respective requests
             self._requestsEachBus = numpy.array([numpy.flatnonzero(v) \
-                for v in self.requestComponent == \
-                    numpy.arange(len(self.getNumRequestsEachBus()))[:,numpy.newaxis] ])
+                for v in self._requestComponent == \
+                    numpy.arange(len(self.getNumRequestsEachBus()), dtype=int)[:,numpy.newaxis] ])
 
         return self._requestsEachBus
 
@@ -53,7 +92,7 @@ class Solution:
 
             qtdAlightingChildren = numpy.zeros((numRequests+1, numRequests*2), dtype=int)
             filling = numpy.full(numRequests, 1, dtype=int)
-            idx = numpy.arange(1, numRequests*2, 2)
+            idx = numpy.arange(1, numRequests*2, 2, dtype=int)
             for i in range(1, numRequests+1):
                 qtdAlightingChildren[i][idx] = filling[i-1:]
                 filling += 1
@@ -69,8 +108,8 @@ class Solution:
         if numRequests not in self._boardMatrix:
 
             qtdBoardingChildren = numpy.zeros((numRequests+1, numRequests*2), dtype=int)
-            filling = numpy.arange(numRequests, 0, -1)
-            idx = numpy.arange(0, numRequests*2, 2)
+            filling = numpy.arange(numRequests, 0, -1, dtype=int)
+            idx = numpy.arange(0, numRequests*2, 2, dtype=int)
             for i in range(0, numRequests):
                 qtdBoardingChildren[i][idx] = filling[i:]
                 idx = idx[:-1]+1
@@ -104,20 +143,46 @@ class Solution:
 
     # Randomize methods
     def _generateRoutesComponent(self):
-        sizePermutationsEachBus = [self.getChildrenSizeMatrixFor(nRequests)[0,0]\
-            for nRequests in self.getNumRequestsEachBus()]
+        sizePermutationsEachBus = self.getSizeDomainEachBus()
 
         return numpy.fromiter((numpy.random.randint(size) for size in sizePermutationsEachBus),
             dtype=int, count=len(sizePermutationsEachBus))
 
-    def randomize(self, totalRequests, totalBuses):
+    def randomize(self):
+        assert self._totalRequests is not None
+        assert self._totalBuses is not None
+
         # Randomize the distribution of buses t requests
-        self.requestComponent = numpy.random.randint(totalBuses, size=totalRequests)
+        self._requestComponent = numpy.random.randint(self._totalBuses, size=self._totalRequests)
 
         # Randomize valid routes for each bus, given the distribution requests X bus
-        self.routesComponent = self._generateRoutesComponent()
+        self._routesComponent = self._generateRoutesComponent()
+
+        return self
 
     # Domain transformation methods
+    def getSizeDomainEachBus(self):
+        return [self.getChildrenSizeMatrixFor(nRequests)[0,0] for nRequests in self.getNumRequestsEachBus()]
+
+    def assignComponentValues(self, vector):
+        # Discretize the input vector
+        newVector = numpy.rint(vector).astype(int)
+
+        # Clip the requests domain [0,No_BUSES)
+        numpy.clip(newVector[:self._totalRequests],
+            0, self._totalBuses-1,
+            out=newVector[:self._totalRequests])
+        self._requestComponent = newVector[:self._totalRequests]
+
+        # Clip the routes domain [0,Size_Domain_For_Each_Bus)
+        numpy.clip(newVector[self._totalRequests:],
+            0, self.getSizeDomainEachBus(),
+            out=newVector[self._totalRequests:])
+        self._routesComponent = newVector[self._totalRequests:]
+
+        # Assign vector attribute
+        self._vectorRep = newVector
+
     @staticmethod
     def _transformTreePathToRelativeRequest(numRequests, path):
         stops = list(range(numRequests, numRequests*2))
@@ -174,20 +239,21 @@ class Solution:
         numRequestsEachBus = self.getNumRequestsEachBus()
 
         # Assertion
-        assert self.routesComponent is not None
+        assert self._routesComponent is not None
         assert bus < len(numRequestsEachBus)
 
         # Find out the path in the tree of possibilities
         path = self._transformRouteComponentToTreePath(
             numRequestsEachBus[bus],
-            self.routesComponent[bus])
+            self._routesComponent[bus])
 
         # Find out the order of picking up and delivering the requests of this bus
         return self._transformTreePathToRelativeRequest(numRequestsEachBus[bus], path)
 
-    def getRoutes(self, totalRequests):
+    def getRoutes(self):
         # Assertion
-        assert self.routesComponent is not None
+        assert self._routesComponent is not None
+        assert self._totalRequests is not None
 
         # Check cache
         if self._routeEachBus is None:
@@ -201,16 +267,29 @@ class Solution:
             # logic, but with sequencial numbers starting from 0, we just have to use it
             # as index for the just constructed array, then we have the route of the bus
             self._routeEachBus = numpy.array([
-                numpy.append(requestsEachBus[bus],requestsEachBus[bus]+totalRequests
+                numpy.append(requestsEachBus[bus],requestsEachBus[bus]+self._totalRequests
                 )[self._transformRouteComponentToRoute(bus)]
-                    for bus in range(len(self.routesComponent))
+                    for bus in range(len(self._routesComponent))
             ])
 
         return self._routeEachBus
 
-    # Cost calculation functions
-    def getCost(self):
-        if self._cost is None:
-            self._cost = 0
+    # Intensity calculation functions
+    def intensity(self):
+        # Assertion
+        assert self._requestsGraph is not None
 
-        return self._cost
+        # Check cache
+        if self._cost is None:
+            routes = self.getRoutes() + 1
+
+            rows = []
+            columns = []
+            for r in routes:
+                if r.size != 0:
+                    rows += [0] + r.tolist()
+                    columns += r.tolist() + [0]
+
+            self._cost = numpy.sum(self._requestsGraph[rows, columns])
+
+        return -self._cost
