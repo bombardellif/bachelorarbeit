@@ -3,6 +3,7 @@ import numpy
 import numpy.random
 import scipy
 import scipy.misc
+import random
 import pdb
 
 class Solution:
@@ -128,7 +129,7 @@ class Solution:
             qtdBoardingChildren = self.getBoardMatrixFor(numRequests)
 
             # generate matrix of children sizes iteratively
-            newColumn = numpy.append([1], numpy.zeros(numRequests, dtype=int))
+            newColumn = numpy.append([1], numpy.zeros(numRequests, dtype=object))
             sizeMatrix = newColumn[numpy.newaxis].T
             for i in range(numRequests*2 - 1, -1, -1):
                 newColumn = \
@@ -145,14 +146,17 @@ class Solution:
     def _generateRoutesComponent(self):
         sizePermutationsEachBus = self.getSizeDomainEachBus()
 
-        return numpy.fromiter((numpy.random.randint(size) for size in sizePermutationsEachBus),
-            dtype=int, count=len(sizePermutationsEachBus))
+        # Small numbers implementation
+        '''return numpy.fromiter((numpy.random.randint(size) for size in sizePermutationsEachBus),
+            dtype=int, count=len(sizePermutationsEachBus))'''
+        # Huge numbers implementation
+        return numpy.array([random.randint(0, size-1) for size in sizePermutationsEachBus], dtype=object)
 
     def randomize(self):
         assert self._totalRequests is not None
         assert self._totalBuses is not None
 
-        # Randomize the distribution of buses t requests
+        # Randomize the distribution of buses to requests
         self._requestComponent = numpy.random.randint(self._totalBuses, size=self._totalRequests)
 
         # Randomize valid routes for each bus, given the distribution requests X bus
@@ -164,15 +168,15 @@ class Solution:
     def getSizeDomainEachBus(self):
         return [self.getChildrenSizeMatrixFor(nRequests)[0,0] for nRequests in self.getNumRequestsEachBus()]
 
-    def assignComponentValues(self, vector):
+    def assignComponentValues(self, newVector):
         # Discretize the input vector
-        newVector = numpy.rint(vector).astype(int)
+        #newVector = numpy.rint(vector).astype(int)
 
         # Clip the requests domain [0,No_BUSES)
         numpy.clip(newVector[:self._totalRequests],
             0, self._totalBuses-1,
             out=newVector[:self._totalRequests])
-        self._requestComponent = newVector[:self._totalRequests]
+        self._requestComponent = newVector[:self._totalRequests].astype(int)
 
         # Clip the routes domain [0,Size_Domain_For_Each_Bus)
         numpy.clip(newVector[self._totalRequests:],
@@ -192,7 +196,7 @@ class Solution:
         requests = []
         for i in path:
             requests.append(stops[i])
-            if stops[i] - numRequests < 0:
+            if stops[i] < numRequests:
                 del stops[i]
             else:
                 stops[i] -= numRequests
