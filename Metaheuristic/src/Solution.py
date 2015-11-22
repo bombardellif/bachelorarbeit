@@ -92,7 +92,7 @@ class Solution:
         if numRequests not in self._alightMatrix:
 
             qtdAlightingChildren = numpy.zeros((numRequests+1, numRequests*2), dtype=int)
-            filling = numpy.full(numRequests, 1, dtype=int)
+            filling = numpy.ones(numRequests, dtype=int)
             idx = numpy.arange(1, numRequests*2, 2, dtype=int)
             for i in range(1, numRequests+1):
                 qtdAlightingChildren[i][idx] = filling[i-1:]
@@ -128,14 +128,23 @@ class Solution:
             qtdAlightingChildren = self.getAligthMatrixFor(numRequests)
             qtdBoardingChildren = self.getBoardMatrixFor(numRequests)
 
-            # generate matrix of children sizes iteratively
-            newColumn = numpy.append([1], numpy.zeros(numRequests, dtype=object))
-            sizeMatrix = newColumn[numpy.newaxis].T
+            # Generate matrix of children sizes iteratively
+            newColumn = numpy.zeros(numRequests+1, dtype=object)
+            newColumn[0] = 1
+            sizeMatrix = numpy.empty((numRequests+1, numRequests*2 + 1), dtype=object)
+            sizeMatrix[:,-1] = newColumn
+            # Auxiliar vectors for calculations
+            # shiftDownVector has always 0 in the first cell
+            shiftDownVector = numpy.zeros(numRequests+1, dtype=object)
+            # shiftUpVector has always 0 in the last cell
+            shiftUpVector = numpy.zeros(numRequests+1, dtype=object)
             for i in range(numRequests*2 - 1, -1, -1):
+                shiftDownVector[1:] = newColumn[:-1]
+                shiftUpVector[:-1] = newColumn[1:]
                 newColumn = \
-                    numpy.hstack((0, newColumn[:-1])) * qtdAlightingChildren[:,i] \
-                    + numpy.hstack(( newColumn[1:], 0)) * qtdBoardingChildren[:,i]
-                sizeMatrix = numpy.hstack((newColumn[numpy.newaxis].T, sizeMatrix))
+                    shiftDownVector * qtdAlightingChildren[:,i] \
+                    + shiftUpVector * qtdBoardingChildren[:,i]
+                sizeMatrix[:,i] = newColumn
 
             # Update cache
             self._childrenSizeMatrix[numRequests] = sizeMatrix
