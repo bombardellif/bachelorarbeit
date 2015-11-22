@@ -40,19 +40,31 @@ class FireflyAlgorithm:
             numpy.rint(((diff % attractInv)/attractInv + self.randomTerm())\
             .astype(float)).astype(int)
 
+    def moveRandom(self, x):
+        return x + numpy.rint(self.randomTerm()).astype(int)
+
     def run(self, maxGeneration, numFireflies, generateFunc, assignNewFunc):
         fireflies = [generateFunc() for i in range(numFireflies)]
 
         for t in range(maxGeneration):
             for i in range(0, numFireflies):
+                changed = False
+                si = fireflies[i]
+                siVecotor = si.getVectorRep()
                 for j in range(0, numFireflies):
-                    si = fireflies[i]
                     sj = fireflies[j]
+                    sjVector = sj.getVectorRep()
                     if si is not sj:
-                        attractivenessInv = self.attractivenessInv(si.getVectorRep(), sj.getVectorRep())
+                        attractivenessInv = self.attractivenessInv(siVecotor, sjVector)
                         if sj.intensity() // attractivenessInv > si.intensity():
-                            newVector = self.moveTowards(si.getVectorRep(), sj.getVectorRep(), attractivenessInv)
+                            newVector = self.moveTowards(siVecotor, sjVector, attractivenessInv)
                             fireflies[i] = assignNewFunc(newVector)
+
+                            changed = True
+                # If firefly didn't move, move it randomically
+                if not changed:
+                    newVector = self.moveRandom(siVecotor)
+                    fireflies[i] = assignNewFunc(newVector)
         # end optimization loop
 
         return sorted(fireflies, reverse=True)
