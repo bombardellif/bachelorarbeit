@@ -1,14 +1,19 @@
 
-from Solution import Solution
-from FireflyAlgorithm import FireflyAlgorithm
 import pdb
 import numpy
 
-## __main__
-R = 20
-B = 5
+from Solution import Solution
+from FireflyAlgorithm import FireflyAlgorithm
+from RequestsGraph import RequestsGraph
 
-reqGraph = numpy.random.randint(100, size=(2*R+1)**2).reshape(((2*R+1),(2*R+1)))
+## __main__
+R = 1000
+B = 50
+
+req = RequestsGraph()
+req.loadFromFile("../../Data/datasets-2015-11-06-aot-tuberlin/1k-2015-11-06.csv")
+
+reqGraph = req.adjacencyCostMatrix
 
 fireflyOptimization = FireflyAlgorithm(R+B, 1, 1)
 
