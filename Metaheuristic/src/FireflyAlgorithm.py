@@ -50,21 +50,23 @@ class FireflyAlgorithm:
             for i in range(0, numFireflies):
                 changed = False
                 si = fireflies[i]
-                siVecotor = si.getVectorRep()
+                siVector = si.getVectorRep()
                 for j in range(0, numFireflies):
                     sj = fireflies[j]
                     sjVector = sj.getVectorRep()
                     if si is not sj:
-                        attractivenessInv = self.attractivenessInv(siVecotor, sjVector)
+                        attractivenessInv = self.attractivenessInv(siVector, sjVector)
                         if sj.intensity() // attractivenessInv > si.intensity():
-                            newVector = self.moveTowards(siVecotor, sjVector, attractivenessInv)
+                            newVector = self.moveTowards(siVector, sjVector, attractivenessInv)
                             fireflies[i] = assignNewFunc(newVector)
 
                             changed = True
                 # If firefly didn't move, move it randomically
                 if not changed:
-                    newVector = self.moveRandom(siVecotor)
+                    newVector = self.moveRandom(siVector)
                     fireflies[i] = assignNewFunc(newVector)
+            test_evolution = sorted(fireflies, reverse=True)
+            print("Better cost: {:f}".format(-(test_evolution[0].intensity())))
         # end optimization loop
 
         return sorted(fireflies, reverse=True)
