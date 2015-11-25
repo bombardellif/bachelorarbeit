@@ -7,17 +7,17 @@ from FireflyAlgorithm import FireflyAlgorithm
 from RequestsGraph import RequestsGraph
 
 ## __main__
-R = 1000
-B = 50
+R = 100
+B = 20
 
 req = RequestsGraph()
-req.loadFromFile("../../Data/datasets-2015-11-06-aot-tuberlin/1k-2015-11-06.csv")
+req.loadFromFile("../../Data/datasets-2015-11-06-aot-tuberlin/100-2015-11-06.csv")
 
 reqGraph = req.adjacencyCostMatrix
 
 fireflyOptimization = FireflyAlgorithm(R+B, 1, 1)
 
-answer = fireflyOptimization.run(99, 20,
+answer = fireflyOptimization.run(300, 20,
     lambda : Solution(reqGraph, R, B).randomize(),
     lambda vector : Solution(reqGraph, R, B, vectorRep=vector)
     )
@@ -25,7 +25,7 @@ answer = fireflyOptimization.run(99, 20,
 for a in answer:
     print("Route: ")
     print(a.getRoutes())
-    print("Costs: {:d}".format(-a.intensity()))
+    print("Costs: {:f}".format(-a.intensity()))
     print("==================")
 
 '''
