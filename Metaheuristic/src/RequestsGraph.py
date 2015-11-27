@@ -25,6 +25,6 @@ class RequestsGraph:
                 #self.requests.append(Request((row[3],row[4]), (row[1],row[2])))
 
         # Calculate the distance between any pair of locations
-        garage = [[52.0,10.0]]
+        garage = [[52.3034705503,10.6835020305]]
         locations = numpy.concatenate((garage, toLocation, fromLocation))
         self.adjacencyCostMatrix = scipy.spatial.distance.cdist(locations, locations)

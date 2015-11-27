@@ -305,4 +305,4 @@ class Solution:
 
             self._cost = numpy.sum(self._requestsGraph[rows, columns])
 
-        return -self._cost
+        return -self._cost + 100

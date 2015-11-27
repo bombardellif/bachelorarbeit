@@ -6,6 +6,7 @@ import fractions
 import numpy
 import numpy.random
 import scipy.spatial.distance
+import matplotlib.pyplot as plt
 import pdb
 
 class FireflyAlgorithm:
@@ -14,13 +15,15 @@ class FireflyAlgorithm:
         self._dimension = dimension
         self._alpha = alpha
         self._gamma = fractions.Fraction(gamma)
+        self.teste = []
 
     @staticmethod
     def distance(x1,x2):
         # Continuos case:
         #return scipy.spatial.distance.euclidean(x1,x2)
+        #return scipy.spatial.distance.sqeuclidean(x1,x2)
         # Discrete case:
-        return scipy.spatial.distance.sqeuclidean(x1,x2)
+        return ((x1-x2)**2).sum()
 
     def attractivenessInv(self, x1, x2):
         # Continuous case:
@@ -46,6 +49,10 @@ class FireflyAlgorithm:
     def run(self, maxGeneration, numFireflies, generateFunc, assignNewFunc):
         fireflies = [generateFunc() for i in range(numFireflies)]
 
+        '''self.fig = plt.figure()
+        plt.ion()
+        plt.show()'''
+
         for t in range(maxGeneration):
             for i in range(0, numFireflies):
                 changed = False
@@ -53,10 +60,11 @@ class FireflyAlgorithm:
                 siVector = si.getVectorRep()
                 for j in range(0, numFireflies):
                     sj = fireflies[j]
-                    sjVector = sj.getVectorRep()
                     if si is not sj:
+                        sjVector = sj.getVectorRep()
+
                         attractivenessInv = self.attractivenessInv(siVector, sjVector)
-                        if sj.intensity() // attractivenessInv > si.intensity():
+                        if sj.intensity() / attractivenessInv > si.intensity():
                             newVector = self.moveTowards(siVector, sjVector, attractivenessInv)
                             fireflies[i] = assignNewFunc(newVector)
 
@@ -65,8 +73,31 @@ class FireflyAlgorithm:
                 if not changed:
                     newVector = self.moveRandom(siVector)
                     fireflies[i] = assignNewFunc(newVector)
+
             test_evolution = sorted(fireflies, reverse=True)
-            print("Better cost: {:f}".format(-(test_evolution[0].intensity())))
+            self.visualize(test_evolution, 15, 3)
+            print("Best: {:f} | ".format((test_evolution[0].intensity())) + str(test_evolution[0].getVectorRep()))
         # end optimization loop
 
         return sorted(fireflies, reverse=True)
+
+    def visualize(self, fireflies, r, b):
+        '''lis = []
+        for ff in fireflies:
+            vec = ff.getVectorRep()
+            x = numpy.vander([2], r).dot(numpy.array(vec[:r]).T)[0]
+            y = numpy.vander([2], b).dot(numpy.array(vec[r:]).T)[0]
+            lis.append([x,y])
+
+        plt.clf()
+        ax = self.fig.add_subplot(111)
+        ax.set_xlim(0, 4*1e4)
+        ax.set_ylim(0, 3*1e5)
+        plt.plot(*zip(*lis), marker='o', linestyle='None')
+        self.fig.canvas.draw()
+        '''
+        ffs = numpy.empty((20,r+b), dtype=object)
+        for i in range(len(fireflies)):
+            ffs[i,:] = fireflies[i].getVectorRep()
+
+        print("Total Distance: {:f}".format(scipy.spatial.distance.pdist(ffs).sum()))
