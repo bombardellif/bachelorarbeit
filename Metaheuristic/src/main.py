@@ -16,9 +16,11 @@ req.loadFromFile("../../Data/datasets-2015-11-06-aot-tuberlin/15-2015-11-06.csv"
 
 reqGraph = req.adjacencyCostMatrix
 
-fireflyOptimization = FireflyAlgorithm(R+B, 1, 1e-10)
+alpha = numpy.zeros(R+B, dtype=int)
+alpha[R:] = 1
+fireflyOptimization = FireflyAlgorithm(R+B, alpha, 1e-8, 2)
 
-answer = fireflyOptimization.run(300, 20,
+answer,theBest = fireflyOptimization.run(500, 20,
     lambda : Solution(reqGraph, R, B).randomize(),
     lambda vector : Solution(reqGraph, R, B, vectorRep=vector)
     )
@@ -28,6 +30,11 @@ for a in answer:
     print(a.getRoutes())
     print("Intensity: {:f}".format(a.intensity()))
     print("==================")
+print("THE BEST: ")
+print("Route: ")
+print(theBest.getRoutes())
+print("Intensity: {:f}".format(theBest.intensity()))
+print("==================")
 '''
 plt.ioff()
 plt.show()'''

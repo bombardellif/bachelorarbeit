@@ -11,11 +11,11 @@ import pdb
 
 class FireflyAlgorithm:
 
-    def __init__(self, dimension, alpha, gamma):
+    def __init__(self, dimension, alpha, gamma, beta0=1):
         self._dimension = dimension
         self._alpha = alpha
         self._gamma = fractions.Fraction(gamma)
-        self.teste = []
+        self._beta0 = beta0
 
     @staticmethod
     def distance(x1,x2):
@@ -23,7 +23,8 @@ class FireflyAlgorithm:
         #return scipy.spatial.distance.euclidean(x1,x2)
         #return scipy.spatial.distance.sqeuclidean(x1,x2)
         # Discrete case:
-        return ((x1-x2)**2).sum()
+        #return ((x1-x2)**2).sum()
+        return numpy.abs(x1-x2).sum()
 
     def attractivenessInv(self, x1, x2):
         # Continuous case:
@@ -52,7 +53,14 @@ class FireflyAlgorithm:
         '''self.fig = plt.figure()
         plt.ion()
         plt.show()'''
+        for a in sorted(fireflies, reverse=True):
+            print("Route: ")
+            print(a.getRoutes())
+            print("Intensity: {:f}".format(a.intensity()))
+            print("==================")
 
+        #maxGeneration = 1
+        theBest = fireflies[0]
         for t in range(maxGeneration):
             for i in range(0, numFireflies):
                 changed = False
@@ -64,7 +72,8 @@ class FireflyAlgorithm:
                         sjVector = sj.getVectorRep()
 
                         attractivenessInv = self.attractivenessInv(siVector, sjVector)
-                        if sj.intensity() / attractivenessInv > si.intensity():
+                        #print("{:d} : {:d}".format(self.distance(siVector, sjVector), attractivenessInv))
+                        if (self._beta0 * sj.intensity()) / attractivenessInv > si.intensity():
                             newVector = self.moveTowards(siVector, sjVector, attractivenessInv)
                             fireflies[i] = assignNewFunc(newVector)
 
@@ -74,12 +83,20 @@ class FireflyAlgorithm:
                     newVector = self.moveRandom(siVector)
                     fireflies[i] = assignNewFunc(newVector)
 
+            # Update beta0 vatiable
+            if self._beta0 > 1:
+                self._beta0 *= 0.99
+                if self._beta0 < 1:
+                    self._beta0 = 1
+
             test_evolution = sorted(fireflies, reverse=True)
-            self.visualize(test_evolution, 15, 3)
-            print("Best: {:f} | ".format((test_evolution[0].intensity())) + str(test_evolution[0].getVectorRep()))
+            #self.visualize(test_evolution, 15, 3)
+            #print("Best: {:f} | ".format((test_evolution[0].intensity())) + str(test_evolution[0].getVectorRep()))
+            if test_evolution[0].intensity() > theBest.intensity():
+                theBest = test_evolution[0]
         # end optimization loop
 
-        return sorted(fireflies, reverse=True)
+        return sorted(fireflies, reverse=True), theBest
 
     def visualize(self, fireflies, r, b):
         '''lis = []

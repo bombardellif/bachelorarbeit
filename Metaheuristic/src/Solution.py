@@ -16,7 +16,7 @@ class Solution:
         self._boardMatrix = {}
         self._childrenSizeMatrix = {}
         self._routeEachBus = None
-        self._cost = None
+        self._intensity = None
         ### Argument initialized values ###
         self._requestsGraph = requestsGraph
         self._totalRequests = totalRequests
@@ -174,6 +174,12 @@ class Solution:
         return self
 
     # Domain transformation methods
+    def isInsideDomain(self):
+        return (self._requestComponent < self._totalBuses).all()\
+            and (self._requestComponent >= 0).all()\
+            and (self._routesComponent < self.getSizeDomainEachBus()).all()\
+            and (self._routesComponent >= 0).all()
+
     def getSizeDomainEachBus(self):
         return [self.getChildrenSizeMatrixFor(nRequests)[0,0] for nRequests in self.getNumRequestsEachBus()]
 
@@ -182,15 +188,19 @@ class Solution:
         #newVector = numpy.rint(vector).astype(int)
 
         # Clip the requests domain [0,No_BUSES)
-        numpy.clip(newVector[:self._totalRequests],
+        # CHANGE: Don't clip anymore, isntead, these will have intensity=0
+        '''numpy.clip(newVector[:self._totalRequests],
             0, self._totalBuses-1,
             out=newVector[:self._totalRequests])
+        '''
         self._requestComponent = newVector[:self._totalRequests].astype(int)
 
         # Clip the routes domain [0,Size_Domain_For_Each_Bus)
-        numpy.clip(newVector[self._totalRequests:],
+        # CHANGE: Don't clip anymore, isntead, these will have intensity=0
+        '''numpy.clip(newVector[self._totalRequests:],
             0, self.getSizeDomainEachBus(),
             out=newVector[self._totalRequests:])
+        '''
         self._routesComponent = newVector[self._totalRequests:]
 
         # Assign vector attribute
@@ -293,16 +303,20 @@ class Solution:
         assert self._requestsGraph is not None
 
         # Check cache
-        if self._cost is None:
-            routes = self.getRoutes() + 1
+        if self._intensity is None:
+            if self.isInsideDomain():
+                routes = self.getRoutes() + 1
 
-            rows = []
-            columns = []
-            for r in routes:
-                if r.size != 0:
-                    rows += [0] + r.tolist()
-                    columns += r.tolist() + [0]
+                rows = []
+                columns = []
+                for r in routes:
+                    if r.size != 0:
+                        rows += [0] + r.tolist()
+                        columns += r.tolist() + [0]
 
-            self._cost = numpy.sum(self._requestsGraph[rows, columns])
+                cost = numpy.sum(self._requestsGraph[rows, columns])
+                self._intensity = -cost + 100
+            else:
+                self._intensity = 0
 
-        return -self._cost + 100
+        return self._intensity
