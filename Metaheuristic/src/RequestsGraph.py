@@ -8,6 +8,8 @@ from Request import Request
 
 class RequestsGraph:
 
+    garage = [52.3034705503,10.6835020305]
+
     def __init__(self):
         self.adjacencyCostMatrix = None
         self.requests = []
@@ -22,9 +24,8 @@ class RequestsGraph:
             for row in spam:
                 fromLocation.append([row[3],row[4]])
                 toLocation.append([row[1],row[2]])
-                #self.requests.append(Request((row[3],row[4]), (row[1],row[2])))
+                self.requests.append(Request((row[3],row[4]), (row[1],row[2])))
 
         # Calculate the distance between any pair of locations
-        garage = [[52.3034705503,10.6835020305]]
-        locations = numpy.concatenate((garage, toLocation, fromLocation))
+        locations = numpy.concatenate(([RequestsGraph.garage], toLocation, fromLocation))
         self.adjacencyCostMatrix = scipy.spatial.distance.cdist(locations, locations)

@@ -11,11 +11,32 @@ import pdb
 
 class FireflyAlgorithm:
 
+    registerEvolution = False
+    evolutionLog = {
+        'vectors': [],
+        'intensity': [],
+        'best': [],
+        'average': [],
+        'distance': [],
+        'movedDistance': []
+    }
+
     def __init__(self, dimension, alpha, gamma, beta0=1):
         self._dimension = dimension
         self._alpha = alpha
         self._gamma = fractions.Fraction(gamma)
         self._beta0 = beta0
+
+    @staticmethod
+    def logState(fireflies, theBest, movedDistance):
+        vectors = [ff.getVectorRep() for ff in fireflies]
+        intensityVec = [ff.intensity() for ff in fireflies]
+        FireflyAlgorithm.evolutionLog['vectors'].append(vectors)
+        FireflyAlgorithm.evolutionLog['intensity'].append(intensityVec)
+        FireflyAlgorithm.evolutionLog['best'].append(theBest.intensity())
+        FireflyAlgorithm.evolutionLog['average'].append(numpy.mean(intensityVec))
+        FireflyAlgorithm.evolutionLog['distance'].append(scipy.spatial.distance.pdist(vectors).sum())
+        FireflyAlgorithm.evolutionLog['movedDistance'].append(movedDistance)
 
     @staticmethod
     def distance(x1,x2):
@@ -53,20 +74,21 @@ class FireflyAlgorithm:
         '''self.fig = plt.figure()
         plt.ion()
         plt.show()'''
-        for a in sorted(fireflies, reverse=True):
-            print("Route: "+str(a.getVectorRep()))
-            #print(a.getRoutes())
-            print("Intensity: {:f}".format(a.intensity()))
-            print("==================")
 
-        #maxGeneration = 1
+        movedDistance = 0
+        sortedFireflies = sorted(fireflies, reverse=True)
         theBest = fireflies[0]
         for t in range(maxGeneration):
+            # Register the state
+            if FireflyAlgorithm.registerEvolution:
+                FireflyAlgorithm.logState(sortedFireflies, theBest, movedDistance)
+                movedDistance = 0
+
             for i in range(0, numFireflies):
                 changed = False
-                si = fireflies[i]
-                siVector = si.getVectorRep()
                 for j in range(0, numFireflies):
+                    si = fireflies[i]
+                    siVector = si.getVectorRep()
                     sj = fireflies[j]
                     if si is not sj:
                         sjVector = sj.getVectorRep()
@@ -75,12 +97,21 @@ class FireflyAlgorithm:
                         #print("{:d} : {:d}".format(self.distance(siVector, sjVector), attractivenessInv))
                         if (self._beta0 * sj.intensity()) / attractivenessInv > si.intensity():
                             newVector = self.moveTowards(siVector, sjVector, attractivenessInv)
+
+                            # Register total traveled distance
+                            if FireflyAlgorithm.registerEvolution:
+                                movedDistance += scipy.spatial.distance.pdist(numpy.vstack((siVector, newVector)))[0]
                             fireflies[i] = assignNewFunc(newVector)
 
                             changed = True
                 # If firefly didn't move, move it randomically
                 if not changed:
+                    siVector = fireflies[i].getVectorRep()
                     newVector = self.moveRandom(siVector)
+
+                    # Register total traveled distance
+                    if FireflyAlgorithm.registerEvolution:
+                        movedDistance += scipy.spatial.distance.pdist(numpy.vstack((siVector, newVector)))[0]
                     fireflies[i] = assignNewFunc(newVector)
 
             # Update beta0 vatiable
@@ -89,16 +120,16 @@ class FireflyAlgorithm:
                 if self._beta0 < 1:
                     self._beta0 = 1
 
-            test_evolution = sorted(fireflies, reverse=True)
-            #self.visualize(test_evolution, 15, 3)
-            print("{:f} => Best: {:f} | ".format(self._beta0, test_evolution[0].intensity()))# + str(test_evolution[0].getVectorRep()))
-            if test_evolution[0].intensity() > theBest.intensity():
-                theBest = test_evolution[0]
+            sortedFireflies = sorted(fireflies, reverse=True)
+            if sortedFireflies[0].intensity() > theBest.intensity():
+                theBest = sortedFireflies[0]
+            #print("{:f} => Best: {:f} | ".format(self._beta0, sortedFireflies[0].intensity()))# + str(sortedFireflies[0].getVectorRep()))
         # end optimization loop
 
-        return sorted(fireflies, reverse=True), theBest
+        return sortedFireflies, theBest
 
     def visualize(self, fireflies, r, b):
+        pass
         '''lis = []
         for ff in fireflies:
             vec = ff.getVectorRep()
@@ -113,8 +144,3 @@ class FireflyAlgorithm:
         plt.plot(*zip(*lis), marker='o', linestyle='None')
         self.fig.canvas.draw()
         '''
-        ffs = numpy.empty((20,r+b), dtype=object)
-        for i in range(len(fireflies)):
-            ffs[i,:] = fireflies[i].getVectorRep()
-
-        print("Total Distance: {:f}".format(scipy.spatial.distance.pdist(ffs).sum()))

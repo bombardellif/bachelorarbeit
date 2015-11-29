@@ -10,11 +10,6 @@ class Solution:
 
     worstCost = None
 
-    @staticmethod
-    def determineWorstCost(costMatrix, totalRequests):
-        doublePathSize = (totalRequests*2 + 2) * 2
-        Solution.worstCost = -(numpy.partition(-costMatrix, doublePathSize, axis=None)[:doublePathSize].sum() // 2)
-
     def __init__(self, requestsGraph, totalRequests, totalBuses, vectorRep=None):
         ### Null initialized values ###
         self._numRequestsEachBus = None
@@ -34,6 +29,12 @@ class Solution:
             self._vectorRep = None
             self._requestComponent = None
             self._routesComponent = None
+
+    # Estimation of worst cost possible
+    @staticmethod
+    def determineWorstCost(costMatrix, totalRequests):
+        doublePathSize = (totalRequests*2 + 2) * 2
+        Solution.worstCost = -(numpy.partition(-costMatrix, doublePathSize, axis=None)[:doublePathSize].sum() // 2)
 
     # Operators
     def __lt__(self, b):
