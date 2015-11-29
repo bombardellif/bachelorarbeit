@@ -1,26 +1,27 @@
 
 import pdb
 import numpy
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 from Solution import Solution
 from FireflyAlgorithm import FireflyAlgorithm
 from RequestsGraph import RequestsGraph
 
 ## __main__
-R = 15
-B = 3
+R = 1000
+B = 30
 
 req = RequestsGraph()
-req.loadFromFile("../../Data/datasets-2015-11-06-aot-tuberlin/15-2015-11-06.csv")
+req.loadFromFile("../../Data/datasets-2015-11-06-aot-tuberlin/1k-2015-11-06.csv")
 
 reqGraph = req.adjacencyCostMatrix
+Solution.determineWorstCost(reqGraph, R)
 
 alpha = numpy.zeros(R+B, dtype=int)
 alpha[R:] = 1
-fireflyOptimization = FireflyAlgorithm(R+B, alpha, 1e-8, 2)
+fireflyOptimization = FireflyAlgorithm(R+B, alpha, 1e-10, 1)
 
-answer,theBest = fireflyOptimization.run(500, 20,
+answer,theBest = fireflyOptimization.run(1000, 20,
     lambda : Solution(reqGraph, R, B).randomize(),
     lambda vector : Solution(reqGraph, R, B, vectorRep=vector)
     )

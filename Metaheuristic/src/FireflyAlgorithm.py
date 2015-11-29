@@ -6,7 +6,7 @@ import fractions
 import numpy
 import numpy.random
 import scipy.spatial.distance
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import pdb
 
 class FireflyAlgorithm:
@@ -54,8 +54,8 @@ class FireflyAlgorithm:
         plt.ion()
         plt.show()'''
         for a in sorted(fireflies, reverse=True):
-            print("Route: ")
-            print(a.getRoutes())
+            print("Route: "+str(a.getVectorRep()))
+            #print(a.getRoutes())
             print("Intensity: {:f}".format(a.intensity()))
             print("==================")
 
@@ -91,7 +91,7 @@ class FireflyAlgorithm:
 
             test_evolution = sorted(fireflies, reverse=True)
             #self.visualize(test_evolution, 15, 3)
-            #print("Best: {:f} | ".format((test_evolution[0].intensity())) + str(test_evolution[0].getVectorRep()))
+            print("{:f} => Best: {:f} | ".format(self._beta0, test_evolution[0].intensity()))# + str(test_evolution[0].getVectorRep()))
             if test_evolution[0].intensity() > theBest.intensity():
                 theBest = test_evolution[0]
         # end optimization loop

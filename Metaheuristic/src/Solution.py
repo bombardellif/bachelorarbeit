@@ -8,6 +8,13 @@ import pdb
 
 class Solution:
 
+    worstCost = None
+
+    @staticmethod
+    def determineWorstCost(costMatrix, totalRequests):
+        doublePathSize = (totalRequests*2 + 2) * 2
+        Solution.worstCost = -(numpy.partition(-costMatrix, doublePathSize, axis=None)[:doublePathSize].sum() // 2)
+
     def __init__(self, requestsGraph, totalRequests, totalBuses, vectorRep=None):
         ### Null initialized values ###
         self._numRequestsEachBus = None
@@ -160,6 +167,7 @@ class Solution:
             dtype=int, count=len(sizePermutationsEachBus))'''
         # Huge numbers implementation
         return numpy.array([random.randint(0, size-1) for size in sizePermutationsEachBus], dtype=object)
+        #return numpy.array([random.randint(size//2, size-1) for size in sizePermutationsEachBus], dtype=object)
 
     def randomize(self):
         assert self._totalRequests is not None
@@ -314,8 +322,8 @@ class Solution:
                         rows += [0] + r.tolist()
                         columns += r.tolist() + [0]
 
-                cost = numpy.sum(self._requestsGraph[rows, columns])
-                self._intensity = -cost + 100
+                cost = self._requestsGraph[rows, columns].sum()
+                self._intensity = Solution.worstCost - cost
             else:
                 self._intensity = 0
 
