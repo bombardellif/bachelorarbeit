@@ -1,5 +1,6 @@
 
 import pdb
+import math
 import numpy
 import matplotlib.pyplot as plt
 
@@ -13,23 +14,24 @@ B = 3
 
 # Load Requests File
 req = RequestsGraph()
-req.loadFromFile("../../Data/datasets-2015-11-06-aot-tuberlin/15-2015-11-06.csv")
+req.loadFromFile("../../Data/datasets-2015-11-06-aot-tuberlin/15.2-2015-11-06.csv")
 
 # Estimate superior limit for the Utility function
 reqGraph = req.adjacencyCostMatrix
 Solution.determineWorstCost(reqGraph, R)
 
 # Define Parameters
-alpha = numpy.zeros(R+B, dtype=int)
-alpha[R:] = 1
-gamma = 1e-11
+#alpha = numpy.zeros(1+B, dtype=int)
+alpha = (B**R) // 10
+#gamma = 1/math.sqrt(B**15)
+gammaDenominator = B**(R//2)
 beta0 = 1
 maxGeneration = 500
-numFireflies = 40
+numFireflies = 50
 
 # Instanciate Solver
 FireflyAlgorithm.registerEvolution = True
-fireflyOptimization = FireflyAlgorithm(R+B, alpha, gamma, beta0)
+fireflyOptimization = FireflyAlgorithm(1+B, alpha, gammaDenominator=gammaDenominator, beta0=beta0)
 
 # Run solver
 solutions,theBest = fireflyOptimization.run(maxGeneration, numFireflies,
@@ -37,16 +39,24 @@ solutions,theBest = fireflyOptimization.run(maxGeneration, numFireflies,
     lambda vector : Solution(reqGraph, R, B, vectorRep=vector)
     )
 
+plt.ioff()
+plt.show()
+
 # Show Results
 for sol in solutions:
-    print("Route: ")
-    print(sol.getRoutes())
+    if sol.isInsideDomain():
+        print("Route: ")
+        print(sol.getRoutes())
+    print("Vector: ")
+    print(sol.getVectorRep())
     print("Intensity: {:f}".format(sol.intensity()))
     print("==================")
 
 print("THE BEST: ")
 print("Route: ")
 print(theBest.getRoutes())
+print("Vector: ")
+print(theBest.getVectorRep())
 print("Intensity: {:f}".format(theBest.intensity()))
 print("==================")
 
@@ -82,6 +92,18 @@ if FireflyAlgorithm.registerEvolution:
     plt.ylabel('Moved distance')
     plt.plot(data)
 
+    plt.figure()
+    data = FireflyAlgorithm.evolutionLog['changesBecauseIntensity']
+    plt.xlabel('Iteration')
+    plt.ylabel('Changes Because of Intensity')
+    plt.plot(data)
+
+    plt.figure()
+    data = FireflyAlgorithm.evolutionLog['attractMean']
+    plt.xlabel('Iteration')
+    plt.ylabel('Mean of the Attraction')
+    plt.plot(data)
+
     style = ['-og','-ob','-oy']
     i = 0
     for route in theBest.getRoutes():
@@ -112,6 +134,12 @@ if FireflyAlgorithm.registerEvolution:
 
         plt.plot(xdata, ydata, style[i], xdata[0], ydata[0], 'ok', xdata[alightIdx], ydata[alightIdx], 'or')
         i += 1
+
+    '''
+    plt.figure().gca(projection='3d')
+    data = numpy.array([sol.getVectorRep() for sol in solutions]).astype(float) / 1e15
+    plt.scatter(data[:,0], data[:,1], data[:,2])
+    '''
 
     plt.show()
 

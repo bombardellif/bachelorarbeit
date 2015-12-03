@@ -12,6 +12,7 @@ class Solution:
 
     def __init__(self, requestsGraph, totalRequests, totalBuses, vectorRep=None):
         ### Null initialized values ###
+        self._busEachRequest = None
         self._numRequestsEachBus = None
         self._requestsEachBus = None
         self._alightMatrix = {}
@@ -66,31 +67,56 @@ class Solution:
 
         return self._vectorRep
 
+    def getBusEachRequest(self):
+        assert self._requestComponent is not None
+
+        # Check cache
+        if self._busEachRequest is None:
+            self._busEachRequest = numpy.empty(self._totalRequests, dtype=int)
+
+            lastBusNumber = self._totalBuses - 1
+            permutationNro = self._requestComponent
+            divisor = self._totalBuses ** (self._totalRequests-1)
+            nroOddsTillHere = 0
+            for i in range(self._totalRequests):
+                # if the numbers of odds till this iteration is odd, then invert
+                # the sequence, instead of 0,1,2... we'll have 3,2,1,0
+                if nroOddsTillHere & 0x1:
+                    newValue = lastBusNumber - (permutationNro // divisor)
+                else:
+                    newValue = permutationNro // divisor
+
+                if newValue & 0x1:
+                    nroOddsTillHere += 1
+
+                self._busEachRequest[i] = newValue
+                permutationNro = permutationNro % divisor
+                divisor //= self._totalBuses
+
+        return self._busEachRequest
+
     def getNumRequestsEachBus(self):
         # Assertion
-        assert self._requestComponent is not None
         assert self._totalBuses is not None
 
         if self._numRequestsEachBus is None:
-            self._numRequestsEachBus = scipy.bincount(self._requestComponent, minlength=self._totalBuses)
+            self._numRequestsEachBus = scipy.bincount(self.getBusEachRequest(), minlength=self._totalBuses)
 
         return self._numRequestsEachBus
 
     def getRequestsEachBus(self):
-        # Assertion
-        assert self._requestComponent is not None
 
         # Check cache
         if self._requestsEachBus is None:
 
             # 1. Create a matrix like [[0],[1],[2],...] of size N
-            # 2. Compare the elements of requestComponent to this matrix, the comparison
-            # returns an array of size N, with True in the positions where requestComponent
+            # 2. Compare the elements of busEachRequest to this matrix, the comparison
+            # returns an array of size N, with True in the positions where busEachRequest
             # equals the number
             # 3. Apply to each element "flatzero" which returns the indices where we have True
             # 4. In the end we have for each bus in the result the respective requests
             self._requestsEachBus = numpy.array([numpy.flatnonzero(v) \
-                for v in self._requestComponent == \
+                for v in self.getBusEachRequest() == \
                     numpy.arange(len(self.getNumRequestsEachBus()), dtype=int)[:,numpy.newaxis] ])
 
         return self._requestsEachBus
@@ -168,23 +194,24 @@ class Solution:
             dtype=int, count=len(sizePermutationsEachBus))'''
         # Huge numbers implementation
         return numpy.array([random.randint(0, size-1) for size in sizePermutationsEachBus], dtype=object)
-        #return numpy.array([random.randint(size//2, size-1) for size in sizePermutationsEachBus], dtype=object)
 
     def randomize(self):
         assert self._totalRequests is not None
         assert self._totalBuses is not None
 
         # Randomize the distribution of buses to requests
-        self._requestComponent = numpy.random.randint(self._totalBuses, size=self._totalRequests)
+        #self._requestComponent = numpy.random.randint(self._totalBuses, size=self._totalRequests)
+        self._requestComponent = numpy.random.randint(self._totalBuses**self._totalRequests, size=1)
 
         # Randomize valid routes for each bus, given the distribution requests X bus
         self._routesComponent = self._generateRoutesComponent()
+        self._routesComponent[:] = 0
 
         return self
 
     # Domain transformation methods
     def isInsideDomain(self):
-        return (self._requestComponent < self._totalBuses).all()\
+        return (self._requestComponent < self._totalBuses**self._totalRequests).all()\
             and (self._requestComponent >= 0).all()\
             and (self._routesComponent < self.getSizeDomainEachBus()).all()\
             and (self._routesComponent >= 0).all()
@@ -202,7 +229,8 @@ class Solution:
             0, self._totalBuses-1,
             out=newVector[:self._totalRequests])
         '''
-        self._requestComponent = newVector[:self._totalRequests].astype(int)
+        #self._requestComponent = newVector[:self._totalRequests].astype(int)
+        self._requestComponent = newVector[:1]
 
         # Clip the routes domain [0,Size_Domain_For_Each_Bus)
         # CHANGE: Don't clip anymore, isntead, these will have intensity=0
@@ -210,7 +238,7 @@ class Solution:
             0, self.getSizeDomainEachBus(),
             out=newVector[self._totalRequests:])
         '''
-        self._routesComponent = newVector[self._totalRequests:]
+        self._routesComponent = newVector[1:]
 
         # Assign vector attribute
         self._vectorRep = newVector
