@@ -16,33 +16,39 @@ B = 3
 req = RequestsGraph()
 req.loadFromFile("../../Data/datasets-2015-11-06-aot-tuberlin/15.2-2015-11-06.csv")
 
+# Attributes
+Solution.requestGraph = req.adjacencyCostMatrix
+Solution.totalRequests = R
+Solution.totalBuses = B
+Solution.initializeClass()
+
 # Estimate superior limit for the Utility function
-reqGraph = req.adjacencyCostMatrix
-Solution.determineWorstCost(reqGraph, R)
+Solution.determineWorstCost()
 
 # Define Parameters
 #alpha = numpy.zeros(1+B, dtype=int)
 alpha = (B**R) // 10
-#gamma = 1/math.sqrt(B**15)
-gammaDenominator = B**(R//2)
+#alpha = 681080400 // 10
+alphaDivisor = 10
+#gamma = 1/math.sqrt(B**R)
+gammaDenominator = int(round(((B**R)*(681080400**2)) ** (1/2)))
 beta0 = 1
 maxGeneration = 500
-numFireflies = 50
+numFireflies = 40
 
 # Instanciate Solver
 FireflyAlgorithm.registerEvolution = True
-fireflyOptimization = FireflyAlgorithm(1+B, alpha, gammaDenominator=gammaDenominator, beta0=beta0)
+fireflyOptimization = FireflyAlgorithm(1+B, alpha, alphaDivisor, gammaDenominator=gammaDenominator, beta0=beta0)
 
 # Run solver
-solutions,theBest = fireflyOptimization.run(maxGeneration, numFireflies,
-    lambda : Solution(reqGraph, R, B).randomize(),
-    lambda vector : Solution(reqGraph, R, B, vectorRep=vector)
-    )
-
-plt.ioff()
-plt.show()
+solutions,theBest = fireflyOptimization.run(maxGeneration, numFireflies)
 
 # Show Results
+'''
+plt.ioff()
+plt.show()
+'''
+
 for sol in solutions:
     if sol.isInsideDomain():
         print("Route: ")

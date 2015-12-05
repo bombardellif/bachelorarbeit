@@ -24,9 +24,10 @@ class FireflyAlgorithm:
         'attractMean': []
     }
 
-    def __init__(self, dimension, alpha, gamma=1, gammaDenominator=None, beta0=1):
+    def __init__(self, dimension, alpha, alphaDivisor, gamma=1, gammaDenominator=None, beta0=1):
         self._dimension = dimension
         self._alpha = alpha
+        self._alphaDivisor = fractions.Fraction(1, alphaDivisor)
         if gammaDenominator is None:
             self._gamma = fractions.Fraction(gamma)
         else:
@@ -63,8 +64,8 @@ class FireflyAlgorithm:
         #return scipy.spatial.distance.euclidean(x1,x2)
         #return scipy.spatial.distance.sqeuclidean(x1,x2)
         # Discrete case:
-        return ((x1-x2)**2).sum()
-        #return numpy.abs(x1-x2).sum()
+        #return ((x1-x2)**2).sum()
+        return numpy.abs(x1-x2).sum()
 
     def attractivenessInv(self, x1, x2):
         # Continuous case:
@@ -80,15 +81,24 @@ class FireflyAlgorithm:
         #return x1 + self.attractiveness(x1,x2) * (x2-x1) + self.randomTerm()
         # Discrete case:
         diff = x2-x1
-        return x1 + (diff // attractInv) +\
-            numpy.rint(((diff % attractInv)/attractInv + self.randomTerm())\
-            .astype(float)).astype(int)
+        # Single alpha for every component of the vector:
+        #return x1 + (diff // attractInv) +\
+        #    numpy.rint(((diff % attractInv)/attractInv + self.randomTerm())\
+        #    .astype(float)).astype(int)
+
+        # Single alpha for every component of the vector:
+        return Solution.createFromRandomVector(x1 + (diff // attractInv),
+            self._alphaDivisor,
+            numpy.random.normal(size=self._dimension))
 
     def moveRandom(self, x):
-        return x + numpy.rint(self.randomTerm()).astype(int)
+        # Single alpha for every component of the vector:
+        #return x + numpy.rint(self.randomTerm()).astype(int)
+        # Alpha that varies to each component of the vector:
+        return Solution.createFromRandomVector(x, self._alphaDivisor, numpy.random.normal(size=self._dimension))
 
-    def run(self, maxGeneration, numFireflies, generateFunc, assignNewFunc):
-        fireflies = [generateFunc() for i in range(numFireflies)]
+    def run(self, maxGeneration, numFireflies):
+        fireflies = [Solution().randomize() for i in range(numFireflies)]
         '''
         FireflyAlgorithm.fig = plt.figure()
         plt.ion()
@@ -125,26 +135,22 @@ class FireflyAlgorithm:
                             attractAcc += attractivenessInv
 
                         if siIntensity == 0 or (self._beta0 * sj.intensity()) / attractivenessInv > siIntensity:
-                            newVector = self.moveTowards(siVector, sjVector, attractivenessInv)
+                            fireflies[i] = self.moveTowards(siVector, sjVector, attractivenessInv)
 
                             # Register total traveled distance
                             if FireflyAlgorithm.registerEvolution:
-                                movedDistance += scipy.spatial.distance.pdist(numpy.vstack((siVector, newVector)))[0]
+                                movedDistance += scipy.spatial.distance.pdist(numpy.vstack((siVector, fireflies[i].getVectorRep())))[0]
                                 changesBecauseIntensity += 1
-                            newVector[1:] = 0
-                            fireflies[i] = assignNewFunc(newVector)
 
                             changed = True
                 # If firefly didn't move, move it randomically
                 if not changed:
                     siVector = fireflies[i].getVectorRep()
-                    newVector = self.moveRandom(siVector)
-                    newVector[1:] = 0
+                    fireflies[i] = self.moveRandom(siVector)
 
                     # Register total traveled distance
                     if FireflyAlgorithm.registerEvolution:
-                        movedDistance += scipy.spatial.distance.pdist(numpy.vstack((siVector, newVector)))[0]
-                    fireflies[i] = assignNewFunc(newVector)
+                        movedDistance += scipy.spatial.distance.pdist(numpy.vstack((siVector, fireflies[i].getVectorRep())))[0]
 
             # Update beta0 variable
             if self._beta0 > 1:
@@ -153,9 +159,12 @@ class FireflyAlgorithm:
                     self._beta0 = 1
             # Update alpha variable
             if self._alpha > 1:
-                self._alpha *= 0.97
+                self._alpha *= 0.95
+                self._alphaDivisor = fractions.Fraction(self._alphaDivisor.numerator * 95,
+                                                    self._alphaDivisor.denominator * 100)
                 if self._alpha < 1:
-                    self._alpha = 1
+                    self.alpha = 1
+                    self._alphaDivisor = None
 
             sortedFireflies = sorted(fireflies, reverse=True)
             if sortedFireflies[0].intensity() > theBest.intensity():
