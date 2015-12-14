@@ -62,7 +62,7 @@
 
 % orientador e co-orientador são opcionais (não diga isso pra eles :))
 \advisor[Dr.-Ing.]{Heßler}{Axel}
-%\coadvisor[Prof.~Dr.]{Knuth}{Donald Ervin}
+\coadvisor[Prof. Dr. Dr. h.c.]{Albayrak}{Sahin}
 
 % a data deve ser a da defesa; se nao especificada, são gerados
 % mes e ano correntes
@@ -172,8 +172,9 @@
 
 % lista de abreviaturas e siglas
 % o parametro deve ser a abreviatura mais longa
-\begin{listofabbrv}{SPMD}
+\begin{listofabbrv}{DARP}
     \item[FA] Firefly Algorithm
+    \item[DARP] Dial-a-Ride Problem
 \end{listofabbrv}
 
 % idem para a lista de símbolos
@@ -189,11 +190,37 @@
 
 % introducao
 \chapter{Introduction}
+In current urban areas, mainly in very populated cities, there is a huge number of mobility problems. These problems have been seen with much interest by the scientific community, which has been strongly contributing to the improvement of transportation and logistic networks, thus promoting advances towards a better mobility.
+
+The here addressed problem is known as the dial-a-ride problem (DARP). Shortly, it consists of a system with a set of requests of pick up and delivery entered by customers and a fleet of vehicles. The goal is planning the route of the vehicles and the assignment of requests to them in a feasible way, since there are constraints from both the requests and the vehicles to which a solution is subject. These can be several conditions, like location and time limit for picking up and delivering or how much time each vehicle can operate. Besides, it is not only searched a feasible solution but an optimal one that minimizes the costs of the operation defined by a function.
+
+Many difficulties are found when trying to solve the described problem, the combinatorial nature of its solution space make it hard to treat for large inputs because of the high complexity, it leads then to a special difficulty in building a scalable application.
+
 \section{Definition}
+
 \section{Justification}
+It is expected that the results of this work may bring relevant contributions to the handling of the presented problem, and even of other ones. By having two distinct approaches it is possible to compare results regarding important features of the problem, such as scalability, feasibility and deviation to an optimal solution. Furthermore, the application of the relatively new firefly algorithm to the problem can show how it performs in a such a solution space.
+
+In addition to the contributions to the understanding of the behavior of swarming metaheuristics applied to optimization problems of transportation, the new procedure of solving the problem serves as a prototype and brings a new perspective to commercial applications which seek constantly to treat the problem in a more efficient and scalable way.
+
+With regard to the current cities' mobility, there is a growing demand for an efficient alternative to the classical means of transportation. The implementation of such a system improves the possibility of movement of the population and makes it more efficient, since it allows the decrease of the number of cars that drive through the urban network everyday causing traffic jams in big cities. Moreover, it helps to solve an demanding problem in today's society where there is an increasing number of elderly or handicapped people, who have the right to mobility and need assistance to travel in the town.
+
+Also in an economical view this research contributes to the win of new markets by companies who aim to enter the branch of public transportation since its main goal is minimizing the operation costs. With such a model a company can take great advantages against competitors in order to capture marketplace.
+
+At last, the concerns of the proposed model shows also an ecological relevance by enabling the decrease of the emission of greenhouse gases in the urban area, directly, considering that in this case costs are direct proportional to the consume of fuel, and consequently to the emission of gases, such as CO$_{2}$, and indirectly by reducing the circulation of other automobiles.
+
 \section{Approach}
 
 \chapter{Literature Review}
+The Dial-a-ride Problem (DARP) is very similar to other problems studied in the scientific society, namely, it can be cited the Pickup and Delivery Vehicle Routing Problem (PDVRP) and the Vehicle Routing Problem with Time Windows (VRPTW), problems with application in logistics. According to Cordeau (2007, \cite{Cordeau2007}), what basically differs the DARP from these other ones is the human perspective, by the fact that people are transported. It often appears presenting two goals, minimizing operation costs subject to the constraints and maximizing the availability and quality of the service. The quality criteria include frequently aspects like route duration, customer waiting and ride time, maximum vehicle ride time, among others and are usually treated in the constraints of the optimization.
+
+Cordeau (2007, \cite{Cordeau2007}) realized a survey on the subject, he presents three mathematical models that occur in the literature, two as formulation of a mathematical optimization and one as a scheduling problem. Therefore there are several other approaches made by other authors.
+
+Although there are works handling the problem in an exact way, that tries to find an optimal solution, for instance, with the branch-and-cut algorithm, most of them focus on applying a determined heuristic in order to find a near-optimal solution in the search space, for example, tabu search, genetic algorithms or simulated annealing.
+
+What has not been tried is using swarm-based metaheuristics to solve the problem, such as particle swarming optimization, ant colony or the firefly algorithm. Swarm intelligence is a technique applied in the computer science, more precisely in artificial intelligence and operations research, that is based on nature patterns or behaviors. In this point of view, these metaheuristics resemble the genetic algorithms, since these are also nature-based, but they differ by the fact that, genetic algorithms have mutation and crossover operators and are based on the theory of evolution of the species, whereas swarm intelligence techniques are based on the observation of the behavior of swarms.
+
+In this work we will study and apply the firefly algorithm (FA), that has been showing good results in the solution of nonlinear global optimization problems. Yang (2012, \cite{Yang2012}) presents a theoretical analysis on swarm intelligence having as study cases the firefly algorithm and particle swarm optimization (PSO). Yang (2013, \cite{Yang2013}) introduce the FA approaching parameter settings, complexity and applications in a didactic way with examples, at the end he draws a conclusion showing a growing application of the method in scientific articles and foreseeing an expansion in the subject and the improvement of such metaheuristic. Additionally, Yang (2009, \cite{Yang2009}) compares the FA against the PSO running simulations in a variety of objective function and concludes affirming the superiority of the FA over the PSO and that it is potentially more powerful in solving NP-Hard problems.
 
 \chapter{Theoretical Basis}
 \section{Graph Theory}
@@ -208,6 +235,10 @@
 \chapter{Argumentation}
 \section{Integer Linear Programming Formulation}
 \section{Firefly Metaheuristic Modeling}
+This section aims to explain the design of the Firefly Metaheuristic applyed to the hier treated problem. This approach consists of viewing the solutions for the DARP as vectors in a multidimensional space. These solutions are represented by the fireflies, which can movement themselves in the search space by changing the components of the vector. There is a function with takes a vector as input and gives a real number that indicate how bright the firefly is, that is to say, how good the solution is.
+
+The challenge is to fit the problem in this model, so that it can be computed in a effective and efficient way. This includes defining the vector of a solution, the brightness function, distance and movements in the space, the parameters, the randomness and the evolution of the optimization process.
+
 \subsection{Vector Representation of the Solution}
 In this model any solution can be represented through a natural number vector. This vector is an element of the search space. In order to understand its construction it is possible to split it into two parts. The first has always one component which describe the assignment of requests to buses. The second part has as many components as there are buses and each one represents a cycle in the requests graph, it means, the route that the bus executes in the solution. So a solution $S \in \mathbb{N} \times \underbrace{\mathbb{N}}_{k-times}$ for $k$ buses.
 
@@ -344,7 +375,6 @@ $$ \alpha_t = \alpha_{t-1} \cdot \delta, (0 < \delta < 1),$$ where $\alpha_0$ is
 At last, it is wanted a integer number for the stochastic term, as the search space is discrete. In order to achieve that, rounding is performed, proper concerns about numerical errors should be taken in the implementation, so that they are reduced at most.
 
 \subsection{Movement in the Discrete Space}
-
 The movement of a firefly $i$ towards $j$ is determined by $$\mathbf{x^{t+1}_i} = \mathbf{x^{t}_i} + \beta(d(\mathbf{x^{t}_i}, \mathbf{x^{t}_j})) \cdot (\mathbf{x^{t}_j} - \mathbf{x^{t}_i}) + RandomTerm(t)$$
 As the fireflies move in a discrete vector space, the terms of the sum should be also integer number. Since $\beta$ is less or equal than one and its image is the set of the real numbers, the equation can be modified, by turning the multiplication into a division by the inverse function and by rounding the result of the function $\beta$, or rather, implementing it, so that its image is the set of the natural numbers.
 $$\mathbf{x^{t+1}_i} = \mathbf{x^{t}_i} +  \lfloor \frac{(\mathbf{x^{t}_j} - \mathbf{x^{t}_i})}{\beta^{-1}(d(\mathbf{x^{t}_i}, \mathbf{x^{t}_j}))} \rfloor + RandomTerm(t)$$
@@ -352,25 +382,25 @@ $$\mathbf{x^{t+1}_i} = \mathbf{x^{t}_i} +  \lfloor \frac{(\mathbf{x^{t}_j} - \ma
 AND WHEN IT IS OUT OF DOMAIN? WHAT TO MAKE?
 
 \subsection{Intensity Function}
+The intensity function models the brightness of a firefly and should be directly proportional to the utility function of the problem to be maximized. However, the problem's goal is to minimize the operation costs, and in the Firefly Algorithm it is not enough utilizing the negative costs function instead, since the intensity function is by definition non-negative.
 
-EXPLAIN!
+Nevertheless, the costs function has an lowest possible value, that can be estimated. Here it is proposed to sum the $v$ most distance vertices in the requests graph, so that $v$ is twice the number of requests, since every request has two correspondent vertices, one for getting in and one for getting out. Once this value is calculated, the costs of a given solution can be subtracted from it, in order to obtain an utility function. The process is equivalent to translating the function.
+
+Let $m$ be the mentioned superior limit for the costs, $f$ a function that tells in a binary matrix which edges are visited by a solution vector and $C$ the adjacency matrix of the requests graph with the costs between any one of them, then the intensity can be defined like in the following formula.
 
 $$I(\mathbf{x}) = \begin{cases} 0 & \text{if }\mathbf{x}\text{ does not meet the constraints}\\
-								m - \displaystyle\sum_{i=1}^{2n+1}\sum_{j=1}^{2n+1} ACM(\mathbf{x})_{i,j} \cdot C_{i,j} & \text{else}
+								m - \displaystyle\sum_{i=1}^{2n+1}\sum_{j=1}^{2n+1} f(\mathbf{x})_{i,j} \cdot C_{i,j} & \text{else}
 					\end{cases}$$
 
 \subsection{Initial Solution}
-
 A initial set of feasible solutions is calculated by simply generating random natural numbers in an interval to each component of the vector. Firstly, the first component is randomized, its range is $[0, k^n)$, where there are $n$ requests and $k$ buses. Secondly, the other components are randomized, their domain intervals are determined based on the distribution of requests to buses resulted from the first component randomization. So the first generation of fireflies can be efficiently created. [ARE THEY FEASIBLE WHEN THE BUSES HAVE LIMIT OF PASSENGERS? OR TIME CONSTRAINTS? NO!]
 
 \subsection{Parameters}
-
-The choice of the parameters is basically based on the work of \citep{Yang2013}. For that the scale $L$ of the problem is taken into consideration, it represents the size of the search space and is calculated by multiplying the sizes of the intervals, in which the intensity function is defined, of each dimension. The parameter gamma is then set $\gamma = 1/\sqrt{L}$. In order to have an broad exploration of the space it is set $\alpha_0 = 0.1$, the parameter is reduced along the optimization process. Lastly, it is set $\beta_0 = 1$, $\delta = 0.95$ and the number of fireflies 40.
+The choice of the parameters is basically based on the work of \citep{Yang2013}. For that the scale $L$ of the problem is taken into consideration, it represents the size of the search space and is calculated by multiplying the sizes of the intervals, in which the intensity function is defined, of each dimension. The parameter gamma is then set $\gamma = 1/\sqrt{L}$. In order to have an broad exploration of the space it is set $\alpha_0 = 0.1$, the parameter is reduced along the optimization process. Lastly, it is set $\beta_0 = 1$, $\delta = 0.95$ and the number of fireflies to 40.
 
 \subsection{Two-Phase Optimization}
 
 \subsection{Implementation}
-
 One of the main difficulties in implementing the algorithm is with the large that the numbers may have. To workaround the problem the programming language Python\footnote{\url{https://www.python.org/}} was chosen, since it has a native implementation of unlimited integers. Besides, the proposed model has a considerable quantity of matrix operations, therefore, the libraries NumPy\footnote{\url{http://www.numpy.org/}} and Scipy\footnote{\url{http://www.scipy.org/}} were used for that purpose. For drawing the graphs the was adopted library Matplotlib\footnote{\url{http://matplotlib.org/}}, which has a easy-to-use interface for the programmer.
 
 Care by the numerical operations and data type had to be specially taken to ensure no capacity overflows and a controlled numerical error at a lowest level.
