@@ -24,16 +24,15 @@ Solution.initializeClass()
 
 # Estimate superior limit for the Utility function
 Solution.determineWorstCost()
-
 # Define Parameters
 #alpha = numpy.zeros(1+B, dtype=int)
-alpha = (B**R) // 10
+alpha = numpy.array([(B**R) // 10, 6679735362203904000000 // 10], dtype=object)
 #alpha = 681080400 // 10
 alphaDivisor = 10
 #gamma = 1/math.sqrt(B**R)
-gammaDenominator = int(round(((B**R)*(681080400**2)) ** (1/2)))
+gammaDenominator = int(round(((B**R)*6679735362203904000000) ** (1/2)))
 beta0 = 1
-maxGeneration = 500
+maxGeneration = 1000
 numFireflies = 40
 
 # Instanciate Solver
@@ -108,6 +107,12 @@ if FireflyAlgorithm.registerEvolution:
     data = FireflyAlgorithm.evolutionLog['attractMean']
     plt.xlabel('Iteration')
     plt.ylabel('Mean of the Attraction')
+    plt.plot(data)
+
+    plt.figure()
+    data = FireflyAlgorithm.evolutionLog['alpha']
+    plt.xlabel('Iteration')
+    plt.ylabel('Alpha')
     plt.plot(data)
 
     style = ['-og','-ob','-oy']

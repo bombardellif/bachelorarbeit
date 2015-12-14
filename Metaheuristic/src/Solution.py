@@ -204,23 +204,29 @@ class Solution:
 
     # Randomize methods
     @staticmethod
-    def createFromRandomVector(vector, alphaDivisor, randomVector):
+    def createFromRandomVector(vector, alphaDivisor, randomVector, alphaStage):
         if alphaDivisor is None:
             new = Solution(vector + numpy.rint(randomVector).astype(int))
         else:
             # Calculate new requests component
             newVector = numpy.zeros(vector.shape, dtype=object)
-            newVector[:1] = vector[:1] \
-                + (Solution.sizeDomainRequestComponent * (alphaDivisor.numerator * int(round(randomVector[0] * Solution.randomPrecisionMult)))) \
-                    // (alphaDivisor.denominator * Solution.randomPrecisionMult)
+            if alphaStage == 0:
+                newVector[0] = vector[0] \
+                    + (Solution.sizeDomainRequestComponent * (alphaDivisor.numerator * int(round(randomVector[0] * Solution.randomPrecisionMult)))) \
+                        // (alphaDivisor.denominator * Solution.randomPrecisionMult)
+            else:
+                newVector[0] = vector[0] + int(round(randomVector[0]))
 
             candidate = Solution(newVector)
 
             # Set the rest of the vector if the first component is valid
             if candidate.isInsideDomain():
-                newVector[1:] = vector[1:] \
-                    + (candidate.getSizeDomainEachBus() * (alphaDivisor.numerator * numpy.rint(randomVector[1:] * Solution.randomPrecisionMult).astype(int).astype(object))) \
-                        // (alphaDivisor.denominator * Solution.randomPrecisionMult)
+                if alphaStage == 0:
+                    vector[1:] = vector[1:] + numpy.rint(randomVector[1:]).astype(int)
+                else:
+                    newVector[1:] = vector[1:] \
+                        + (candidate.getSizeDomainEachBus() * (alphaDivisor.numerator * numpy.rint(randomVector[1:] * Solution.randomPrecisionMult).astype(int).astype(object))) \
+                            // (alphaDivisor.denominator * Solution.randomPrecisionMult)
             else:
                 newVector[1:] = vector[1:]
             new = Solution(newVector)

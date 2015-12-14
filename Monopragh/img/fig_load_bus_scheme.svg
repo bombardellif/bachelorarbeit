@@ -1,0 +1,576 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:latexdraw="http://latexdraw.sourceforge.net/namespaces/latexdraw"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="svg2"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="fig_load_bus_scheme.svg"
+   width="40mm"
+   height="60mm">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1366"
+     inkscape:window-height="702"
+     id="namedview112"
+     showgrid="false"
+     units="mm"
+     height="60mm"
+     inkscape:zoom="3.6142857"
+     inkscape:cx="73.5"
+     inkscape:cy="84"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g4" />
+  <g
+     id="g4"
+     transform="matrix(0.74579532,0,0,0.74579532,-2.385476,14.502595)">
+    <g
+       latexdraw:type="text"
+       id="id1458062594"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="translate(-50.489712,-37.718087)">
+      <text
+         x="60"
+         y="40"
+         id="text7"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:21.78882027px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold'">0</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id434203386"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="translate(-49.448722,-37.197592)">
+      <text
+         x="140"
+         y="200"
+         id="text10">
+        <tspan
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:21.78882027px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold'"
+           id="tspan3440">2</tspan>
+      </text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id143592426"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="translate(-50.489712,-37.197592)">
+      <text
+         x="60"
+         y="120"
+         id="text13"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:21.78882027px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold'">0</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1333426371"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="translate(-48.407732,-39.279572)">
+      <text
+         x="60"
+         y="200"
+         id="text16"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:21.78882027px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold'">0</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1774353302"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="translate(-49.969217,-37.197592)">
+      <text
+         x="100"
+         y="80"
+         id="text19"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:21.78882027px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold'">1</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id325329592"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="translate(-48.928227,-37.197592)">
+      <text
+         x="140"
+         y="120"
+         id="text22">
+        <tspan
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:21.78882027px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold'"
+           id="tspan3469">2</tspan>
+      </text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1715528813"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="translate(-48.407732,-36.156602)">
+      <text
+         x="180"
+         y="160"
+         id="text25">
+        <tspan
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:21.78882027px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold'"
+           id="tspan3448">3</tspan>
+      </text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1251634376"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="translate(-50.489712,-39.279572)">
+      <text
+         x="100"
+         y="160"
+         id="text28"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold'">
+        <tspan
+           style="font-size:21.78882027px"
+           id="tspan3446">1</tspan>
+      </text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id2003167251"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="translate(-49.448722,-38.759077)">
+      <text
+         x="100"
+         y="240"
+         id="text31">
+        <tspan
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:21.78882027px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold'"
+           id="tspan3442">1</tspan>
+      </text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id768879735"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="translate(-46.846247,-38.238582)">
+      <text
+         x="60"
+         y="280"
+         id="text34">
+        <tspan
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:21.78882027px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold'"
+           id="tspan3444">0</tspan>
+      </text>
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id1855415508"
+       transform="translate(-53.005721,-35.819213)">
+      <polyline
+         points="80.0,40.0 100.0,60.0 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline37"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id19003448"
+       transform="translate(-51.473058,-33.457488)">
+      <polyline
+         points="100.0,80.0 80.0,100.0 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline40"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id1891432504"
+       transform="translate(-52.30212,-33.737233)">
+      <polyline
+         points="120.0,80.0 120.0,80.0 140.0,100.0 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline43"
+         style="fill:none;stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id2143726487"
+       transform="translate(-51.781625,-32.20457)">
+      <polyline
+         points="160.0,120.0 180.0,140.0 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline46"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id1039167383"
+       transform="translate(-46.325752,-40.320562)">
+      <polyline
+         points="180.0,160.0 160.0,180.0 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline49"
+         style="stroke:#000000;stroke-width:2"
+         transform="translate(-5.1473058,6.8630744)" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id651751735"
+       transform="translate(-51.473058,-34.315372)">
+      <polyline
+         points="140.0,200.0 120.0,220.0 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline52"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id718415313"
+       transform="translate(-51.473058,-34.315372)">
+      <polyline
+         points="100.0,240.0 80.0,260.0 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline55"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id178834088"
+       transform="translate(-51.473058,-34.315372)">
+      <polyline
+         points="100.0,160.0 100.0,160.0 80.0,180.0 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline58"
+         style="fill:none;stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id40554719"
+       transform="translate(-51.473058,-33.457488)">
+      <polyline
+         points="140.0,120.0 120.0,140.0 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline61"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id471304833"
+       transform="translate(-55.762479,-34.315372)">
+      <polyline
+         points="80.0,120.0 100.0,140.0 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline64"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id410258129"
+       transform="translate(-46.325752,-40.320562)">
+      <polyline
+         points="120.0,160.0 140.0,180.0 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline67"
+         style="stroke:#000000;stroke-width:2"
+         transform="translate(-9.4367273,6.0051901)" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id1602401842"
+       transform="translate(-51.473058,-34.315372)">
+      <polyline
+         points="80.0,200.0 100.0,220.0 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline70"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id222746265"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="translate(-53.612682,-37.197592)">
+      <text
+         x="90.909088"
+         y="46.363636"
+         id="text73">3</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id162237943"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="translate(-55.174167,-37.718087)">
+      <text
+         x="130.90909"
+         y="86.36364"
+         id="text76">2</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1224549192"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="translate(-54.133177,-34.074622)">
+      <text
+         x="170.90909"
+         y="126.36364"
+         id="text79">1</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1513387839"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="translate(-51.010207,-33.554127)">
+      <text
+         x="80.909088"
+         y="86.36364"
+         id="text82">1</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id653670300"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="translate(-54.653672,-31.472147)">
+      <text
+         x="90.909088"
+         y="126.36364"
+         id="text85">2</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id364271146"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="translate(-54.653672,-32.513137)">
+      <text
+         x="130.90909"
+         y="166.36363"
+         id="text88">1</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id778299670"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="translate(-50.489712,-29.910662)">
+      <text
+         x="160.90909"
+         y="166.36363"
+         id="text91">3</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id2089686820"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="translate(-49.969217,-32.513137)">
+      <text
+         x="120.90909"
+         y="206.36363"
+         id="text94">2</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id848640405"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="translate(-49.969217,-34.595117)">
+      <text
+         x="80.909088"
+         y="246.36363"
+         id="text97">1</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id2070661543"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="translate(-51.010207,-33.033632)">
+      <text
+         x="80.909088"
+         y="166.36363"
+         id="text100">1</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1855412068"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="translate(-51.010207,-31.472147)">
+      <text
+         x="120.90909"
+         y="126.36364"
+         id="text103">2</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1053228339"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="translate(-52.571692,-35.115612)">
+      <text
+         x="90.909088"
+         y="206.36363"
+         id="text106">1</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id434203386-3"
+       latexdraw:position="bl"
+       style="fill:#666666"
+       transform="translate(-5.8271358,1.9773953)">
+      <text
+         x="140"
+         y="200"
+         id="text10-8"
+         style="fill:#666666">
+        <tspan
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:21.78882027px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#666666"
+           id="tspan3440-5">3</tspan>
+      </text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1715528813-7"
+       latexdraw:position="bl"
+       style="fill:#666666"
+       transform="translate(-5.8271358,4.0593754)">
+      <text
+         x="180"
+         y="160"
+         id="text25-1"
+         style="fill:#666666">
+        <tspan
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:21.78882027px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#666666"
+           id="tspan3448-4">4</tspan>
+      </text>
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id2143726487-6"
+       transform="translate(-7.6395407,6.9704252)"
+       style="fill:#808080;stroke:#666666">
+      <polyline
+         points="160.0,120.0 180.0,140.0 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline46-1"
+         style="fill:#808080;stroke:#666666;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id1039167383-7"
+       transform="translate(-2.1836707,-1.1455748)"
+       style="fill:#808080;stroke:#666666">
+      <polyline
+         points="180.0,160.0 160.0,180.0 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline49-6"
+         style="fill:#808080;stroke:#666666;stroke-width:2"
+         transform="translate(-5.1473058,6.8630744)" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id410258129-7"
+       transform="translate(-2.1836707,-1.1455748)"
+       style="fill:#808080;stroke:#666666">
+      <polyline
+         points="120.0,160.0 140.0,180.0 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline67-6"
+         style="fill:#808080;stroke:#666666;stroke-width:2"
+         transform="translate(-9.4367273,6.0051901)" />
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id434203386-39"
+       latexdraw:position="bl"
+       style="fill:#666666"
+       transform="translate(-48.789968,41.088111)">
+      <text
+         x="140"
+         y="200"
+         id="text10-1"
+         style="fill:#666666">
+        <tspan
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:21.78882027px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#666666"
+           id="tspan3440-1">2</tspan>
+      </text>
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id1039167383-7-9"
+       transform="translate(-42.697344,39.422006)"
+       style="fill:#808080;stroke:#666666">
+      <polyline
+         points="180.0,160.0 160.0,180.0 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline49-6-2"
+         style="fill:#808080;stroke:#666666;stroke-width:2"
+         transform="translate(-5.1473058,6.8630744)" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id410258129-7-7"
+       transform="translate(-42.697344,39.422006)"
+       style="fill:#808080;stroke:#666666">
+      <polyline
+         points="120.0,160.0 140.0,180.0 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline67-6-5"
+         style="fill:#808080;stroke:#666666;stroke-width:2"
+         transform="translate(-9.4367273,6.0051901)" />
+    </g>
+  </g>
+  <defs
+     id="defs108" />
+  <metadata
+     id="metadata110">
+    <latexdraw:metadata>
+      <latexdraw:latexIncludes />
+      <latexdraw:displayXScale>true</latexdraw:displayXScale>
+      <latexdraw:displayYScale>true</latexdraw:displayYScale>
+      <latexdraw:unit>CM</latexdraw:unit>
+      <latexdraw:zoom>1.65</latexdraw:zoom>
+      <latexdraw:magneticGridStyle>CUSTOMISED</latexdraw:magneticGridStyle>
+      <latexdraw:gridGap>10</latexdraw:gridGap>
+      <latexdraw:magneticGrid>true</latexdraw:magneticGrid>
+      <latexdraw:version>3.3.2</latexdraw:version>
+      <latexdraw:size>
+        <latexdraw:width>1366</latexdraw:width>
+        <latexdraw:height>741</latexdraw:height>
+      </latexdraw:size>
+      <latexdraw:position>
+        <latexdraw:x>0.0</latexdraw:x>
+        <latexdraw:y>27.0</latexdraw:y>
+      </latexdraw:position>
+    </latexdraw:metadata>
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>

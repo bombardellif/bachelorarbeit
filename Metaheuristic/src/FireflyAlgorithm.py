@@ -21,13 +21,16 @@ class FireflyAlgorithm:
         'distance': [],
         'movedDistance': [],
         'changesBecauseIntensity': [],
-        'attractMean': []
+        'attractMean': [],
+        'alpha': []
     }
 
     def __init__(self, dimension, alpha, alphaDivisor, gamma=1, gammaDenominator=None, beta0=1):
         self._dimension = dimension
         self._alpha = alpha
         self._alphaDivisor = fractions.Fraction(1, alphaDivisor)
+        self._alphaStage = 0
+        self._currentAlphaDivisor = self._alphaDivisor
         if gammaDenominator is None:
             self._gamma = fractions.Fraction(gamma)
         else:
@@ -35,7 +38,7 @@ class FireflyAlgorithm:
         self._beta0 = beta0
 
     @staticmethod
-    def logState(fireflies, theBest, movedDistance, changesBecauseIntensity, attractMean):
+    def logState(fireflies, theBest, movedDistance, changesBecauseIntensity, attractMean, alpha):
         vectors = [ff.getVectorRep() for ff in fireflies]
         intensityVec = [ff.intensity() for ff in fireflies]
         FireflyAlgorithm.evolutionLog['vectors'].append(vectors)
@@ -46,6 +49,7 @@ class FireflyAlgorithm:
         FireflyAlgorithm.evolutionLog['movedDistance'].append(movedDistance)
         FireflyAlgorithm.evolutionLog['changesBecauseIntensity'].append(changesBecauseIntensity)
         FireflyAlgorithm.evolutionLog['attractMean'].append(attractMean)
+        FireflyAlgorithm.evolutionLog['alpha'].append(alpha)
 
         #FireflyAlgorithm.visualize(numpy.array(vectors))
 
@@ -88,14 +92,18 @@ class FireflyAlgorithm:
 
         # Single alpha for every component of the vector:
         return Solution.createFromRandomVector(x1 + (diff // attractInv),
-            self._alphaDivisor,
-            numpy.random.normal(size=self._dimension))
+            self._currentAlphaDivisor,
+            numpy.random.normal(size=self._dimension),
+            self._alphaStage)
 
     def moveRandom(self, x):
         # Single alpha for every component of the vector:
         #return x + numpy.rint(self.randomTerm()).astype(int)
         # Alpha that varies to each component of the vector:
-        return Solution.createFromRandomVector(x, self._alphaDivisor, numpy.random.normal(size=self._dimension))
+        return Solution.createFromRandomVector(x,
+            self._currentAlphaDivisor,
+            numpy.random.normal(size=self._dimension),
+            self._alphaStage)
 
     def run(self, maxGeneration, numFireflies):
         fireflies = [Solution().randomize() for i in range(numFireflies)]
@@ -104,6 +112,8 @@ class FireflyAlgorithm:
         plt.ion()
         plt.show()
         '''
+
+        currentAlpha = self._alpha[0]
 
         movedDistance = 0
         changesBecauseIntensity = 0
@@ -114,7 +124,7 @@ class FireflyAlgorithm:
         for t in range(maxGeneration):
             # Register the state
             if FireflyAlgorithm.registerEvolution:
-                FireflyAlgorithm.logState(sortedFireflies, theBest, movedDistance, changesBecauseIntensity, attractAcc)
+                FireflyAlgorithm.logState(sortedFireflies, theBest, movedDistance, changesBecauseIntensity, attractAcc, currentAlpha)
                 movedDistance = 0
                 changesBecauseIntensity = 0
                 attractAcc = 0
@@ -158,17 +168,24 @@ class FireflyAlgorithm:
                 if self._beta0 < 1:
                     self._beta0 = 1
             # Update alpha variable
-            if self._alpha > 1:
-                self._alpha *= 0.95
-                self._alphaDivisor = fractions.Fraction(self._alphaDivisor.numerator * 95,
-                                                    self._alphaDivisor.denominator * 100)
-                if self._alpha < 1:
-                    self.alpha = 1
-                    self._alphaDivisor = None
+            if currentAlpha > 1:
+                currentAlpha *= 0.95
+                # if alpha arrives to 1, change to next stage of alpha cooling
+                if currentAlpha < 1:
+                    if self._alphaStage < self._alpha.size-1:
+                        self._alphaStage += 1
+                        currentAlpha = self._alpha[self._alphaStage]
+                        self._currentAlphaDivisor = self._alphaDivisor
+                    else:
+                        currentAlpha = 1
+                        self._currentAlphaDivisor = None
+                else:
+                    self._currentAlphaDivisor = fractions.Fraction(self._currentAlphaDivisor.numerator * 95,
+                                                        self._currentAlphaDivisor.denominator * 100)
 
             sortedFireflies = sorted(fireflies, reverse=True)
             if sortedFireflies[0].intensity() > theBest.intensity():
                 theBest = sortedFireflies[0]
         # end optimization loop
-
+        print("ALPHA: "+str(currentAlpha))
         return sortedFireflies, theBest

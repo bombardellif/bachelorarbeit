@@ -41,6 +41,15 @@
 
 \usepackage[alf,abnt-emphasize=bf]{abntex2cite}	% pacote para usar citações abnt
 
+% Para algoritmos
+\usepackage{amsfonts}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+
+% Matemáticas
+\usepackage{amsmath}
+
 % 
 % Informações gerais
 % 
@@ -148,7 +157,7 @@
 % resumo na outra língua
 % como parametros devem ser passados o titulo e as palavras-chave
 % na outra língua, separadas por vírgulas
-\begin{englishabstract}{Lösung der Dial-a-Ride-Problem mit der Firefly Metaheuristik}{Electronic document preparation. \LaTeX. ABNT. UFRGS}
+\begin{englishabstract}{Lösung des Dial-a-Ride-Problems mit der Firefly Metaheuristik}{Electronic document preparation. \LaTeX. ABNT. UFRGS}
     This document is an example on how to prepare documents at II/UFRGS
     using the \LaTeX\ classes provided by the UTUG\@. At the same time, it
     may serve as a guide for general-purpose commands. \emph{The text in
@@ -164,11 +173,7 @@
 % lista de abreviaturas e siglas
 % o parametro deve ser a abreviatura mais longa
 \begin{listofabbrv}{SPMD}
-    \item[SMP] Symmetric Multi-Processor
-    \item[NUMA] Non-Uniform Memory Access
-    \item[SIMD] Single Instruction Multiple Data
-    \item[SPMD] Single Program Multiple Data
-    \item[ABNT] Associação Brasileira de Normas Técnicas
+    \item[FA] Firefly Algorithm
 \end{listofabbrv}
 
 % idem para a lista de símbolos
@@ -183,142 +188,206 @@
 % aqui comeca o texto propriamente dito
 
 % introducao
-\chapter{Introdução}
-No início dos tempos, Donald E. Knuth criou o \TeX. Algum tempo depois, Leslie Lamport criou o \LaTeX. Graças a eles, não somos obrigados a usar o Word nem o LibreOffice.
+\chapter{Introduction}
+\section{Definition}
+\section{Justification}
+\section{Approach}
 
-\section{Figuras e tabelas}
+\chapter{Literature Review}
 
-Esta seção faz referência às Figuras~\ref{fig:estrutura},~\ref{fig:ex1} e~\ref{fig:ex2}, a título de exemplo. A primeira figura apresenta a estrutura de uma figura. A \emph{descrição} deve aparecer \textbf{acima} da figura. Abaixo da figura, deve ser indicado a origem da imagem, mesmo se essa for apenas os autores do texto.
+\chapter{Theoretical Basis}
+\section{Graph Theory}
+- Cycle
+- Full tree
+\section{Computational Complexity}
+\subsection{Travelling Salesman Problem}
+\section{Mathematical Optimization}
+\section{Metaheuristics}
+\section{The Firefly Metaheuristic}
 
-A Figura~\ref{fig:ex1} representa o caso mais comum, onde a figura propriamente dita é importada de um arquivo ( neste exemplo o formato é \texttt{eps} ou \texttt{pdf}. Veja a seção \ref{sec:fig_format}). A Figura~\ref{fig:ex2} exemplifica o uso do environment \texttt{picture}, para desenhar usando o próprio~\LaTeX.
+\chapter{Argumentation}
+\section{Integer Linear Programming Formulation}
+\section{Firefly Metaheuristic Modeling}
+\subsection{Vector Representation of the Solution}
+In this model any solution can be represented through a natural number vector. This vector is an element of the search space. In order to understand its construction it is possible to split it into two parts. The first has always one component which describe the assignment of requests to buses. The second part has as many components as there are buses and each one represents a cycle in the requests graph, it means, the route that the bus executes in the solution. So a solution $S \in \mathbb{N} \times \underbrace{\mathbb{N}}_{k-times}$ for $k$ buses.
 
-\begin{figure}[h]
-    \caption{Descrição da Figura deve ir no topo}
+\subsubsection{Modeling the Assignment of Requests to Buses}
+The delegation of $n$ requests to $k$ buses can be represented by an n-tuple, in which each element varies from $0$ to $k-1$. Therefore, the number of possible combinations is $k^{n}$. The arrangement of these tuples can be structured in a full tree with a height of $n$, where every non-leaf node has $k$ children. So the leafs can be enumerated from $0$ to $k^{n}$, which is the total number of combinations. Thus every walk on the tree yields a possible assignment request-bus and every possibility can be yielded by a unique walk. Hence this enumeration is used in the representation of the solution.
+
+Therefore, the process of transforming the component of the solution vector into a tuple describing the delegation of the requests to buses can be described by a bijective function described by a simple algorithm:
+
+\begin{algorithmic}
+\Function{Transform Component into Assignment Request-Bus}{$x$}
+\State $a \gets x$
+\For{$i = 1 : n$}
+	\State $\displaystyle T_{i} \gets \lfloor \frac{a}{k^{n-i}} \rfloor$
+	\State $a \gets a \bmod k^{n-i}$
+\EndFor
+\State \Return $T$
+\EndFunction
+\end{algorithmic}
+
+\subsubsection{Modeling the Routes of the Buses}
+A similar analysis, as in the modeling of the previous section, can be done to the definition of the routes of the buses with the difference that in this case there is a permutation of the boarding and alighting nodes. Moreover, more constraints are applied to the numerical representation of a route, namely, that an alighting node of a given request cannot occur before the boarding of the same.
+
+The following figure illustrates the route tree of a bus which was assigned three requests. \textbf{EXPLAIN!!}
+
+\begin{figure}[H]
+    \caption{Route possibilities represented through a tree}
     \begin{center}
-        % Aqui vai um includegraphics , um picture environment ou qualquer
-        % outro comando necessário para incorporar o formato de imagem
-        % utilizado.        
-        \begin{picture}(100,100)
-            \put(0,0){\line(0,1){100}}
-            \put(0,0){\line(1,0){100}}
-            \put(100,100){\line(0,-1){100}}
-            \put(100,100){\line(-1,0){100}}
-            \put(10,50){Uma Imagem}
-        \end{picture}    
+        \includegraphics[scale=0.9]{fig_tree_bus_route}
     \end{center}
-    \label{fig:estrutura}
-    \legend{Fonte: Os Autores}
+    \label{fig:tree_bus_route}
 \end{figure}
 
-\begin{figure}
-    \caption{Exemplo de figura importada de um arquivo e também exemplo de caption muito grande que ocupa mais de uma linha na Lista~de~Figuras}
+Determining how the tree structure at each level is and how many leafs altogether there are depends on what the load of the bus in a given vertex is, it means, it depends on how many requests are being carried on and how many there are to pick up. The figure \ref{fig:load_bus_scheme} helps to explain the structure of the tree. In the illustration each knot represents the load of the bus in a depth of the tree, how further down it is greater is its respective depth. The edges under a knot tells, how many children with the following load are generated by each vertex with a given load.
+
+\begin{figure}[H]
+    \caption{Graph describing the structure of the routes tree}
     \begin{center}
-        \includegraphics[width=8em]{fig}
+        \includegraphics{fig_load_bus_scheme}
     \end{center}
-    \legend{Fonte: Os Autores}
-    \label{fig:ex1}
+    \label{fig:load_bus_scheme}
 \end{figure}
 
-% o `[h]' abaixo é um parâmetro opcional que sugere que o LaTeX coloque a
-% figura exatamente neste ponto do texto. Somente preocupe-se com esse tipo
-% de formatação quando o texto estiver completamente pronto (uma frase a mais
-% pode fazer o LaTeX mudar completamente de idéia sobre onde colocar as
-% figuras e tabelas)
-% \begin{figure}[h]
-\begin{figure}
-    \caption{Exemplo de figura desenhada com o environment \texttt{picture}.}
-    \begin{center}
-        \setlength{\unitlength}{.1em}
-        \begin{picture}(100,100)
-            \put(20,20){\circle{20}}
-            \put(20,20){\small\makebox(0,0){a}}
-            \put(80,80){\circle{20}}
-            \put(80,80){\small\makebox(0,0){b}}
-            \put(28,28){\vector(1,1){44}}
-        \end{picture}
-    \end{center}
-    \legend{Fonte: Os Autores}
-    \label{fig:ex2}
-\end{figure}
+Nevertheless, in order to build a function that allows us to have a mapping from each walk to a natural number, thus enumerating all the possible routes of a bus, is necessary to know, given a depth in the tree how many leafs are under each vertex of this depth. Once this information is available, the transformation function can be computed in a very efficient way.
 
-Tabelas são construídas com praticamente os mesmos comandos. Ver a tabela \ref{tbl:ex1}.
+From the graph illustrated in the figure \ref{fig:load_bus_scheme} it is possible to extract two matrices to represent the structure by denoting the numbers on the edges that leave a knot on the right and on the left in the matrix $Q_{in}$ and $Q_{out}$ respectively. Each column of the matrix $Q_{in}$ has the quantity of children with a larger load to be created by each vertex with a given load, the matrix $Q_{out}$ is analogously constructed, with the difference that it carries the quantity of children with a lower load in the next stage. In addition, each row corresponds then to a load of the bus, beginning from $0$ in the first row to $n$ in the last row, be $n$ the number of requests. Note that, for the generalization it is assumed that a bus can at a moment be carrying all the requests to him assigned. Further constraints should be checked in a future procedure, in order to decide whether a route is feasible according to the input. Knowing that there are $n$ requests implies that there are $2n$ columns, since every request must be picked up and delivered. The mentioned matrices for the figure \ref{fig:load_bus_scheme} are as follows represented.
 
-\begin{table}[h]
-    \caption{Uma tabela de Exemplo}
-    % OBS: não use \begin{center}, pois este aumenta o espaçamento entre a caption/legend e a tabela
-    % Para figuras, a aparência é melhor com o espaçamento extra
-    \centering
-        \begin{tabular}{c|c|p{5cm}}
-          \hline
-          \textit{Col 1}  &   \textit{Col 2}  &   \textit{Col 3} \\
-          \hline
-          \hline
-          Val 1           &   Val 2           & Esta coluna funciona como um parágrafo, tendo uma margem definida em 5cm. Quebras de linha funcionam como em qualquer parágrafo do tex. \\
-          Valor Longo     & Val 2             & Val 3 \\
-          \hline
-        \end{tabular}
-    \legend{Fonte: Os Autores}
-    \label{tbl:ex1}
-\end{table}
+$$
+Q_{in} = 
+\begin{bmatrix}
+3 & 0 & 2 & 0 & 1 & 0\\
+0 & 2 & 0 & 1 & 0 & 0\\
+0 & 0 & 1 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 0
+\end{bmatrix}
+,
+Q_{out} = 
+\begin{bmatrix}
+0 & 0 & 0 & 0 & 0 & 0\\
+0 & 1 & 0 & 1 & 0 & 1\\
+0 & 0 & 2 & 0 & 2 & 0\\
+0 & 0 & 0 & 3 & 0 & 0
+\end{bmatrix}
+$$
 
-\subsection{Formato de Figuras}
-\label{sec:fig_format}
+An iterative algorithm with these two matrices as input yields a new matrix, which shows, for each depth of the above shown routes tree, the number of vertices for each bus load.
 
-O LaTeX permite utilizar vários formatos de figuras, entre eles \emph{eps}, \emph{pdf}, \emph{jpeg} e \emph{png}. Programas de diagramação como Inkscape (e mesmo LibreOffice) permitem gerar arquivos de imagens vetoriais que podem ser utilizados pelo LaTeX sem dificuldade. Pacotes externos permitem utilizar SVG e outros formatos.
+\begin{algorithmic}
+\Function{Generate Matrix of Knots Per Load and Depth}{$Q^{in}, Q^{out}$}
+\State Let $n$ be the the number of requests and $\odot$ the element-wise multiplication
+\State $\displaystyle Q_{2n+1} \gets \begin{bmatrix}1\\ 0 \\ \vdots \\0 \end{bmatrix}$
+\For{$i = 2n : 1$}
+	\State $\displaystyle Q_{i} \gets Q^{in}_{i} \odot \begin{bmatrix}Q_{i+1,1..n-1} \\ 0\end{bmatrix}
+	+ Q^{out}_{i} \odot \begin{bmatrix}0\\ Q_{i+1,2..n}\end{bmatrix}$
+\EndFor
+\State \Return $Q$
+\EndFunction
+\end{algorithmic}
 
-Dia e xfig são programas utilizados por dinossauros para gerar figuras vetoriais. Se possível, evite-os.
+The result of applying the function for the shown matrices $Q_{in}$ and $Q_{out}$ is shown below. This provide additionally a new information about the size of the domain which the component of the vector find feasible values, namely in $Q_{1,1}$, since it tells the total number of leafs in the tree. It is useful for constraints check and for a fast creation of the initial generation of fireflies.
 
-\subsection{Classificação dos etc.}
+$$
+Q = 
+\begin{bmatrix}
+90 & 0 & 6 & 0 & 1 & 0 & 1\\
+0 & 30 & 0 & 3 & 0 & 1 & 0\\
+0 & 0 & 12 & 0 & 2 & 0 & 0\\
+0 & 0 & 0 & 6 & 0 & 0 & 0
+\end{bmatrix}
+$$
 
-O formato do instituo de informática define 5 níveis: capítulo, seção, subseção e outros 2 sem nome.
+With help of these three matrices and given a correspondent vector component value, the path of a bus can be computed by a transformation function. Below is shown a function that takes these arguments and delivers a path performed by a bus, where its elements do not represent the requests themselves, but the knots of the walk in the tree, which is relative to each bus. A mapping to the absolute requests can be trivially done, once the requests assigned to each bus are known.
 
-\subsubsection{Subsubseção}
-Exemplo de uma subsubseção.
+\begin{algorithmic}
+\Function{Transform component to a cycle in the graph}{$Q^{in}, Q^{out}, Q, x$}
+\State Let $n$ be the the number of requests of the bus
+\State $Path \gets [ ]$
+\State $row \gets 0$
+\State $pointer \gets 0$
+\For{$col = 1 : 2n$}
+	\State $\displaystyle ChildrenSizes = \begin{bmatrix}\underbrace{Q_{row-1,col+1}}_{Q^{out}_{row,col} times}
+			\\ \underbrace{Q_{row+1,col+1}}_{Q^{in}_{row,col} times}\end{bmatrix}$
+	\For{$child = 1 : Q^{in}_{row,col} + Q^{out}_{row,col}$}
+		\If{$x - pointer < ChildrenSizes_{child}$}
+			\If{$child < Q^{out}_{row,col}$}
+				\State $row \gets row - 1$
+			\Else
+				\State $row \gets row + 1$
+			\EndIf
+		\Else
+			\State $pointer \gets pointer + ChildrenSizes_{child}$
+		\EndIf
+	\EndFor
+	\State $Path_{col} \gets child$
+\EndFor
+\State \Return $Path$
+\EndFunction
+\end{algorithmic}
 
-\paragraph{Parágrafo}
-Exemplo de um parágrafo.
+\subsection{Distance}
+For reasons of efficiency of the implementation and numerical error the Manhattan distance can be used to approximate the distance between two vectors in the search space. The Manhattan distance can be described as follows:
 
-\section{Sobre as referências bibliográficas}
+$$d(\mathbf{p},\mathbf{q}) = \parallel \mathbf{p} - \mathbf{q} \parallel = \sum_{i=1}^{n} \mid \mathbf{p}_{i}-\mathbf{q}_{i} \mid$$
 
-A classe \emph{iiufrgs} faz uso do pacote \emph{abnTeX2} com algumas alterações
-feitas por Sandro Rama Fiorini. Culpe ele se algo der errado. Agradeça a ele
-pelo que der certo. As modificações dão uma camada de tinta NATBIB-style,
-já que o abntex2 usa uns comandos de citação feitos para alienígenas de 5 braços
-wtf. Exemplos de citação:
+\subsection{Attractiveness}
+As proposed by \citep{Yang_2010} the attractiveness is calculated with the following quotient, which varies with the squared distance between two vectors.
+$$\beta(r) = \frac{\beta_{0}}{1 + \gamma r^2}$$
+However, without loss of quality in the method, the attractiveness can be set to vary directly with the distance as the search space is too large and concerns with numerical errors play a important role. So the function is rewritten as follows.
+$$\beta(r) = \frac{\beta_{0}}{1 + \gamma r}$$
 
-\begin{itemize}
-    \item \emph{cite}: Unicórnios são verdes \cite{Adams2009Conceptual};
-    \item \emph{citep}:Unicórnios são verdes \citep{Adams2009Conceptual};
-    \item \emph{citet}: Segundo \citet{Adams2009Conceptual}, unicórnios são
-    verdes.
-    \item \emph{citen or citenum}: Segundo \citen{Adams2009Conceptual},
-    unicórnios são verdes.
-    \item \emph{citeauthor e citeyearpar}: Segundo artigos de
-    \citeauthor{Adams2009Conceptual} , unicórnios são verdes
-    \citeyearpar{Adams2009Conceptual}.
+\subsection{Randomization Term}
+The random term of the metaheuristic movement equation is by default $\alpha \cdot \epsilon$, where $\epsilon \sim N(0,1)$. Though, as stated by \citep{Yang_2010}, \emph{”it is a good idea to replace $\alpha$ by $\alpha S_k$ where the scaling parameters $S_k (k=1,...,d)$ in the $d$ dimensions should be determined by the actual scales of the problem of interest”}. As the size of each dimension are easily obtainable, they are used in this model. Moreover, \citep{Yang 2013} presents a iterative change of the alpha parameter, by turning it variable to the optimization evolution $t$. Thus, he introduces a new variable delta and that parameter is updated by the equation
+$$ \alpha_t = \alpha_{t-1} \cdot \delta, (0 < \delta < 1),$$ where $\alpha_0$ is the initial scaling factor. The author gives also an advice about setting delta: \emph{”$\delta$ is essentially a cooling factor. For most applications, we can use $\delta = 0.95$ to $0.97$”}.
 
-\end{itemize}
+At last, it is wanted a integer number for the stochastic term, as the search space is discrete. In order to achieve that, rounding is performed, proper concerns about numerical errors should be taken in the implementation, so that they are reduced at most.
 
-O estilo abnt fornecido antigamente pelo UTUG não é mais recomendado, pois não
-produz saída de acordo com as exigências da biblioteca.
+\subsection{Movement in the Discrete Space}
 
-Recomenda-se o uso de bibtex para gerenciar as referências (veja o arquivo
-biblio.bib).
+The movement of a firefly $i$ towards $j$ is determined by $$\mathbf{x^{t+1}_i} = \mathbf{x^{t}_i} + \beta(d(\mathbf{x^{t}_i}, \mathbf{x^{t}_j})) \cdot (\mathbf{x^{t}_j} - \mathbf{x^{t}_i}) + RandomTerm(t)$$
+As the fireflies move in a discrete vector space, the terms of the sum should be also integer number. Since $\beta$ is less or equal than one and its image is the set of the real numbers, the equation can be modified, by turning the multiplication into a division by the inverse function and by rounding the result of the function $\beta$, or rather, implementing it, so that its image is the set of the natural numbers.
+$$\mathbf{x^{t+1}_i} = \mathbf{x^{t}_i} +  \lfloor \frac{(\mathbf{x^{t}_j} - \mathbf{x^{t}_i})}{\beta^{-1}(d(\mathbf{x^{t}_i}, \mathbf{x^{t}_j}))} \rfloor + RandomTerm(t)$$
 
-\section{Mais uma Seção}
+AND WHEN IT IS OUT OF DOMAIN? WHAT TO MAKE?
 
-Agora vamos fazer várias seções para termos valores de 2 dígitos no \contentsname.
+\subsection{Intensity Function}
 
-\section{Mais uma Seção}
-\section{Mais uma Seção}
-\section{Mais uma Seção}
-\section{Mais uma Seção}
-\section{Mais uma Seção}
-\section{Mais uma Seção}
-\section{Mais uma Seção}
-\section{Mais uma Seção}
-\section{Mais uma Seção}
+EXPLAIN!
 
+$$I(\mathbf{x}) = \begin{cases} 0 & \text{if }\mathbf{x}\text{ does not meet the constraints}\\
+								m - \displaystyle\sum_{i=1}^{2n+1}\sum_{j=1}^{2n+1} ACM(\mathbf{x})_{i,j} \cdot C_{i,j} & \text{else}
+					\end{cases}$$
+
+\subsection{Initial Solution}
+
+A initial set of feasible solutions is calculated by simply generating random natural numbers in an interval to each component of the vector. Firstly, the first component is randomized, its range is $[0, k^n)$, where there are $n$ requests and $k$ buses. Secondly, the other components are randomized, their domain intervals are determined based on the distribution of requests to buses resulted from the first component randomization. So the first generation of fireflies can be efficiently created. [ARE THEY FEASIBLE WHEN THE BUSES HAVE LIMIT OF PASSENGERS? OR TIME CONSTRAINTS? NO!]
+
+\subsection{Parameters}
+
+The choice of the parameters is basically based on the work of \citep{Yang2013}. For that the scale $L$ of the problem is taken into consideration, it represents the size of the search space and is calculated by multiplying the sizes of the intervals, in which the intensity function is defined, of each dimension. The parameter gamma is then set $\gamma = 1/\sqrt{L}$. In order to have an broad exploration of the space it is set $\alpha_0 = 0.1$, the parameter is reduced along the optimization process. Lastly, it is set $\beta_0 = 1$, $\delta = 0.95$ and the number of fireflies 40.
+
+\subsection{Two-Phase Optimization}
+
+\subsection{Implementation}
+
+One of the main difficulties in implementing the algorithm is with the large that the numbers may have. To workaround the problem the programming language Python\footnote{\url{https://www.python.org/}} was chosen, since it has a native implementation of unlimited integers. Besides, the proposed model has a considerable quantity of matrix operations, therefore, the libraries NumPy\footnote{\url{http://www.numpy.org/}} and Scipy\footnote{\url{http://www.scipy.org/}} were used for that purpose. For drawing the graphs the was adopted library Matplotlib\footnote{\url{http://matplotlib.org/}}, which has a easy-to-use interface for the programmer.
+
+Care by the numerical operations and data type had to be specially taken to ensure no capacity overflows and a controlled numerical error at a lowest level.
+
+To obtain a better performance and the most recent implemented features it is required that the implementation program runs on the newest possible tool versions. Namely, it was developed on the versions 3.3 of Python, 1.10 of the NumPy, 0.16 of the SciPy and 1.3 of the Matplotlib.
+
+- Input (Manual,help)
+
+\chapter{Evaluation}
+- Method for evaluation
+- Experiments Setup
+- Dataset
+- Results
+- Comparison
+
+\chapter{Conclusion}
+- Further Research
 
 % e aqui vai a parte principal
 % 

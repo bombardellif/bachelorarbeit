@@ -1,0 +1,1278 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:latexdraw="http://latexdraw.sourceforge.net/namespaces/latexdraw"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="50mm"
+   viewBox="0 0 210 50"
+   id="svg4193"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="fig_tree_bus_route.svg">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     inkscape:document-units="mm"
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4514925"
+     inkscape:cx="378"
+     inkscape:cy="108"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1366"
+     inkscape:window-height="702"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata4">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-247)">
+    <g
+       latexdraw:type="text"
+       id="id140725164"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-1.5507554,242.4786)">
+      <text
+         x="528.69568"
+         y="40"
+         id="text3770">g</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id152273559"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-2.5382805,239.18685)">
+      <text
+         x="166.95653"
+         y="136.66667"
+         id="text3773">1+</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id308266822"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-2.5382805,239.18685)">
+      <text
+         x="528.69568"
+         y="136.66667"
+         id="text3776">2+</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1983852133"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-2.5382805,239.18685)">
+      <text
+         x="890.43475"
+         y="136.66667"
+         id="text3779">3+</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1241079030"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-2.8674555,236.71804)">
+      <text
+         x="65.217392"
+         y="233.33333"
+         id="text3782">1-</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1110391340"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-2.8674555,236.71804)">
+      <text
+         x="178.26086"
+         y="233.33333"
+         id="text3785">2+</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1797285920"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-2.8674555,236.71804)">
+      <text
+         x="291.30435"
+         y="233.33333"
+         id="text3788">3+</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1240506022"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-1.0569863,236.22428)">
+      <text
+         x="404.34784"
+         y="233.33333"
+         id="text3791">1+</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id670354032"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-2.8674555,236.71804)">
+      <text
+         x="528.69568"
+         y="233.33333"
+         id="text3794">2-</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1378970726"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-2.8674555,236.71804)">
+      <text
+         x="641.73914"
+         y="233.33333"
+         id="text3797">3+</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id455730701"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-2.8674555,236.71804)">
+      <text
+         x="788.69568"
+         y="233.33333"
+         id="text3800">1+</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id855717773"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-2.8674555,236.71804)">
+      <text
+         x="890.43475"
+         y="233.33333"
+         id="text3803">2+</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id290374196"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-0.72781434,236.71804)">
+      <text
+         x="992.17389"
+         y="233.33333"
+         id="text3806">3-</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id649754507"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,232.27417)">
+      <text
+         x="65.217392"
+         y="313.88889"
+         id="text3812">2+</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1474963553"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,232.27417)">
+      <text
+         x="99.130432"
+         y="313.88889"
+         id="text3815">3+</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id758933076"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,232.27417)">
+      <text
+         x="144.34782"
+         y="313.88889"
+         id="text3818">1-</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id355901358"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,232.27417)">
+      <text
+         x="178.26086"
+         y="313.88889"
+         id="text3821">2-</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id920130523"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,232.27417)">
+      <text
+         x="212.17392"
+         y="313.88889"
+         id="text3824">3+</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1714625576"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,232.27417)">
+      <text
+         x="257.3913"
+         y="313.88889"
+         id="text3827">1-</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1633681839"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,232.27417)">
+      <text
+         x="291.30435"
+         y="313.88889"
+         id="text3830">2+</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1356608846"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-1.8799274,232.27417)">
+      <text
+         x="325.21738"
+         y="313.88889"
+         id="text3833">3-</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id2100868732"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.0320415,232.27417)">
+      <text
+         x="381.73914"
+         y="313.88889"
+         id="text3836">1-</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id400330246"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.0320415,232.27417)">
+      <text
+         x="415.65216"
+         y="313.88889"
+         id="text3839">2-</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id183931169"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.0320415,232.27417)">
+      <text
+         x="449.56522"
+         y="313.88889"
+         id="text3842">3+</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id302466428"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.0320415,232.27417)">
+      <text
+         x="494.78262"
+         y="313.88889"
+         id="text3845">1+</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1990039264"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.0320415,232.27417)">
+      <text
+         x="528.69568"
+         y="313.88889"
+         id="text3848">2+</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id224657875"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.0320415,232.27417)">
+      <text
+         x="562.6087"
+         y="313.88889"
+         id="text3851">3+</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id2075422522"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.0320415,232.27417)">
+      <text
+         x="607.82611"
+         y="313.88889"
+         id="text3854">1+</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id13726242"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.0320415,232.27417)">
+      <text
+         x="641.73914"
+         y="313.88889"
+         id="text3857">2-</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1099936465"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.0320415,232.27417)">
+      <text
+         x="675.65216"
+         y="313.88889"
+         id="text3860">3-</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1512071562"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.0320415,232.27417)">
+      <text
+         x="743.47827"
+         y="313.88889"
+         id="text3863">1-</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1674312382"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.0320415,232.27417)">
+      <text
+         x="777.3913"
+         y="313.88889"
+         id="text3866">2+</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id835362609"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.0320415,232.27417)">
+      <text
+         x="811.30432"
+         y="313.88889"
+         id="text3869">3+</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1901306038"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.0320415,232.27417)">
+      <text
+         x="856.52173"
+         y="313.88889"
+         id="text3872">1+</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1764730732"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.0320415,232.27417)">
+      <text
+         x="890.43475"
+         y="313.88889"
+         id="text3875">2-</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id334042549"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.0320415,232.27417)">
+      <text
+         x="924.34784"
+         y="313.88889"
+         id="text3878">3+</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id88401655"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.0320415,232.27417)">
+      <text
+         x="969.56525"
+         y="313.88889"
+         id="text3881">1+</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id358404869"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.0320415,232.27417)">
+      <text
+         x="1003.4783"
+         y="313.88889"
+         id="text3884">2+</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1563370780"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.0320415,232.27417)">
+      <text
+         x="1037.3914"
+         y="313.88889"
+         id="text3887">3+</text>
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id641517929"
+       transform="matrix(0.17293721,0,0,0.17293721,-2.8674555,241.98484)">
+      <polyline
+         points="528.6956521739128,56.111111111111136 178.26086956521743,104.44444444444451 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3890"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id933822018"
+       transform="matrix(0.17293721,0,0,0.17293721,-2.8674555,241.98484)">
+      <polyline
+         points="539.9999999999999,56.111111111111136 539.9999999999999,104.44444444444451 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3893"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id1647351828"
+       transform="matrix(0.17293721,0,0,0.17293721,-2.8674555,241.98484)">
+      <polyline
+         points="551.3043478260869,56.111111111111136 901.7391304347826,104.44444444444451 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3896"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id1607867467"
+       transform="matrix(0.17293721,0,0,0.17293721,-2.5382805,239.18685)">
+      <polyline
+         points="76.52173913043484,201.11111111111114 166.95652173913038,152.77777777777771 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3899"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id507955773"
+       transform="matrix(0.17293721,0,0,0.17293721,-2.5382805,239.18685)">
+      <polyline
+         points="178.26086956521743,152.77777777777771 178.26086956521743,201.11111111111114 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3902"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id1836038911"
+       transform="matrix(0.17293721,0,0,0.17293721,-2.5382805,239.18685)">
+      <polyline
+         points="189.56521739130446,152.77777777777771 302.60869565217394,201.11111111111114 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3905"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id639365280"
+       transform="matrix(0.17293721,0,0,0.17293721,-2.5382805,239.18685)">
+      <polyline
+         points="528.6956521739128,152.77777777777771 404.34782608695656,201.11111111111114 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3908"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id1603603702"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.8549805,239.18685)">
+      <polyline
+         points="539.9999999999999,152.77777777777771 539.9999999999999,201.11111111111114 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3911"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id41388650"
+       transform="matrix(0.17293721,0,0,0.17293721,-4.8425065,239.02226)">
+      <polyline
+         points="551.3043478260869,152.77777777777771 653.0434782608696,201.11111111111114 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3914"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id1020552213"
+       transform="matrix(0.17293721,0,0,0.17293721,-2.5382805,239.18685)">
+      <polyline
+         points="890.4347826086957,152.77777777777771 788.6956521739136,201.11111111111114 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3917"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id1680692577"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.0320415,239.18685)">
+      <polyline
+         points="901.7391304347826,152.77777777777771 901.7391304347826,201.11111111111114 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3920"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id273198825"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.5258045,239.18685)">
+      <polyline
+         points="913.0434782608696,152.77777777777771 1003.4782608695651,201.11111111111114 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3923"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id351783482"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,234.90757)">
+      <polyline
+         points="65.21739130434779,249.44444444444468 31.304347826086932,281.6666666666668 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3926"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id273978831"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,234.90757)">
+      <polyline
+         points="76.52173913043484,249.44444444444468 76.52173913043484,281.6666666666668 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3929"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id918672776"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,234.90757)">
+      <polyline
+         points="87.82608695652179,249.44444444444468 110.43478260869553,281.6666666666668 110.43478260869553,281.6666666666668 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3932"
+         style="fill:none;stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id2109650176"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,234.90757)">
+      <polyline
+         points="178.26086956521743,249.44444444444468 144.34782608695645,281.6666666666668 144.34782608695645,281.6666666666668 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3935"
+         style="fill:none;stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id1947512925"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,234.90757)">
+      <polyline
+         points="189.56521739130446,249.44444444444468 189.56521739130446,281.6666666666668 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3938"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id1148319651"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,234.90757)">
+      <polyline
+         points="200.86956521739106,249.44444444444468 223.47826086956513,281.6666666666668 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3941"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id2091375477"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,234.90757)">
+      <polyline
+         points="268.6956521739129,281.6666666666668 291.30434782608705,249.44444444444468 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3944"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id905033885"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,234.90757)">
+      <polyline
+         points="302.60869565217394,249.44444444444468 302.60869565217394,281.6666666666668 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3947"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id918085080"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,234.90757)">
+      <polyline
+         points="313.9130434782608,249.44444444444468 336.5217391304348,281.6666666666668 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3950"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id1611561560"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,234.90757)">
+      <polyline
+         points="415.65217391304355,249.44444444444468 381.73913043478257,281.6666666666668 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3953"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id126595219"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,234.90757)">
+      <polyline
+         points="426.95652173913027,249.44444444444468 426.95652173913027,281.6666666666668 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3956"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id207789946"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,234.90757)">
+      <polyline
+         points="438.26086956521755,249.44444444444468 460.8695652173913,281.6666666666668 460.8695652173913,281.6666666666668 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3959"
+         style="fill:none;stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id1922487391"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,234.90757)">
+      <polyline
+         points="528.6956521739128,249.44444444444468 494.7826086956525,281.6666666666668 494.7826086956525,281.6666666666668 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3962"
+         style="fill:none;stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id311957226"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,234.90757)">
+      <polyline
+         points="539.9999999999999,249.44444444444468 539.9999999999999,281.6666666666668 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3965"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id1080866813"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,234.90757)">
+      <polyline
+         points="551.3043478260869,249.44444444444468 573.913043478261,281.6666666666668 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3968"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id1845490074"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,234.90757)">
+      <polyline
+         points="619.1304347826086,281.6666666666668 641.7391304347823,249.44444444444468 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3971"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id803434172"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,234.90757)">
+      <polyline
+         points="653.0434782608696,249.44444444444468 653.0434782608696,281.6666666666668 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3974"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id1940286237"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,234.90757)">
+      <polyline
+         points="664.3478260869567,249.44444444444468 686.9565217391305,281.6666666666668 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3977"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id2103690540"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,234.90757)">
+      <polyline
+         points="777.3913043478257,249.44444444444468 743.478260869565,281.6666666666668 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3980"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id1222568860"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,234.90757)">
+      <polyline
+         points="788.6956521739136,249.44444444444468 788.6956521739136,281.6666666666668 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3983"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id1497037199"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,234.90757)">
+      <polyline
+         points="799.9999999999999,249.44444444444468 822.6086956521743,281.6666666666668 822.6086956521743,281.6666666666668 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3986"
+         style="fill:none;stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id1985350784"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,234.90757)">
+      <polyline
+         points="890.4347826086957,249.44444444444468 856.5217391304351,281.6666666666668 856.5217391304351,281.6666666666668 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3989"
+         style="fill:none;stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id1751618666"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,234.90757)">
+      <polyline
+         points="901.7391304347826,249.44444444444468 901.7391304347826,281.6666666666668 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3992"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id2138729366"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,234.90757)">
+      <polyline
+         points="913.0434782608696,249.44444444444468 935.6521739130435,281.6666666666668 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3995"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id516418824"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,234.90757)">
+      <polyline
+         points="980.8695652173906,281.6666666666668 1003.4782608695651,249.44444444444468 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline3998"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id1856403093"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,234.90757)">
+      <polyline
+         points="1014.7826086956519,249.44444444444468 1014.7826086956519,281.6666666666668 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline4001"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id1622107225"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,234.90757)">
+      <polyline
+         points="1026.0869565217395,249.44444444444468 1048.695652173913,281.6666666666668 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline4004"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id1589632326"
+       transform="matrix(0.17293721,0,0,0.17293721,-1.7153394,236.05969)">
+      <polyline
+         points="1060.0,281.6666666666668 1026.0869565217395,330.0 1026.0869565217395,330.0 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline4010"
+         style="fill:none;stroke:#000000;stroke-width:2"
+         transform="translate(-6.6620311,-27.599843)" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id263961334"
+       transform="matrix(0.20194755,0,0,0.11923271,-18.862218,248.84223)">
+      <polyline
+         points="528.6956521739128,265.55555555555566 551.3043478260869,330.0 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline4013"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1314333397"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.8549805,232.27417)">
+      <text
+         x="34.265675"
+         y="365.32343"
+         id="text4016">2-</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1984433824"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.8549805,232.27417)">
+      <text
+         x="59.130436"
+         y="364.3717"
+         id="text4019">3+</text>
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id1958242058"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.8549805,232.27417)">
+      <polyline
+         points="66.23674321043035,317.8936084036927 40.2849959200048,351.5508360407521 "
+         latexdraw:rotationAngle="0.7860208122202151"
+         id="polyline4022"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id758785758"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.8549805,232.27417)">
+      <polyline
+         points="70.0,320.0 70.0,350.0 70.0,350.0 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline4025"
+         style="fill:none;stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1290515452"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.8549805,232.27417)">
+      <text
+         x="85.217392"
+         y="364.3717"
+         id="text4028">2+</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id259111992"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.8549805,232.27417)">
+      <text
+         x="106.27528"
+         y="365.32343"
+         id="text4031">3-</text>
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id1945897075"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.8549805,232.27417)">
+      <polyline
+         points="106.23674321043018,317.8936084036927 95.0,355.0 "
+         latexdraw:rotationAngle="0.7860208122202151"
+         id="polyline4034"
+         style="stroke:#000000;stroke-width:2"
+         transform="matrix(1.1570521,0,0,0.8700045,-16.754048,41.357273)" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id428974616"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.8549805,232.27417)">
+      <polyline
+         points="110.0,320.0 110.0,350.0 110.0,350.0 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline4037"
+         style="fill:none;stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1569726801"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.8549805,230.79289)">
+      <text
+         x="125.21739"
+         y="373.88889"
+         id="text4040">2-</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id843076472"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,230.6283)">
+      <text
+         x="144.13043"
+         y="373.88889"
+         id="text4043">3+</text>
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id489161998"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.8549805,232.27417)">
+      <polyline
+         points="146.23674321043035,317.8936084036927 135.0,350.0 "
+         latexdraw:rotationAngle="0.7860208122202151"
+         id="polyline4046"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id559659813"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.8549805,232.27417)">
+      <polyline
+         points="150.0,320.0 150.0,350.0 150.0,350.0 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline4049"
+         style="fill:none;stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id690366698"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.6903925,230.6283)">
+      <text
+         x="165.21739"
+         y="373.88889"
+         id="text4052">1-</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id993471526"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-4.8425065,230.46371)">
+      <text
+         x="189.13043"
+         y="373.88889"
+         id="text4055">3+</text>
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id590582057"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.8549805,232.27417)">
+      <polyline
+         points="186.23674321043018,317.8936084036927 175.0,355.0 "
+         latexdraw:rotationAngle="0.7860208122202151"
+         id="polyline4058"
+         style="stroke:#000000;stroke-width:2"
+         transform="matrix(1.08245,0,0,0.84536795,-15.367838,49.170303)" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id1062620714"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.8549805,232.27417)">
+      <polyline
+         points="190.0,320.0 190.0,350.0 190.0,350.0 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline4061"
+         style="fill:none;stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1778274035"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.8549805,230.46371)">
+      <text
+         x="295.21738"
+         y="373.88889"
+         id="text4064">2-</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id593399964"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.8549805,230.46371)">
+      <text
+         x="309.13043"
+         y="373.88889"
+         id="text4067">3-</text>
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id2123305382"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.8549805,232.27417)">
+      <polyline
+         points="300.0,320.0 300.0,350.0 300.0,350.0 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline4070"
+         style="fill:none;stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id611083877"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.8549805,230.46371)">
+      <text
+         x="340.21738"
+         y="373.88889"
+         id="text4073">1-</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1182255586"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.8549805,230.46371)">
+      <text
+         x="359.13043"
+         y="373.88889"
+         id="text4076">2+</text>
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id2096819814"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.8549805,232.27417)">
+      <polyline
+         points="340.0,320.0 340.0,350.0 340.0,350.0 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline4079"
+         style="fill:none;stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id678625630"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.8549805,232.27417)">
+      <polyline
+         points="345.0,320.0 360.0,350.0 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline4082"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id1629954091"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.8549805,232.27417)">
+      <polyline
+         points="315.0,350.0 305.0,320.0 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline4085"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id195197397"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.8549805,230.46371)">
+      <text
+         x="280.21738"
+         y="373.88889"
+         id="text4088">1+</text>
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id1694820526"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.8549805,232.27417)">
+      <polyline
+         points="285.0,350.0 295.0,320.0 295.0,320.0 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline4091"
+         style="fill:none;stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1206499758"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.1966295,230.29912)">
+      <text
+         x="240.21739"
+         y="373.88889"
+         id="text4094">1-</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1208142819"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.8549805,230.46371)">
+      <text
+         x="259.13043"
+         y="373.88889"
+         id="text4097">2+</text>
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id1489265301"
+       transform="matrix(0.17293721,0,0,0.16745097,-3.1143375,234.19436)">
+      <polyline
+         points="260.0,350.0 260.0,320.0 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline4100"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id1943852376"
+       transform="matrix(0.11516764,0,0,0.17409942,10.916586,231.88484)">
+      <polyline
+         points="245.0,350.0 255.0,320.0 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline4103"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1137306112"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-4.1841555,230.46371)">
+      <text
+         x="210.21739"
+         y="373.88889"
+         id="text4106">1-</text>
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id889453578"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.17293721,0,0,0.17293721,-4.8425065,230.46371)">
+      <text
+         x="229.13043"
+         y="373.88889"
+         id="text4109">2+</text>
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id412618679"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.8549805,232.27417)">
+      <polyline
+         points="215.0,320.0 230.0,350.0 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline4112"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id2004946034"
+       transform="matrix(0.17293721,0,0,0.17293721,-3.8549805,232.27417)">
+      <polyline
+         points="215.0,350.0 215.0,320.0 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline4115"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+    <g
+       latexdraw:type="text"
+       id="id1021536991-9"
+       latexdraw:position="bl"
+       style="fill:#000000"
+       transform="matrix(0.16934352,0,0,0.16934352,-2.5712045,233.36365)">
+      <text
+         x="20"
+         y="313.88889"
+         id="text3809-0">1+</text>
+    </g>
+    <g
+       latexdraw:type="joinedLines"
+       id="id1089953813-1"
+       transform="matrix(0.16934352,0,0,0.16934352,-2.5864485,231.85406)">
+      <polyline
+         points="20.0,281.6666666666668 42.608695652173864,330.0 "
+         latexdraw:rotationAngle="0.0"
+         id="polyline4007-6"
+         style="stroke:#000000;stroke-width:2" />
+    </g>
+  </g>
+</svg>
