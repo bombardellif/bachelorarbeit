@@ -399,9 +399,16 @@ A initial set of feasible solutions is calculated by simply generating random na
 The choice of the parameters is basically based on the work of \citep{Yang2013}. For that the scale $L$ of the problem is taken into consideration, it represents the size of the search space and is calculated by multiplying the sizes of the intervals, in which the intensity function is defined, of each dimension. The parameter gamma is then set $\gamma = 1/\sqrt{L}$. In order to have an broad exploration of the space it is set $\alpha_0 = 0.1$, the parameter is reduced along the optimization process. Lastly, it is set $\beta_0 = 1$, $\delta = 0.95$ and the number of fireflies to 40.
 
 \subsection{Two-Phase Optimization}
+It is to note in a regular problem instance that the distribution of requests to bus has a greater weight it the cost function. Empirical observations suggest that this distribution is roughly the most determinant factor in the calculation of the costs. For instance, the grouping requests that are geographically near tends to show better results regardless of the route. Yet, the route of each bus plays an important role in finding an optimal result.
+
+Moreover, as the contribution to the cost function by the vector components that describe the routes is strongly dependent on the distribution of requests to each bus, it makes no sense trying to optimize these components if this assignment varies strongly in the cost minimization procedure.
+
+On the basis of these observations, an optimization process with two phases is advised. In this schema, there is a first stage, where only the first vector component is optimized by moving the fireflies only in this dimension of the search space. In a second stage, the other components are optimized by anchoring the first component and allowing the movement of the fireflies in these other dimension.
+
+[PICTURE SHOWING PROGRESS OF THE ITERATIONS]
 
 \subsection{Implementation}
-One of the main difficulties in implementing the algorithm is with the large that the numbers may have. To workaround the problem the programming language Python\footnote{\url{https://www.python.org/}} was chosen, since it has a native implementation of unlimited integers. Besides, the proposed model has a considerable quantity of matrix operations, therefore, the libraries NumPy\footnote{\url{http://www.numpy.org/}} and Scipy\footnote{\url{http://www.scipy.org/}} were used for that purpose. For drawing the graphs the was adopted library Matplotlib\footnote{\url{http://matplotlib.org/}}, which has a easy-to-use interface for the programmer.
+One of the main difficulties in implementing the algorithm is with the large that the numbers may have. To workaround the problem the programming language Python\footnote{\url{https://www.python.org/}} was chosen, since it has a native implementation of unlimited integers. Besides, the proposed model has a considerable quantity of matrix operations, therefore, the libraries NumPy\footnote{\url{http://www.numpy.org/}} and Scipy\footnote{\url{http://www.scipy.org/}} were used for that purpose. For drawing the graphs the was adopted library Matplotlib\footnote{\url{http://matplotlib.org/}}, which has an easy-to-use interface for the programmer.
 
 Care by the numerical operations and data type had to be specially taken to ensure no capacity overflows and a controlled numerical error at a lowest level.
 
@@ -411,9 +418,13 @@ To obtain a better performance and the most recent implemented features it is re
 
 \chapter{Evaluation}
 - Method for evaluation
+
 - Experiments Setup
+
 - Dataset
+
 - Results
+
 - Comparison
 
 \chapter{Conclusion}
