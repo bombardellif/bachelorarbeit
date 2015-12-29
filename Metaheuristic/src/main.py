@@ -20,20 +20,23 @@ req.loadFromFile("../../Data/datasets-2015-11-06-aot-tuberlin/15.2-2015-11-06.cs
 Solution.requestGraph = req.adjacencyCostMatrix
 Solution.totalRequests = R
 Solution.totalBuses = B
+Solution.maxCapacity = 8
 Solution.initializeClass()
 
 # Estimate superior limit for the Utility function
 Solution.determineWorstCost()
+
 # Define Parameters
 #alpha = numpy.zeros(1+B, dtype=int)
-alpha = numpy.array([(B**R) // 10, 6679735362203904000000 // 10], dtype=object)
+sizeRoutesComponents = Solution.getChildrenSizeMatrixFor(R//B)[0,0] ** B
+alpha = numpy.array([(B**R) // 10, sizeRoutesComponents // 10], dtype=object)
 #alpha = 681080400 // 10
 alphaDivisor = 10
 #gamma = 1/math.sqrt(B**R)
-gammaDenominator = int(round(((B**R)*6679735362203904000000) ** (1/2)))
+gammaDenominator = int(round(((B**R) * sizeRoutesComponents) ** (1/2)))
 beta0 = 1
-maxGeneration = 1000
-numFireflies = 40
+maxGeneration = 500
+numFireflies = 20
 
 # Instanciate Solver
 FireflyAlgorithm.registerEvolution = True

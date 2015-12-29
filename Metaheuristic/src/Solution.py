@@ -13,6 +13,7 @@ class Solution:
     requestGraph = None
     totalRequests = None
     totalBuses = None
+    maxCapacity = None
 
     # Cache matrices
     alightMatrix = {}
@@ -222,7 +223,8 @@ class Solution:
             # Set the rest of the vector if the first component is valid
             if candidate.isInsideDomain():
                 if alphaStage == 0:
-                    vector[1:] = vector[1:] + numpy.rint(randomVector[1:]).astype(int)
+                    #newVector[1:] = vector[1:] + numpy.rint(randomVector[1:]).astype(int)
+                    newVector[1:] = 0
                 else:
                     newVector[1:] = vector[1:] \
                         + (candidate.getSizeDomainEachBus() * (alphaDivisor.numerator * numpy.rint(randomVector[1:] * Solution.randomPrecisionMult).astype(int).astype(object))) \
@@ -262,32 +264,27 @@ class Solution:
         return (self._requestComponent < Solution.sizeDomainRequestComponent).all()\
             and (self._requestComponent >= 0).all()\
             and (self._routesComponent < self.getSizeDomainEachBus()).all()\
-            and (self._routesComponent >= 0).all()
+            and (self._routesComponent >= 0).all()\
+            and (self.getNumRequestsEachBus() <= Solution.maxCapacity).all()
 
     def getSizeDomainEachBus(self):
         return [self.getChildrenSizeMatrixFor(nRequests)[0,0] for nRequests in self.getNumRequestsEachBus()]
 
     def assignComponentValues(self, newVector):
-        # Discretize the input vector
-        #newVector = numpy.rint(vector).astype(int)
-
         # Clip the requests domain [0,Size_Domain_Request_Permutation)
         numpy.clip(newVector[:1],
-            0, Solution.sizeDomainRequestComponent-1,
+            -1, Solution.sizeDomainRequestComponent,
             out=newVector[:1])
-
-        #self._requestComponent = newVector[:Solution.totalRequests].astype(int)
         self._requestComponent = newVector[:1]
-        #self._requestComponent[0] = 3306986
 
-        # Clip the routes domain [0,Size_Domain_For_Each_Bus)
-        # CHANGE: Don't clip anymore, isntead, these will have intensity=0
-        numpy.clip(newVector[1:],
-            0, numpy.array(self.getSizeDomainEachBus()) - 1,
-            out=newVector[1:])
+        if newVector[0] >= 0 and newVector[0] < Solution.sizeDomainRequestComponent:
+            # Clip the routes domain [0,Size_Domain_For_Each_Bus)
+            # CHANGE: Don't clip anymore, isntead, these will have intensity=0
+            numpy.clip(newVector[1:],
+                -1, self.getSizeDomainEachBus(),
+                out=newVector[1:])
 
         self._routesComponent = newVector[1:]
-        #self._routesComponent[:] = 0
 
         # Assign vector attribute
         self._vectorRep = newVector

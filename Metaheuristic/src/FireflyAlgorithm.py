@@ -130,37 +130,38 @@ class FireflyAlgorithm:
                 attractAcc = 0
 
             for i in range(0, numFireflies):
-                changed = False
-                for j in range(0, numFireflies):
-                    si = fireflies[i]
-                    siVector = si.getVectorRep()
-                    siIntensity = si.intensity()
+                if fireflies[i] is not theBest:
+                    changed = False
+                    for j in range(0, numFireflies):
+                        si = fireflies[i]
+                        siVector = si.getVectorRep()
+                        siIntensity = si.intensity()
 
-                    sj = fireflies[j]
-                    if si is not sj and sj.isInsideDomain():
-                        sjVector = sj.getVectorRep()
+                        sj = fireflies[j]
+                        if si is not sj and sj.isInsideDomain():
+                            sjVector = sj.getVectorRep()
 
-                        attractivenessInv = self.attractivenessInv(siVector, sjVector)
-                        if FireflyAlgorithm.registerEvolution:
-                            attractAcc += attractivenessInv
-
-                        if siIntensity == 0 or (self._beta0 * sj.intensity()) / attractivenessInv > siIntensity:
-                            fireflies[i] = self.moveTowards(siVector, sjVector, attractivenessInv)
-
-                            # Register total traveled distance
+                            attractivenessInv = self.attractivenessInv(siVector, sjVector)
                             if FireflyAlgorithm.registerEvolution:
-                                movedDistance += scipy.spatial.distance.pdist(numpy.vstack((siVector, fireflies[i].getVectorRep())))[0]
-                                changesBecauseIntensity += 1
+                                attractAcc += attractivenessInv
 
-                            changed = True
-                # If firefly didn't move, move it randomically
-                if not changed:
-                    siVector = fireflies[i].getVectorRep()
-                    fireflies[i] = self.moveRandom(siVector)
+                            if siIntensity == 0 or (self._beta0 * sj.intensity()) / attractivenessInv > siIntensity:
+                                fireflies[i] = self.moveTowards(siVector, sjVector, attractivenessInv)
 
-                    # Register total traveled distance
-                    if FireflyAlgorithm.registerEvolution:
-                        movedDistance += scipy.spatial.distance.pdist(numpy.vstack((siVector, fireflies[i].getVectorRep())))[0]
+                                # Register total traveled distance
+                                if FireflyAlgorithm.registerEvolution:
+                                    movedDistance += scipy.spatial.distance.pdist(numpy.vstack((siVector, fireflies[i].getVectorRep())))[0]
+                                    changesBecauseIntensity += 1
+
+                                changed = True
+                    # If firefly didn't move, move it randomly
+                    if not changed:
+                        siVector = fireflies[i].getVectorRep()
+                        fireflies[i] = self.moveRandom(siVector)
+
+                        # Register total traveled distance
+                        if FireflyAlgorithm.registerEvolution:
+                            movedDistance += scipy.spatial.distance.pdist(numpy.vstack((siVector, fireflies[i].getVectorRep())))[0]
 
             # Update beta0 variable
             if self._beta0 > 1:
