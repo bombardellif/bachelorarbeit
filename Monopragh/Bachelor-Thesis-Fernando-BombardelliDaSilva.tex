@@ -5,7 +5,7 @@
 % This is an example file and is hereby explicitly put in the
 % public domain.
 % 
-\documentclass[tuberlin,cic,tc,openright,english]{iiufrgs}
+\documentclass[tuberlin,cic,tc,openright,english,noabntcite]{iiufrgs}
 % Para usar o modelo, deve-se informar o programa e o tipo de documento.
 % Programas :
 % * cic       -- Graduação em Ciência da Computação
@@ -39,7 +39,10 @@
 % \usepackage{palatino}
 % \usepackage{mathptmx}       % p/ usar fonte Adobe Times nas fórmulas
 
-\usepackage[alf,abnt-emphasize=bf]{abntex2cite}	% pacote para usar citações abnt
+%\usepackage[alf,abnt-emphasize=bf]{abntex2cite}	% pacote para usar citações abnt
+\usepackage{csquotes}
+\usepackage[authordate,backend=biber,refsection=chapter]{biblatex-chicago}
+\addbibresource{biblio.bib}
 
 % Para algoritmos
 \usepackage{amsfonts}
@@ -62,7 +65,8 @@
 
 % orientador e co-orientador são opcionais (não diga isso pra eles :))
 \advisor[Dr.-Ing.]{Heßler}{Axel}
-\coadvisor[Prof. Dr. Dr. h.c.]{Albayrak}{Sahin}
+\reviewer[Prof. Dr. Dr. h.c.]{Albayrak}{Sahin}
+\reviewer[Prof. Dr. habil.]{Kao}{Odej}
 
 % a data deve ser a da defesa; se nao especificada, são gerados
 % mes e ano correntes
@@ -363,13 +367,13 @@ For reasons of efficiency of the implementation and numerical error the Manhatta
 $$d(\mathbf{p},\mathbf{q}) = \parallel \mathbf{p} - \mathbf{q} \parallel = \sum_{i=1}^{n} \mid \mathbf{p}_{i}-\mathbf{q}_{i} \mid$$
 
 \subsection{Attractiveness}
-As proposed by \citep{Yang_2010} the attractiveness is calculated with the following quotient, which varies with the squared distance between two vectors.
+As proposed by \autocite{Yang_2010} the attractiveness is calculated with the following quotient, which varies with the squared distance between two vectors.
 $$\beta(r) = \frac{\beta_{0}}{1 + \gamma r^2}$$
 However, without loss of quality in the method, the attractiveness can be set to vary directly with the distance as the search space is too large and concerns with numerical errors play a important role. So the function is rewritten as follows.
 $$\beta(r) = \frac{\beta_{0}}{1 + \gamma r}$$
 
 \subsection{Randomization Term}
-The random term of the metaheuristic movement equation is by default $\alpha \cdot \epsilon$, where $\epsilon \sim N(0,1)$. Though, as stated by \citep{Yang_2010}, \emph{”it is a good idea to replace $\alpha$ by $\alpha S_k$ where the scaling parameters $S_k (k=1,...,d)$ in the $d$ dimensions should be determined by the actual scales of the problem of interest”}. As the size of each dimension are easily obtainable, they are used in this model. Moreover, \citep{Yang 2013} presents a iterative change of the alpha parameter, by turning it variable to the optimization evolution $t$. Thus, he introduces a new variable delta and that parameter is updated by the equation
+The random term of the metaheuristic movement equation is by default $\alpha \cdot \epsilon$, where $\epsilon \sim N(0,1)$. Though, as stated by \autocite{Yang_2010}, \emph{”it is a good idea to replace $\alpha$ by $\alpha S_k$ where the scaling parameters $S_k (k=1,...,d)$ in the $d$ dimensions should be determined by the actual scales of the problem of interest”}. As the size of each dimension are easily obtainable, they are used in this model. Moreover, \autocite{Yang_2013} presents a iterative change of the alpha parameter, by turning it variable to the optimization evolution $t$. Thus, he introduces a new variable delta and that parameter is updated by the equation
 $$ \alpha_t = \alpha_{t-1} \cdot \delta, (0 < \delta < 1),$$ where $\alpha_0$ is the initial scaling factor. The author gives also an advice about setting delta: \emph{”$\delta$ is essentially a cooling factor. For most applications, we can use $\delta = 0.95$ to $0.97$”}.
 
 At last, it is wanted a integer number for the stochastic term, as the search space is discrete. In order to achieve that, rounding is performed, proper concerns about numerical errors should be taken in the implementation, so that they are reduced at most.
@@ -396,7 +400,7 @@ $$I(\mathbf{x}) = \begin{cases} 0 & \text{if }\mathbf{x}\text{ does not meet the
 A initial set of feasible solutions is calculated by simply generating random natural numbers in an interval to each component of the vector. Firstly, the first component is randomized, its range is $[0, k^n)$, where there are $n$ requests and $k$ buses. Secondly, the other components are randomized, their domain intervals are determined based on the distribution of requests to buses resulted from the first component randomization. So the first generation of fireflies can be efficiently created. [ARE THEY FEASIBLE WHEN THE BUSES HAVE LIMIT OF PASSENGERS? OR TIME CONSTRAINTS? NO!]
 
 \subsection{Parameters}
-The choice of the parameters is basically based on the work of \citep{Yang2013}. For that the scale $L$ of the problem is taken into consideration, it represents the size of the search space and is calculated by multiplying the sizes of the intervals, in which the intensity function is defined, of each dimension. The parameter gamma is then set $\gamma = 1/\sqrt{L}$. In order to have an broad exploration of the space it is set $\alpha_0 = 0.1$, the parameter is reduced along the optimization process. Lastly, it is set $\beta_0 = 1$, $\delta = 0.95$ and the number of fireflies to 40.
+The choice of the parameters is basically based on the work of \autocite{Yang2013}. For that the scale $L$ of the problem is taken into consideration, it represents the size of the search space and is calculated by multiplying the sizes of the intervals, in which the intensity function is defined, of each dimension. The parameter gamma is then set $\gamma = 1/\sqrt{L}$. In order to have an broad exploration of the space it is set $\alpha_0 = 0.1$, the parameter is reduced along the optimization process. Lastly, it is set $\beta_0 = 1$, $\delta = 0.95$ and the number of fireflies to 40.
 
 \subsection{Two-Phase Optimization}
 It is to note in a regular problem instance that the distribution of requests to bus has a greater weight it the cost function. Empirical observations suggest that this distribution is roughly the most determinant factor in the calculation of the costs. For instance, the grouping requests that are geographically near tends to show better results regardless of the route. Yet, the route of each bus plays an important role in finding an optimal result.
@@ -447,7 +451,8 @@ To obtain a better performance and the most recent implemented features it is re
 % devido ao uso do pacote `natbib', que permite fazer citações de
 % autores, ano, e diversas combinações desses
 
-\bibliographystyle{abntex2-alf}
-\bibliography{biblio}
+\nocite{*}
+%\bibliographystyle{abntex2-alf}
+\printbibliography
 
 \end{document}
