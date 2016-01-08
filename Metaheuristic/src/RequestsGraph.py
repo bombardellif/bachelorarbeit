@@ -5,7 +5,7 @@ import csv
 import re
 import pdb
 
-#from Request import Request
+from Request import Request
 
 class RequestsGraph:
 
@@ -16,7 +16,7 @@ class RequestsGraph:
         self.costMatrix = None
         self.timeMatrix = None
         self.timeConstraints = None
-        #self.requests = []
+        self.requests = []
 
     def loadFromFile(self, filename):
         fromLocation = []
@@ -27,7 +27,7 @@ class RequestsGraph:
             for row in spam:
                 fromLocation.append([row[3],row[4]])
                 toLocation.append([row[1],row[2]])
-                #self.requests.append(Request((row[3],row[4]), (row[1],row[2])))
+                self.requests.append(Request((row[3],row[4]), (row[1],row[2])))
 
         # Calculate the distance between any pair of locations
         locations = numpy.concatenate(([RequestsGraph.garage], toLocation, fromLocation))
@@ -39,7 +39,7 @@ class RequestsGraph:
         # Create the array of time constraints
         #self.timeConstraints = numpy.concatenate((endIntervals, startIntervals))
 
-    def loadFromFileORLibrary(self, filename):
+    def loadFromFileORLibrary(self, filename, firstDestiny=False):
         parser = re.compile('\s+(\d+)\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)\s+\d+\s+-?\d+\s+(\d+)\s+(\d+)')
 
         isFirst = True
@@ -51,11 +51,12 @@ class RequestsGraph:
 
                     firstLine = re.match('(\d+)\s+(\d+)', line)
                     if firstLine:
-                        (vehicles,requests) = firstLine.groups()
+                        (vehicles,stops) = firstLine.groups()
 
-                        #numRequests = int(requests)*2+1
-                        numRequests = int(requests) + 1
-                        locations = numpy.empty((numRequests, 2), dtype=float)
+                        numRequests = int(stops) // 2
+                        numLocations = numRequests*2 + 1
+                        locations = numpy.empty((numLocations, 2), dtype=float)
+                        times = numpy.empty((numLocations, 2), dtype=int)
                     else:
                         error = True
                         break
@@ -64,9 +65,12 @@ class RequestsGraph:
                     if parsedLine:
                         data = parsedLine.groups()
                         idx = int(data[0])
-                        if idx < numRequests:
+                        if idx < numLocations:
                             location = [float(data[1]), float(data[2])]
+                            time = [int(data[3]), int(data[4])]
+
                             locations[idx,:] = location
+                            times[idx,:] = time
 
                             if idx == 0:
                                 RequestsGraph.garage = location
@@ -75,10 +79,21 @@ class RequestsGraph:
                         break
 
         if not error:
+            if firstDestiny:
+                locations = numpy.vstack((locations[0], numpy.roll(locations[1:], numRequests, axis=0)))
+                times = numpy.vstack((times[0], numpy.roll(times[1:], numRequests, axis=0)))
+
+            for i in range(1, numRequests+1):
+                self.requests.append(Request(locations[i+numRequests], locations[i]))
+
+            # Distance between locations
             self.costMatrix = scipy.spatial.distance.cdist(locations, locations)
 
-            # Time between locations
+            # Time between locations (admited to be equal the distance)
             self.timeMatrix = self.costMatrix
+
+            # Interval limits of time of every stop, including the garage
+            self.timeConstraints = times
 
     def writeToFile(self, filename):
         with open(filename, 'w') as file:
