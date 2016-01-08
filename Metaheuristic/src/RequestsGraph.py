@@ -53,7 +53,8 @@ class RequestsGraph:
                     if firstLine:
                         (vehicles,requests) = firstLine.groups()
 
-                        numRequests = int(requests)*2+1
+                        #numRequests = int(requests)*2+1
+                        numRequests = int(requests) + 1
                         locations = numpy.empty((numRequests, 2), dtype=float)
                     else:
                         error = True
