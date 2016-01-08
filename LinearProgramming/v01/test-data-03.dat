@@ -13,7 +13,8 @@ param Lim_max default 1440;
 
 # Buses
 param : BUS : Cap Tim :=
-        0     6    480;
+        0     6    480
+        1     6    480;
 
 # Edges
 param : EDGE : Time_edge :=
