@@ -9,18 +9,20 @@ from FireflyAlgorithm import FireflyAlgorithm
 from RequestsGraph import RequestsGraph
 
 ## __main__
-R = 15
+R = 24
 B = 3
 
 # Load Requests File
 req = RequestsGraph()
-req.loadFromFile("../../Data/datasets-2015-11-06-aot-tuberlin/15.2-2015-11-06.csv")
+#req.loadFromFile("../../Data/datasets-2015-11-06-aot-tuberlin/15.2-2015-11-06.csv")
+#req.loadFromFileORLibrary("../../Data/pr01-reduced", firstDestiny=True)
+req.loadFromFileORLibrary("../../Data/chairedistributique/data/darp/tabu/pr01", firstDestiny=True)
 
 # Attributes
-Solution.requestGraph = req.adjacencyCostMatrix
+Solution.requestGraph = req
 Solution.totalRequests = R
 Solution.totalBuses = B
-Solution.maxCapacity = 8
+Solution.maxCapacity = 6
 Solution.initializeClass()
 
 # Estimate superior limit for the Utility function
@@ -30,13 +32,14 @@ Solution.determineWorstCost()
 #alpha = numpy.zeros(1+B, dtype=int)
 sizeRoutesComponents = Solution.getChildrenSizeMatrixFor(R//B)[0,0] ** B
 alpha = numpy.array([(B**R) // 10, sizeRoutesComponents // 10], dtype=object)
+#alpha = numpy.array([(B**R), sizeRoutesComponents], dtype=object)
 #alpha = 681080400 // 10
 alphaDivisor = 10
 #gamma = 1/math.sqrt(B**R)
 gammaDenominator = int(round(((B**R) * sizeRoutesComponents) ** (1/2)))
 beta0 = 1
 maxGeneration = 500
-numFireflies = 20
+numFireflies = 40
 
 # Instanciate Solver
 FireflyAlgorithm.registerEvolution = True
@@ -57,7 +60,7 @@ for sol in solutions:
         print(sol.getRoutes())
     print("Vector: ")
     print(sol.getVectorRep())
-    print("Intensity: {:f}".format(sol.intensity()))
+    print("Intensity: {:f} === Cost: {:f}".format(sol.intensity(), Solution.worstCost - sol.intensity()))
     print("==================")
 
 print("THE BEST: ")
@@ -65,7 +68,7 @@ print("Route: ")
 print(theBest.getRoutes())
 print("Vector: ")
 print(theBest.getVectorRep())
-print("Intensity: {:f}".format(theBest.intensity()))
+print("Intensity: {:f} === Cost: {:f}".format(theBest.intensity(), Solution.worstCost - theBest.intensity()))
 print("==================")
 
 # Visualize Evolution

@@ -10,7 +10,7 @@ from Request import Request
 class RequestsGraph:
 
     garage = [52.3034705503,10.6835020305]
-    totalTime = 999999
+    totalTime = 480
 
     def __init__(self):
         self.costMatrix = None
@@ -98,7 +98,8 @@ class RequestsGraph:
     def writeToFile(self, filename):
         with open(filename, 'w') as file:
             for index, x in numpy.ndenumerate(self.timeMatrix):
-                file.write("{:d} {:d}\t{:.16f}\n".format(index[0], index[1], x))
+                if index[0] != index[1]:
+                    file.write("{:d} {:d}\t{:.16f}\n".format(index[0], index[1], x))
 
             # write the edges to the vertex 2*n+1 required in the LP
             lastVertex = self.timeMatrix.shape[1]
@@ -107,4 +108,4 @@ class RequestsGraph:
                             index[0], lastVertex, x, lastVertex, index[0], x))
 
             # loop vertex in this last one
-            file.write("{:d} {:d}\t{:.16f}".format(lastVertex, lastVertex, 0.0))
+            #file.write("{:d} {:d}\t{:.16f}".format(lastVertex, lastVertex, 0.0))

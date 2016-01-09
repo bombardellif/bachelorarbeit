@@ -44,7 +44,7 @@ class Solution:
     @staticmethod
     def determineWorstCost():
         doublePathSize = (Solution.totalRequests*2 + 2) * 2
-        Solution.worstCost = -(numpy.partition(-Solution.requestGraph, doublePathSize, axis=None)[:doublePathSize].sum() // 2)
+        Solution.worstCost = -(numpy.partition(-Solution.requestGraph.costMatrix, doublePathSize, axis=None)[:doublePathSize].sum() // 2)
 
     @staticmethod
     def initializeClass():
@@ -251,11 +251,9 @@ class Solution:
         # Randomize the distribution of buses to requests
         #self._requestComponent = numpy.random.randint(Solution.totalBuses, size=Solution.totalRequests)
         self._requestComponent = numpy.array([random.randint(0, Solution.sizeDomainRequestComponent-1)], dtype=object)
-        #self._requestComponent[0] = 3306986
 
         # Randomize valid routes for each bus, given the distribution requests X bus
         self._routesComponent = self._generateRoutesComponent()
-        #self._routesComponent[:] = 0
 
         return self
 
@@ -265,10 +263,57 @@ class Solution:
             and (self._requestComponent >= 0).all()\
             and (self._routesComponent < self.getSizeDomainEachBus()).all()\
             and (self._routesComponent >= 0).all()\
-            and (self.getNumRequestsEachBus() <= Solution.maxCapacity).all()
+            and self.matchCapacityContraint()\
+            and self.matchTimeConstraints()
 
     def getSizeDomainEachBus(self):
         return [self.getChildrenSizeMatrixFor(nRequests)[0,0] for nRequests in self.getNumRequestsEachBus()]
+
+    def matchCapacityContraint(self):
+        routes = self.getRoutes()
+
+        match = True
+        for route in routes:
+            if route.size:
+                # Where passangers get in we count 1 to the load and when get out we count -1
+                if (numpy.where(route >= Solution.totalRequests, 1, -1)
+                .cumsum() > Solution.maxCapacity).any():
+                    match = False
+                    break
+        return match
+
+    def matchTimeConstraints(self):
+        routes = self.getRoutes()
+        rows, columns = self.getRoutesInEdges(concatenated=False)
+
+        match = True
+        for i in range(len(rows)):
+            minPossible = Solution.requestGraph.timeMatrix[[0] + rows[i], [0] + columns[i]].cumsum()
+            limits = Solution.requestGraph.timeConstraints[rows[i] + [0]]
+
+            # Minimum feasible time regarding to the "min" constraint of time
+            # here we add in the total travel waiting times to match this constraint
+            waiting = 0
+            for j in range(minPossible.size):
+                currentMinTime = minPossible[j] + waiting
+                vertexMinTime = limits[j, 0]
+                if vertexMinTime > currentMinTime:
+                    waiting += vertexMinTime - currentMinTime
+                    minPossible[j] = vertexMinTime
+                else:
+                    minPossible[j] = currentMinTime
+
+            # The minimum possible track must match the "max" constraint of time
+            if (minPossible > limits[:, 1]).any():
+                match = False
+                break
+
+            # The maximum travel time of the car has a constraint too
+            if minPossible[-1] > Solution.requestGraph.totalTime:
+                match = False
+                break
+
+        return match
 
     def assignComponentValues(self, newVector):
         # Clip the requests domain [0,Size_Domain_Request_Permutation)
@@ -279,7 +324,7 @@ class Solution:
 
         if newVector[0] >= 0 and newVector[0] < Solution.sizeDomainRequestComponent:
             # Clip the routes domain [0,Size_Domain_For_Each_Bus)
-            # CHANGE: Don't clip anymore, isntead, these will have intensity=0
+            # CHANGE: Don't clip anymore, instead, these will have intensity=0
             numpy.clip(newVector[1:],
                 -1, self.getSizeDomainEachBus(),
                 out=newVector[1:])
@@ -380,6 +425,22 @@ class Solution:
 
         return self._routeEachBus
 
+    def getRoutesInEdges(self, concatenated=True):
+        routes = self.getRoutes() + 1
+
+        rows = []
+        columns = []
+        for r in routes:
+            if r.size != 0:
+                if concatenated:
+                    rows += [0] + r.tolist()
+                    columns += r.tolist() + [0]
+                else:
+                    rows.append([0] + r.tolist())
+                    columns.append(r.tolist() + [0])
+
+        return rows, columns
+
     # Intensity calculation functions
     def intensity(self):
         # Assertion
@@ -388,16 +449,9 @@ class Solution:
         # Check cache
         if self._intensity is None:
             if self.isInsideDomain():
-                routes = self.getRoutes() + 1
+                rows, columns = self.getRoutesInEdges()
 
-                rows = []
-                columns = []
-                for r in routes:
-                    if r.size != 0:
-                        rows += [0] + r.tolist()
-                        columns += r.tolist() + [0]
-
-                cost = Solution.requestGraph[rows, columns].sum()
+                cost = Solution.requestGraph.costMatrix[rows, columns].sum()
                 self._intensity = Solution.worstCost - cost
             else:
                 self._intensity = 0
