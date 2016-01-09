@@ -38,7 +38,7 @@ alphaDivisor = 10
 #gamma = 1/math.sqrt(B**R)
 gammaDenominator = int(round(((B**R) * sizeRoutesComponents) ** (1/2)))
 beta0 = 1
-maxGeneration = 500
+maxGeneration = 400
 numFireflies = 40
 
 # Instanciate Solver

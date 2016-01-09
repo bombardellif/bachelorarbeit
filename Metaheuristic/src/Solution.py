@@ -144,7 +144,8 @@ class Solution:
             qtdAlightingChildren = numpy.zeros((numRequests+1, numRequests*2), dtype=int)
             filling = numpy.ones(numRequests, dtype=int)
             idx = numpy.arange(1, numRequests*2, 2, dtype=int)
-            for i in range(1, numRequests+1):
+
+            for i in range(1, min(numRequests+1, Solution.maxCapacity)):
                 qtdAlightingChildren[i][idx] = filling[i-1:]
                 filling += 1
                 idx = idx[:-1]+1
@@ -162,7 +163,8 @@ class Solution:
             qtdBoardingChildren = numpy.zeros((numRequests+1, numRequests*2), dtype=int)
             filling = numpy.arange(numRequests, 0, -1, dtype=int)
             idx = numpy.arange(0, numRequests*2, 2, dtype=int)
-            for i in range(0, numRequests):
+
+            for i in range(0, min(numRequests, Solution.maxCapacity)):
                 qtdBoardingChildren[i][idx] = filling[i:]
                 idx = idx[:-1]+1
 
@@ -263,8 +265,8 @@ class Solution:
             and (self._requestComponent >= 0).all()\
             and (self._routesComponent < self.getSizeDomainEachBus()).all()\
             and (self._routesComponent >= 0).all()\
-            and self.matchCapacityContraint()\
-            and self.matchTimeConstraints()
+            and self.matchCapacityContraint()#\
+            #and self.matchTimeConstraints()
 
     def getSizeDomainEachBus(self):
         return [self.getChildrenSizeMatrixFor(nRequests)[0,0] for nRequests in self.getNumRequestsEachBus()]
@@ -343,6 +345,9 @@ class Solution:
         requests = []
         for i in path:
             requests.append(stops[i])
+            # If it's a alighting, delete this request because it's now delivered
+            # else, set this to the number correspondent to the future alighting
+            # important: sort the list of pendent request, so that the exits stay first
             if stops[i] < numRequests:
                 del stops[i]
             else:
