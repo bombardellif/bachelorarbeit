@@ -91,19 +91,31 @@ class FireflyAlgorithm:
         #    .astype(float)).astype(int)
 
         # Single alpha for every component of the vector:
-        return Solution.createFromRandomVector(x1 + (diff // attractInv),
+        candidate = Solution.createFromRandomVector(x1 + (diff // attractInv),
             self._currentAlphaDivisor,
             numpy.random.normal(size=self._dimension),
             self._alphaStage)
+
+        if not candidate.isInsideDomain() and candidate.canApplyTimeAdjust():
+            newRoutesComponent = candidate.satisfyTimeConstraints()
+            candidate = Solution(numpy.concatenate((candidate.getVectorRep()[:1], newRoutesComponent)))
+
+        return candidate
 
     def moveRandom(self, x):
         # Single alpha for every component of the vector:
         #return x + numpy.rint(self.randomTerm()).astype(int)
         # Alpha that varies to each component of the vector:
-        return Solution.createFromRandomVector(x,
+        candidate = Solution.createFromRandomVector(x,
             self._currentAlphaDivisor,
             numpy.random.normal(size=self._dimension),
             self._alphaStage)
+
+        if not candidate.isInsideDomain() and candidate.canApplyTimeAdjust():
+            newRoutesComponent = candidate.satisfyTimeConstraints()
+            candidate = Solution(numpy.concatenate((candidate.getVectorRep()[:1], newRoutesComponent)))
+
+        return candidate
 
     def run(self, maxGeneration, numFireflies):
         fireflies = [Solution().randomize() for i in range(numFireflies)]
@@ -114,6 +126,7 @@ class FireflyAlgorithm:
         '''
 
         currentAlpha = self._alpha[0]
+        alphaDecay = 95
 
         movedDistance = 0
         changesBecauseIntensity = 0
@@ -170,18 +183,19 @@ class FireflyAlgorithm:
                     self._beta0 = 1
             # Update alpha variable
             if currentAlpha > 1:
-                currentAlpha *= 0.95
+                currentAlpha *= alphaDecay/100
                 # if alpha arrives to 1, change to next stage of alpha cooling
                 if currentAlpha < 1:
                     if self._alphaStage < self._alpha.size-1:
                         self._alphaStage += 1
                         currentAlpha = self._alpha[self._alphaStage]
+                        alphaDecay = 90
                         self._currentAlphaDivisor = self._alphaDivisor
                     else:
                         currentAlpha = 1
                         self._currentAlphaDivisor = None
                 else:
-                    self._currentAlphaDivisor = fractions.Fraction(self._currentAlphaDivisor.numerator * 95,
+                    self._currentAlphaDivisor = fractions.Fraction(self._currentAlphaDivisor.numerator * alphaDecay,
                                                         self._currentAlphaDivisor.denominator * 100)
 
             sortedFireflies = sorted(fireflies, reverse=True)

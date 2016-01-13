@@ -9,24 +9,41 @@ from FireflyAlgorithm import FireflyAlgorithm
 from RequestsGraph import RequestsGraph
 
 ## __main__
-R = 24
-B = 3
 
 # Load Requests File
 req = RequestsGraph()
 #req.loadFromFile("../../Data/datasets-2015-11-06-aot-tuberlin/15.2-2015-11-06.csv")
 #req.loadFromFileORLibrary("../../Data/pr01-reduced", firstDestiny=True)
-req.loadFromFileORLibrary("../../Data/chairedistributique/data/darp/tabu/pr01", firstDestiny=True)
+#req.loadFromFileORLibrary("../../Data/chairedistributique/data/darp/tabu/pr01", firstDestiny=True)
+req.loadFromFileORLibrary("../../Data/chairedistributique/data/darp/branch-and-cut/a2-16", firstDestiny=True, dataset=1)
+
 
 # Attributes
+R = req.numOfRequests
+B = req.numOfVehicles
 Solution.requestGraph = req
 Solution.totalRequests = R
 Solution.totalBuses = B
-Solution.maxCapacity = 6
+Solution.maxCapacity = req.capacity
 Solution.initializeClass()
 
 # Estimate superior limit for the Utility function
 Solution.determineWorstCost()
+
+# out = 0
+# suc = 0
+# for i in range(10):
+#     sol = Solution().randomize()
+#     # pdb.set_trace()
+#     if not sol.isInsideDomain():
+#         out += 1
+#         newRoutesComponent = sol.satisfyTimeConstraints()
+#         sol = Solution(numpy.concatenate((sol.getVectorRep()[:1], newRoutesComponent)))
+#         if sol.isInsideDomain():
+#             suc += 1
+# print(out)
+# print(suc)
+# pdb.set_trace()
 
 # Define Parameters
 #alpha = numpy.zeros(1+B, dtype=int)
@@ -38,7 +55,7 @@ alphaDivisor = 10
 #gamma = 1/math.sqrt(B**R)
 gammaDenominator = int(round(((B**R) * sizeRoutesComponents) ** (1/2)))
 beta0 = 1
-maxGeneration = 400
+maxGeneration = 600
 numFireflies = 40
 
 # Instanciate Solver

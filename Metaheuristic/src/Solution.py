@@ -145,7 +145,7 @@ class Solution:
             filling = numpy.ones(numRequests, dtype=int)
             idx = numpy.arange(1, numRequests*2, 2, dtype=int)
 
-            for i in range(1, min(numRequests+1, Solution.maxCapacity)):
+            for i in range(1, min(numRequests+1, Solution.maxCapacity+1)):
                 qtdAlightingChildren[i][idx] = filling[i-1:]
                 filling += 1
                 idx = idx[:-1]+1
@@ -265,8 +265,15 @@ class Solution:
             and (self._requestComponent >= 0).all()\
             and (self._routesComponent < self.getSizeDomainEachBus()).all()\
             and (self._routesComponent >= 0).all()\
-            and self.matchCapacityContraint()#\
-            #and self.matchTimeConstraints()
+            and self.matchCapacityContraint()\
+            and self.matchTimeConstraints()
+
+    def canApplyTimeAdjust(self):
+        return (self._requestComponent < Solution.sizeDomainRequestComponent).all()\
+            and (self._requestComponent >= 0).all()\
+            and (self._routesComponent < self.getSizeDomainEachBus()).all()\
+            and (self._routesComponent >= 0).all()\
+            and self.matchCapacityContraint()
 
     def getSizeDomainEachBus(self):
         return [self.getChildrenSizeMatrixFor(nRequests)[0,0] for nRequests in self.getNumRequestsEachBus()]
@@ -285,13 +292,16 @@ class Solution:
         return match
 
     def matchTimeConstraints(self):
-        routes = self.getRoutes()
         rows, columns = self.getRoutesInEdges(concatenated=False)
 
         match = True
         for i in range(len(rows)):
-            minPossible = Solution.requestGraph.timeMatrix[[0] + rows[i], [0] + columns[i]].cumsum()
+            minPossible = Solution.requestGraph.timeMatrix[[0] + rows[i], [0] + columns[i]].cumsum() \
+                + numpy.concatenate(([0], Solution.requestGraph.durations[rows[i]]))
             limits = Solution.requestGraph.timeConstraints[rows[i] + [0]]
+            # print(rows[i])
+            # print(minPossible)
+            # print(limits)
 
             # Minimum feasible time regarding to the "min" constraint of time
             # here we add in the total travel waiting times to match this constraint
@@ -305,6 +315,7 @@ class Solution:
                 else:
                     minPossible[j] = currentMinTime
 
+            # print(minPossible)
             # The minimum possible track must match the "max" constraint of time
             if (minPossible > limits[:, 1]).any():
                 match = False
@@ -316,6 +327,99 @@ class Solution:
                 break
 
         return match
+
+    def satisfyTimeConstraints(self):
+        routes = self.getRoutes()
+        requestEachBus = self.getNumRequestsEachBus()
+        rows,_ = self.getRoutesInEdges(concatenated=False)
+
+        # Generate the new routes trying to fix the unfeasability
+        newRoutes = []
+        for i in range(len(routes)):
+            if routes[i].size:
+                numReq = requestEachBus[i]
+                limits = Solution.requestGraph.timeConstraints[rows[i] + [0]]
+                ordered = numpy.array(rows[i] + [0])[numpy.argsort(limits[:,1])[:numReq]] - 1
+
+                newRoute = self.satisfyTimeConstraintsRoute(numReq, routes[i], ordered.tolist())
+            else:
+                newRoute = routes[i]
+            newRoutes.append(numpy.array(newRoute))
+
+        # Generate the vector values from the new Routes
+        relativeRoutes = numpy.array(newRoutes)
+        for i in range(len(relativeRoutes)):
+                relativeRoutes[i][numpy.argsort(newRoutes[i])] = numpy.arange(len(newRoutes[i]))
+        newPath = [self._transformRelativeRequestToTreePath(requestEachBus[i], relativeRoutes[i]) for i in range(len(relativeRoutes))]
+        newComponent = [self._transformTreePathToRouteComponent(requestEachBus[i], newPath[i]) for i in range(len(relativeRoutes))]
+
+        return newComponent
+
+    def satisfyTimeConstraintsRoute(self, numRequests, route, satisfyingOrder):
+        def satisfyOrder(newRoute, stop, i):
+            result = True
+            #if stop is in the order list, we have to check its validity
+            if stop in satisfyingOrder:
+                idx = satisfyingOrder.index(stop)
+                result = set(satisfyingOrder[:idx]).issubset(newRoute[:i])
+            return result
+
+        stops = route[route >= Solution.totalRequests].tolist()
+
+        # Determine the new path that adjusts the route to satisfy time constraints
+        newRoute = []
+        routePtr = 0
+        orderPtr = 0
+        load = 0
+        for i in range(0, numRequests*2):
+            # try first element that is in the priority ordered list
+            while orderPtr<len(satisfyingOrder) and satisfyingOrder[orderPtr] in newRoute:
+                orderPtr += 1
+            if orderPtr<len(satisfyingOrder)\
+            and satisfyingOrder[orderPtr] in stops\
+            and (load < Solution.maxCapacity or satisfyingOrder[orderPtr] < Solution.totalRequests):
+                newRoute.append(satisfyingOrder[orderPtr])
+                orderPtr += 1
+            # then, try the "get-in" vertex for the next constraint, if possible
+            elif orderPtr<len(satisfyingOrder)\
+            and satisfyingOrder[orderPtr] < Solution.totalRequests\
+            and load < Solution.maxCapacity\
+            and (satisfyingOrder[orderPtr] + Solution.totalRequests) in stops:
+                newRoute.append(satisfyingOrder[orderPtr] + Solution.totalRequests)
+            else:
+                # then, try to fit the existing route
+                while routePtr<len(route) and route[routePtr] in newRoute:
+                    routePtr += 1
+                # Add to route only if bus has space for it
+                if routePtr<len(route)\
+                and satisfyOrder(newRoute, route[routePtr], i)\
+                and (load < Solution.maxCapacity or route[routePtr] < Solution.totalRequests):
+                    newRoute.append(route[routePtr])
+                    routePtr += 1
+                else:
+                # then, try the next possible
+                    j = 0
+                    while j<len(stops) and not satisfyOrder(newRoute, stops[j], i):
+                        j += 1
+                    if j<len(stops):
+                        newRoute.append(stops[j])
+                    else:
+                        newRoute.append(stops[0])
+
+            # Update stops list
+            # If it's a alighting, delete this request because it's now delivered
+            # else, set this to the number correspondent to the future alighting
+            # important: sort the list of pendent request, so that the exits stay first
+            stopsIdx = stops.index(newRoute[i])
+            if stops[stopsIdx] < Solution.totalRequests:
+                load -= 1
+                del stops[stopsIdx]
+            else:
+                load += 1
+                stops[stopsIdx] -= Solution.totalRequests
+                stops.sort()
+
+        return newRoute
 
     def assignComponentValues(self, newVector):
         # Clip the requests domain [0,Size_Domain_Request_Permutation)
@@ -336,6 +440,7 @@ class Solution:
         # Assign vector attribute
         self._vectorRep = newVector
 
+    # Transformation methods
     @staticmethod
     def _transformTreePathToRelativeRequest(numRequests, path):
         stops = list(range(numRequests, numRequests*2))
@@ -355,6 +460,23 @@ class Solution:
                 stops.sort()
 
         return requests
+
+    @staticmethod
+    def _transformRelativeRequestToTreePath(numRequests, requests):
+        stops = list(range(numRequests, numRequests*2))
+
+        path = []
+        for r in requests:
+            i = stops.index(r)
+            path.append(i)
+
+            if stops[i] < numRequests:
+                del stops[i]
+            else:
+                stops[i] -= numRequests
+                stops.sort()
+
+        return path
 
     def _transformRouteComponentToTreePath(self, numRequests, value):
         # Get auxiliar matrices
@@ -389,6 +511,41 @@ class Solution:
             path.append(nthChild)
 
         return path
+
+    def _transformTreePathToRouteComponent(self, numRequests, path):
+        # Get auxiliar matrices
+        qtdAlightingChildren = Solution.getAligthMatrixFor(numRequests)
+        qtdBoardingChildren = Solution.getBoardMatrixFor(numRequests)
+        childrenSizeMatrix = Solution.getChildrenSizeMatrixFor(numRequests)
+
+        # Determine the path in the generation tree that "value" represents
+        value = 0
+        row = 0
+        for col in range(0, numRequests*2):
+            # Distribution of the range of the children
+            dist = []
+            if row > 0:
+                dist.extend([childrenSizeMatrix[row-1, col+1]] * qtdAlightingChildren[row, col])
+            if row < childrenSizeMatrix.shape[0]-1:
+                dist.extend([childrenSizeMatrix[row+1, col+1]] * qtdBoardingChildren[row, col])
+
+            maxChild = qtdAlightingChildren[row, col] + qtdBoardingChildren[row, col]
+
+            # Find which is the next stop is regarding the current one
+            nthChild = path[col]
+            if nthChild < maxChild:
+                for i in range(nthChild):
+                    value += dist[i]
+            else:
+                # didn't work with the adjustment of the path, pick any
+                nthChild = 0
+
+            if nthChild < qtdAlightingChildren[row, col]:
+                row -= 1
+            else:
+                row += 1
+
+        return value
 
     def _transformRouteComponentToRoute(self, bus):
         # Local variable

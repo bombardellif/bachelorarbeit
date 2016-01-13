@@ -9,13 +9,18 @@ from Request import Request
 
 class RequestsGraph:
 
-    garage = [52.3034705503,10.6835020305]
-    totalTime = 480
+    numOfVehicles = None
+    numOfRequests = None
+    totalTime = None
+    capacity = None
+    userTime = None
+    garage = None #[52.3034705503,10.6835020305]
 
     def __init__(self):
         self.costMatrix = None
         self.timeMatrix = None
         self.timeConstraints = None
+        self.durations = None
         self.requests = []
 
     def loadFromFile(self, filename):
@@ -39,8 +44,8 @@ class RequestsGraph:
         # Create the array of time constraints
         #self.timeConstraints = numpy.concatenate((endIntervals, startIntervals))
 
-    def loadFromFileORLibrary(self, filename, firstDestiny=False):
-        parser = re.compile('\s+(\d+)\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)\s+\d+\s+-?\d+\s+(\d+)\s+(\d+)')
+    def loadFromFileORLibrary(self, filename, firstDestiny=False, dataset=1):
+        parser = re.compile('\s+(\d+)\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)\s+(\d+)\s+-?\d+\s+(\d+)\s+(\d+)')
 
         isFirst = True
         error = False
@@ -49,14 +54,24 @@ class RequestsGraph:
                 if isFirst:
                     isFirst = False
 
-                    firstLine = re.match('(\d+)\s+(\d+)', line)
+                    firstLine = re.match('(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)', line)
                     if firstLine:
-                        (vehicles,stops) = firstLine.groups()
+                        (vehicles,stops,busTime,capacity,userTime) = firstLine.groups()
 
-                        numRequests = int(stops) // 2
+                        if dataset == 1:
+                            numRequests = int(stops)
+                        else:
+                            numRequests = int(stops) // 2
                         numLocations = numRequests*2 + 1
                         locations = numpy.empty((numLocations, 2), dtype=float)
                         times = numpy.empty((numLocations, 2), dtype=int)
+                        durations = numpy.empty(numLocations, dtype=int)
+
+                        RequestsGraph.numOfVehicles = int(vehicles)
+                        RequestsGraph.numOfRequests = numRequests
+                        RequestsGraph.totalTime = int(busTime)
+                        RequestsGraph.capacity = int(capacity)
+                        RequestsGraph.userTime = int(userTime)
                     else:
                         error = True
                         break
@@ -67,10 +82,12 @@ class RequestsGraph:
                         idx = int(data[0])
                         if idx < numLocations:
                             location = [float(data[1]), float(data[2])]
-                            time = [int(data[3]), int(data[4])]
+                            time = [int(data[4]), int(data[5])]
+                            duration = int(data[3])
 
                             locations[idx,:] = location
                             times[idx,:] = time
+                            durations[idx] = duration
 
                             if idx == 0:
                                 RequestsGraph.garage = location
@@ -94,6 +111,9 @@ class RequestsGraph:
 
             # Interval limits of time of every stop, including the garage
             self.timeConstraints = times
+
+            # Daration of every stop
+            self.durations = durations
 
     def writeToFile(self, filename):
         with open(filename, 'w') as file:
