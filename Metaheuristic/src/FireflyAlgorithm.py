@@ -6,7 +6,7 @@ import fractions
 import numpy
 import numpy.random
 import scipy.spatial.distance
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import pdb
 
 class FireflyAlgorithm:
@@ -39,7 +39,7 @@ class FireflyAlgorithm:
 
     @staticmethod
     def logState(fireflies, theBest, movedDistance, changesBecauseIntensity, attractMean, alpha):
-        vectors = [ff.getVectorRep() for ff in fireflies]
+        vectors = [ff.getVectorRep().tolist() for ff in fireflies]
         intensityVec = [ff.intensity() for ff in fireflies]
         FireflyAlgorithm.evolutionLog['vectors'].append(vectors)
         FireflyAlgorithm.evolutionLog['intensity'].append(intensityVec)
