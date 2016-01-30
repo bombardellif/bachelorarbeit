@@ -29,6 +29,7 @@ filename=(
 
 start=0
 end=23
+PYTHON=$1
 
 for i in $(eval echo "{$start..$end}");
 do
@@ -39,6 +40,6 @@ do
     mkdir $i
   fi
   # Run the instance
-  echo "python3 ../Metaheuristic/src/main.py ${filename[$i]} 1 ./$i/solution.json > ./$i/output.txt"
-  python3 ../Metaheuristic/src/main.py ${filename[$i]} 1 ./$i/solution.json > ./$i/output.txt
+  echo "$PYTHON ../Metaheuristic/src/main.py ${filename[$i]} 1 ./$i/solution.json > ./$i/output.txt"
+  #python3 ../Metaheuristic/src/main.py ${filename[$i]} 1 ./$i/solution.json > ./$i/output.txt
 done
