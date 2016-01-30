@@ -5,6 +5,7 @@ import numpy
 import argparse
 import json
 import datetime
+import sys
 
 from Solution import Solution
 from FireflyAlgorithm import FireflyAlgorithm
@@ -25,7 +26,10 @@ req = RequestsGraph()
 #req.loadFromFile("../../Data/datasets-2015-11-06-aot-tuberlin/15.2-2015-11-06.csv")
 #req.loadFromFileORLibrary("../../Data/pr01-reduced", firstDestiny=True)
 #req.loadFromFileORLibrary("../../Data/chairedistributique/data/darp/tabu/pr01", firstDestiny=True)
-req.loadFromFileORLibrary(args.data, firstDestiny=True, dataset=args.format)
+successLoadData = req.loadFromFileORLibrary(args.data, firstDestiny=True, dataset=args.format)
+if not successLoadData:
+    print('Error loading data. Exiting...')
+    sys.exit(0)
 
 # Attributes
 R = req.numOfRequests
@@ -63,7 +67,7 @@ alphaDivisor = 10
 #gamma = 1/math.sqrt(B**R)
 gammaDenominator = int(round(((B**R) * sizeRoutesComponents) ** (1/2)))
 beta0 = 1
-maxGeneration = 10
+maxGeneration = 2000
 numFireflies = 40
 
 # Instanciate Solver
@@ -82,13 +86,15 @@ print('Generations:\t', maxGeneration)
 print('Fireflies:\t', numFireflies)
 
 print('============= Running ... ==============')
-print(datetime.datetime.now().time().isoformat())
+begin = datetime.datetime.now()
+print(begin.time().isoformat())
 
 # Run solver
 solutions,theBest = fireflyOptimization.run(maxGeneration, numFireflies)
 
+end = datetime.datetime.now()
 print('============= Finished! ================')
-print(datetime.datetime.now().time().isoformat())
+print(end.time().isoformat())
 
 # Output Results
 print('============= Output ... ===============')
@@ -106,6 +112,7 @@ if FireflyAlgorithm.registerEvolution:
     print('Best initial cost:\t', Solution.worstCost - FireflyAlgorithm.evolutionLog['best'][0])
 print('Best solution:\t', theBest.intensity())
 print('Best cost:\t', Solution.worstCost - theBest.intensity())
+print('Total time (sec):\t', (end - begin).total_seconds())
 
 # Show Results
 if args.verbose:

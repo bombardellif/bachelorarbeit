@@ -45,7 +45,7 @@ class RequestsGraph:
         #self.timeConstraints = numpy.concatenate((endIntervals, startIntervals))
 
     def loadFromFileORLibrary(self, filename, firstDestiny=False, dataset=1):
-        parser = re.compile('\s+(\d+)\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)\s+(\d+)\s+-?\d+\s+(\d+)\s+(\d+)')
+        parser = re.compile('\s*(\d+)\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)\s+(\d+)\s+-?\d+\s+(\d+)\s+(\d+)')
 
         isFirst = True
         error = False
@@ -114,6 +114,8 @@ class RequestsGraph:
 
             # Daration of every stop
             self.durations = durations
+
+        return not error
 
     def writeToFile(self, filename):
         with open(filename, 'w') as file:
