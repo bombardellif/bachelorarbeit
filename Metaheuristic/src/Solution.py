@@ -335,13 +335,16 @@ class Solution:
 
         # Generate the new routes trying to fix the unfeasability
         newRoutes = []
+        j = 0
         for i in range(len(routes)):
             if routes[i].size:
                 numReq = requestEachBus[i]
-                limits = Solution.requestGraph.timeConstraints[rows[i] + [0]]
-                ordered = numpy.array(rows[i] + [0])[numpy.argsort(limits[:,1])[:numReq]] - 1
+                limits = Solution.requestGraph.timeConstraints[rows[j] + [0]]
+                ordered = numpy.array(rows[j] + [0])[numpy.argsort(limits[:,1])[:numReq]] - 1
 
-                newRoute = self.satisfyTimeConstraintsRoute(numReq, routes[i], ordered.tolist())
+                newRoute = self.satisfyTimeConstraintsRoute(numReq, routes[j], ordered.tolist())
+
+                j += 1
             else:
                 newRoute = routes[i]
             newRoutes.append(numpy.array(newRoute))
@@ -351,7 +354,7 @@ class Solution:
         for i in range(len(relativeRoutes)):
                 relativeRoutes[i][numpy.argsort(newRoutes[i])] = numpy.arange(len(newRoutes[i]))
         newPath = [self._transformRelativeRequestToTreePath(requestEachBus[i], relativeRoutes[i]) for i in range(len(relativeRoutes))]
-        newComponent = [self._transformTreePathToRouteComponent(requestEachBus[i], newPath[i]) for i in range(len(relativeRoutes))]
+        newComponent = numpy.array([self._transformTreePathToRouteComponent(requestEachBus[i], newPath[i]) for i in range(len(relativeRoutes))], dtype=object)
 
         return newComponent
 

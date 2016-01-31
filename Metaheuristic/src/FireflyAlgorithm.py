@@ -45,7 +45,8 @@ class FireflyAlgorithm:
         FireflyAlgorithm.evolutionLog['intensity'].append(intensityVec)
         FireflyAlgorithm.evolutionLog['best'].append(theBest.intensity())
         FireflyAlgorithm.evolutionLog['average'].append(numpy.mean(intensityVec))
-        FireflyAlgorithm.evolutionLog['distance'].append(scipy.spatial.distance.pdist(vectors).sum())
+        #FireflyAlgorithm.evolutionLog['distance'].append(scipy.spatial.distance.pdist(vectors).sum())
+        FireflyAlgorithm.evolutionLog['distance'].append(0)
         FireflyAlgorithm.evolutionLog['movedDistance'].append(movedDistance)
         FireflyAlgorithm.evolutionLog['changesBecauseIntensity'].append(changesBecauseIntensity)
         FireflyAlgorithm.evolutionLog['attractMean'].append(attractMean)
@@ -163,7 +164,7 @@ class FireflyAlgorithm:
 
                                 # Register total traveled distance
                                 if FireflyAlgorithm.registerEvolution:
-                                    movedDistance += scipy.spatial.distance.pdist(numpy.vstack((siVector, fireflies[i].getVectorRep())))[0]
+                                    #movedDistance += scipy.spatial.distance.pdist(numpy.vstack((siVector, fireflies[i].getVectorRep())))[0]
                                     changesBecauseIntensity += 1
 
                                 changed = True
@@ -173,8 +174,8 @@ class FireflyAlgorithm:
                         fireflies[i] = self.moveRandom(siVector)
 
                         # Register total traveled distance
-                        if FireflyAlgorithm.registerEvolution:
-                            movedDistance += scipy.spatial.distance.pdist(numpy.vstack((siVector, fireflies[i].getVectorRep())))[0]
+                        #if FireflyAlgorithm.registerEvolution:
+                            #movedDistance += scipy.spatial.distance.pdist(numpy.vstack((siVector, fireflies[i].getVectorRep())))[0]
 
             # Update beta0 variable
             if self._beta0 > 1:

@@ -61,11 +61,12 @@ Solution.determineWorstCost()
 # Define Parameters
 #alpha = numpy.zeros(1+B, dtype=int)
 sizeRoutesComponents = Solution.getChildrenSizeMatrixFor(R//B)[0,0] ** B
+sqrtSizeRoutesComponents = Solution.getChildrenSizeMatrixFor(R//B)[0,0] ** (B//2)
 alpha = numpy.array([(B**R) // 10, sizeRoutesComponents // 10], dtype=object)
 #alpha = numpy.array([(B**R), sizeRoutesComponents], dtype=object)
 alphaDivisor = 10
 #gamma = 1/math.sqrt(B**R)
-gammaDenominator = int(round(((B**R) * sizeRoutesComponents) ** (1/2)))
+gammaDenominator = (B**(R//2)) * sqrtSizeRoutesComponents
 beta0 = 1
 maxGeneration = 2000
 numFireflies = 40
