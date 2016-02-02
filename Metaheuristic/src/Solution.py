@@ -342,7 +342,7 @@ class Solution:
                 limits = Solution.requestGraph.timeConstraints[rows[j] + [0]]
                 ordered = numpy.array(rows[j] + [0])[numpy.argsort(limits[:,1])[:numReq]] - 1
 
-                newRoute = self.satisfyTimeConstraintsRoute(numReq, routes[j], ordered.tolist())
+                newRoute = self.satisfyTimeConstraintsRoute(numReq, routes[i], ordered.tolist())
 
                 j += 1
             else:
