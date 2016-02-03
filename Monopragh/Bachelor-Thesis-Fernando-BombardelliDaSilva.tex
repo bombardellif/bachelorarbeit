@@ -5,7 +5,7 @@
 % This is an example file and is hereby explicitly put in the
 % public domain.
 % 
-\documentclass[tuberlin,cic,tc,openright,english,noabntcite]{iiufrgs}
+\documentclass[tuberlin,cic,tc,openright,english,noabntcite,oneside]{iiufrgs}
 % Para usar o modelo, deve-se informar o programa e o tipo de documento.
 % Programas :
 % * cic       -- Graduação em Ciência da Computação
@@ -40,7 +40,7 @@
 % \usepackage{mathptmx}       % p/ usar fonte Adobe Times nas fórmulas
 
 %\usepackage[alf,abnt-emphasize=bf]{abntex2cite}	% pacote para usar citações abnt
-\usepackage{csquotes}
+\usepackage[autostyle,english=american]{csquotes}
 \usepackage[authordate,backend=biber,refsection=chapter]{biblatex-chicago}
 \addbibresource{biblio.bib}
 
@@ -52,6 +52,8 @@
 
 % Matemáticas
 \usepackage{amsmath}
+\usepackage{amsthm}
+\newtheorem{definition}{Definition}
 
 % 
 % Informações gerais
@@ -115,10 +117,10 @@
 % palavras-chave
 % iniciar todas com letras minúsculas, exceto no caso de abreviaturas
 % 
-\keyword{formatação eletrônica de documentos}
-\keyword{\LaTeX}
-\keyword{ABNT}
-\keyword{UFRGS}
+\keyword{Dial-a-ride problem}
+\keyword{firefly algorithm}
+\keyword{metaheuristic}
+\keyword{mathematical programming}
 
 %\settowidth{\seclen}{1.10~}
 
@@ -176,9 +178,16 @@
 
 % lista de abreviaturas e siglas
 % o parametro deve ser a abreviatura mais longa
-\begin{listofabbrv}{DARP}
-    \item[FA] Firefly Algorithm
+\begin{listofabbrv}{MD-H-DARP}
+	\item[AMPL] A Mathematical Programming Language
     \item[DARP] Dial-a-Ride Problem
+    \item[FA] Firefly Algorithm
+    \item[GA] Genetic Algorithm
+    \item[GLPK] GNU Linear Programming Kit
+    \item[MD-H-DARP] Multi-Depot Heterogeneous Dial-A-Ride Problem
+    \item[PDVRP] Pickup and Delivery Vehicle Routing Problem
+    \item[PSO] Particle Swarm Optimization
+    \item[VRPTW] Vehicle Routing Problem with Time Windows
 \end{listofabbrv}
 
 % idem para a lista de símbolos
@@ -194,52 +203,101 @@
 
 % introducao
 \chapter{Introduction}
-In current urban areas, mainly in very populated cities, there is a huge number of mobility problems. These problems have been seen with much interest by the scientific community, which has been strongly contributing to the improvement of transportation and logistic networks, thus promoting advances towards a better mobility.
+In current urban areas, mainly in very populated cities, there is a huge number of mobility problems. These problems have been seen with much interest by the scientific community, which has been strongly contributing to the improvement of transportation and logistic networks, thus promoting advances towards a better urban mobility.
 
-The here addressed problem is known as the dial-a-ride problem (DARP). Shortly, it consists of a system with a set of requests of pick up and delivery entered by customers and a fleet of vehicles. The goal is planning the route of the vehicles and the assignment of requests to them in a feasible way, since there are constraints from both the requests and the vehicles to which a solution is subject. These can be several conditions, like location and time limit for picking up and delivering or how much time each vehicle can operate. Besides, it is not only searched a feasible solution but an optimal one that minimizes the costs of the operation defined by a function.
+The here addressed problem is known as the \textbf{Dial-a-ride problem (DARP)}. Shortly, it consists of a system with a set of requests of pickup and delivery entered by customers and a fleet of vehicles. The goal is planning the route of the vehicles and the assignment of requests to them in a feasible way, since there are constraints from both the requests and the vehicles to which a solution is subject. These can be several conditions, like location and time limit for picking up and delivering or how much time each vehicle can operate. Besides, it is not only searched a feasible solution but an optimal one that minimizes the operation costs, here seen as the total time of operation, defined by a function.
 
 Many difficulties are found when trying to solve the described problem, the combinatorial nature of its solution space make it hard to treat for large inputs because of the high complexity, it leads then to a special difficulty in building a scalable application.
 
 \section{Definition}
+
+\textcite[p. 29]{cordeau_dial--ride_2007} states the problem very briefly:
+\begin{quote}
+\enquote{The Dial-a-Ride Problem (DARP) consists of designing vehicle routes and schedules for $n$ users who specify pickup and delivery requests between origins and destinations. The aim is to plan a set of $m$ minimum cost vehicle routes capable of accommodating as many users as possible, under a set of constraints.}
+\end{quote}
+
+The author summarizes very well, however, a closer look is to be taken. The instances of the problem specify the following properties, that are taken as input by the solver. Firstly, there is an \textbf{amount of homogeneous vehicles}, that is to say, no distinction should be made concerning types of buses. Secondly, it is assumed a \textbf{single depot}, which the vehicles start from and which they arrive to. Next, the cars have the attributes of \textbf{capacity}, in other words, how many passengers it can carry at a time, and its \textbf{maximal duration time} that the car cannot exceed. Then, the passengers have a \textbf{maximum allowed travel time} to guaranty their comfort. Finally, there are $n$ \textbf{requests}, which have these features:
+
+\begin{itemize}
+\item Pickup location;
+\item Destination location;
+\item Time window for picking up (a time interval in which the vehicle is expected to be at the site);
+\item Time window for delivering;
+\item Time needed for boarding or alighting;
+\item Quantity of passengers;
+\end{itemize}
+
+Additionally, it is possible for a car to move from every location to any other location, the time needed to travel between any pair is considered to be the linear distance between these two points.
+
+To sum up, these are the parameters that form the constraints of the problem and must be considered. In regard to the goal, there are two concepts that can be elucidated, namely feasible and optimal solution. The former is defined thusly:
+\begin{definition}[Feasible solution]
+Determination of the routes of the vehicles, such that, every request is picked up and then delivered by one and only one vehicle, which fulfill every condition of the requests and of itself.
+\end{definition}
+
+In order to make it clearer, let a route be defined as:
+\begin{definition}[Route]
+The order of the locations through which a vehicle passes. It starts and ends at the depot and it is possible to be executed without breaking the conditions of time windows of the respective requests considering the boarding, alighting and travel times.
+\end{definition}
+
+Every route has then attached a duration time, which can be calculated based on its requests. Summing up the duration of every route in a solution, we get its total duration time. Therewith is an optimal solution defined:
+\begin{definition}[Optimal solution]
+A feasible solution whose duration time is less than or equal to any other feasible solution's duration time.
+\end{definition}
+
+In conclusion, given an instance of the Dial-a-ride problem, it is sought an optimal solution.
+
+\section{Approach}
+In this work two approaches shall be taken, in order to solve the optimization problem. The exact approach consists of mathematically modeling the problem as an \textbf{integer linear program} and then transcribing it into a \textbf{mathematical programming language} aiming executing it with a generic linear program solver. The near-optimal approach shall then analyze and develop a program that implements the \textbf{firefly metaheuristic} to efficiently seek near-optimal solutions.
+
+Finally, the goal of the research is to compare the performance of the two different models, both through the execution time and the solution quality as well as through the possibility of dealing with large inputs. Besides the evaluation through the the mentioned comparison, a second evaluation is conducted by assessing the firefly metaheuristic implementation when solving the instances used in other works of the literature.
 
 \section{Justification}
 It is expected that the results of this work may bring relevant contributions to the handling of the presented problem, and even of other ones. By having two distinct approaches it is possible to compare results regarding important features of the problem, such as scalability, feasibility and deviation to an optimal solution. Furthermore, the application of the relatively new firefly algorithm to the problem can show how it performs in a such a solution space.
 
 In addition to the contributions to the understanding of the behavior of swarming metaheuristics applied to optimization problems of transportation, the new procedure of solving the problem serves as a prototype and brings a new perspective to commercial applications which seek constantly to treat the problem in a more efficient and scalable way.
 
-With regard to the current cities' mobility, there is a growing demand for an efficient alternative to the classical means of transportation. The implementation of such a system improves the possibility of movement of the population and makes it more efficient, since it allows the decrease of the number of cars that drive through the urban network everyday causing traffic jams in big cities. Moreover, it helps to solve an demanding problem in today's society where there is an increasing number of elderly or handicapped people, who have the right to mobility and need assistance to travel in the town.
+With regard to the current cities' mobility, there is a growing demand for an efficient alternative to the classical means of transportation. The implementation of such a system improves the possibility of movement of the population and makes it more efficient, since it allows the decrease of the number of cars that drive through the urban network everyday causing traffic jams in big cities. Moreover, it helps to solve a demanding problem in today's society where there is an increasing number of elderly or handicapped people, who have the right to mobility and need assistance to travel in the town.
 
-Also in an economical view this research contributes to the win of new markets by companies who aim to enter the branch of public transportation since its main goal is minimizing the operation costs. With such a model a company can take great advantages against competitors in order to capture marketplace.
+Also in an economical view this research contributes to the win of new markets by companies who aim to enter the branch of public transportation since its main goal is minimizing the operation costs. With a business model based on the reduction of transaction costs, a company can take great advantages against competitors in order to capture marketplace.
 
 At last, the concerns of the proposed model shows also an ecological relevance by enabling the decrease of the emission of greenhouse gases in the urban area, directly, considering that in this case costs are direct proportional to the consume of fuel, and consequently to the emission of gases, such as CO$_{2}$, and indirectly by reducing the circulation of other automobiles.
 
-\section{Approach}
-
 \chapter{Literature Review}
-The Dial-a-ride Problem (DARP) is very similar to other problems studied in the scientific society, namely, it can be cited the Pickup and Delivery Vehicle Routing Problem (PDVRP) and the Vehicle Routing Problem with Time Windows (VRPTW), problems with application in logistics. According to Cordeau (2007, \cite{Cordeau2007}), what basically differs the DARP from these other ones is the human perspective, by the fact that people are transported. It often appears presenting two goals, minimizing operation costs subject to the constraints and maximizing the availability and quality of the service. The quality criteria include frequently aspects like route duration, customer waiting and ride time, maximum vehicle ride time, among others and are usually treated in the constraints of the optimization.
+According to \textcite[p. 30]{cordeau_dial--ride_2007}, the Dial-a-ride Problem (DARP) is very similar to other problems studied in the scientific society, namely the \emph{Pickup and Delivery Vehicle Routing Problem} (PDVRP) and the \emph{Vehicle Routing Problem with Time Windows} (VRPTW), problems that have application in logistics. The authors point out that, what basically differs the DARP from these other ones is the human perspective, by the fact that people are transported. It often appears presenting two goals, minimizing operation costs subject to the constraints and maximizing the availability and quality of the service. The quality criteria include frequently aspects like route duration, customer waiting and ride time, maximum vehicle ride time, among others, and are usually treated as the constraints of the optimization problem.
 
-Cordeau (2007, \cite{Cordeau2007}) realized a survey on the subject, he presents three mathematical models that occur in the literature, two as formulation of a mathematical optimization and one as a scheduling problem. Therefore there are several other approaches made by other authors.
+\textcite{cordeau_dial--ride_2007} realized a survey on the subject, they show different variations in the formulation and in the approach. Firstly, the DARP occurs in a \textbf{static} version in which the requests are known beforehand, this one we would like to treat here, alternatively, there is a \textbf{dynamic} version, dealt by \textcite{berbeglia_dynamic_2010}, in which requests can be entered during the operation of the transportation service.
 
-Although there are works handling the problem in an exact way, that tries to find an optimal solution, for instance, with the branch-and-cut algorithm, most of them focus on applying a determined heuristic in order to find a near-optimal solution in the search space, for example, tabu search, genetic algorithms or simulated annealing.
+Another distinction to be made is between the \textbf{homogeneous} and the \textbf{heterogeneous} Dial-a-ride Problem. The former proceeds on the assumption that every vehicle is equal. The latter on the other hand distinguish the vehicles either in capacity or in new features, such as space for wheelchair, etc. \parencite[p. 593]{parragh_models_2010}. In the same way, the objectives can differ by aiming \textbf{cost minimization} or \textbf{satisfied demand maximization} \parencite[p. 30]{cordeau_dial--ride_2007}. \textcite{urra_hyperheuristic_2015} have succeeded on handling the second one. A last differentiation of the problem is done regarding the depots, which can be a \textbf{single} one or \textbf{multiple} ones, in this case referred to as \emph{Multi-Depot Heterogeneous Dial-A-Ride Problem} (MD-H-DARP) \parencite[p. 166]{braekers_exact_2014}.
 
-What has not been tried is using swarm-based metaheuristics to solve the problem, such as particle swarming optimization, ant colony or the firefly algorithm. Swarm intelligence is a technique applied in the computer science, more precisely in artificial intelligence and operations research, that is based on nature patterns or behaviors. In this point of view, these metaheuristics resemble the genetic algorithms, since these are also nature-based, but they differ by the fact that, genetic algorithms have mutation and crossover operators and are based on the theory of evolution of the species, whereas swarm intelligence techniques are based on the observation of the behavior of swarms.
+In their survey, \textcite{cordeau_dial--ride_2007} identify in the literature three formulations. Two of them are described as a mathematical linear program and the other one as a scheduling problem. The \textbf{three-index mathematical formulation}, proposed by \textcite{cordeau_branch-and-cut_2006}, uses binary three-index variables $x_{i,j}^{k}$ to assign routes to each bus and then to minimize costs. In addition, \textcite{ropke_models_2007} come up with a \textbf{two-index formulation} which ignores the maximum ride constraints in order to simplify the model.
 
-In this work we will study and apply the firefly algorithm (FA), that has been showing good results in the solution of nonlinear global optimization problems. Yang (2012, \cite{Yang2012}) presents a theoretical analysis on swarm intelligence having as study cases the firefly algorithm and particle swarm optimization (PSO). Yang (2013, \cite{Yang2013}) introduce the FA approaching parameter settings, complexity and applications in a didactic way with examples, at the end he draws a conclusion showing a growing application of the method in scientific articles and foreseeing an expansion in the subject and the improvement of such metaheuristic. Additionally, Yang (2009, \cite{Yang2009}) compares the FA against the PSO running simulations in a variety of objective function and concludes affirming the superiority of the FA over the PSO and that it is potentially more powerful in solving NP-Hard problems.
+Exact algorithms have been proposed by several researchers, to highlight are the \textbf{branch-and-cut} by \textcite{cordeau_branch-and-cut_2006} and by \textcite{ropke_models_2007}. However, to speed up running times many other methods based on \textbf{metaheuristics} have been suggested in the literature, among them are the \textbf{genetic algorithm} by \textcite{jorgensen_solving_2007}, the \textbf{simulated annealing} by \cite{zidi_multi-objective_2012}, the \textbf{granular tabu search} by \textcite{kirchler_granular_2013} and the approach with \textbf{large neighborhood search} performed by \textcite{parragh_hybrid_2013}. Lately, \cite{urra_hyperheuristic_2015} published a new method with the so-called \textbf{hyperheuristic}.
+
+All in all, none of the studied methods takes a swarm-based metaheuristic approach to solve the problem. Swarm intelligence is a technique applied in the computer science, more precisely in artificial intelligence and operations research, that is based on observations of nature patterns and behaviors, particle swarming optimization (PSO), ant colony and the firefly algorithm (FA) are example of techniques that apply these ideas. In this point of view, these metaheuristics resemble the genetic algorithms (GA), since GAs are also nature-based, but they differ in the fact that, genetic algorithms have mutation and crossover operators and are based on the theory of evolution of the species, whereas swarm intelligence techniques are based purely on the behavior of swarms \parencite[p. 189-190]{yang_efficiency_2012}.
+
+In this work we apply the \textbf{firefly metaheuristic}, that has been showing good results in the solution of nonlinear global optimization problems. It was introduced by \textcite{yang_firefly_2009}, who compares it against the PSO by running simulations in a variety of objective functions and concludes affirming that the FA can outperform the PSO and that it is potentially more powerful in solving $\mathcal{NP}$-hard problems. Additionally, \textcite{yang_efficiency_2012} presents a theoretical analysis on swarm intelligence having as study cases the firefly algorithm and particle swarm optimization. \textcite{yang_firefly_2013} introduce the FA by approaching parameter settings, complexity and applications with examples, at the end he draws a conclusion showing a growing application of the method in the scientific community and foreseeing an expansion of the subject and the improvement of the metaheuristic.
+
+The firefly algorithm has also been applied to discrete optimization problems, also known as \textbf{integer programming}. \textcite{jati_evolutionary_2011} address the classical \textbf{Travelling Salesman Problem} with the help of the FA. In the same way, \textcite{apostolopoulos_application_2010} deal with another combinatorial optimization problem, the \emph{Economic Emissions Load Dispatch Problem}. At last, \textcite{sayadi_discrete_2010} and \textcite{sayadi_firefly-inspired_2013} also utilize this technique, in order to solve other $\mathcal{NP}$-hard problems.
 
 \chapter{Theoretical Basis}
+This chapter presents a theoretical framework that configure a background necessary to understand, analyze, design and implement the solution for the addressed problem.
+
 \section{Graph Theory}
 - Cycle
+
 - Full tree
 \section{Computational Complexity}
 \subsection{Travelling Salesman Problem}
 \section{Mathematical Optimization}
+
+
 \section{Metaheuristics}
 \section{The Firefly Metaheuristic}
 
 \chapter{Argumentation}
 \section{Integer Linear Programming Formulation}
 \section{Firefly Metaheuristic Modeling}
-This section aims to explain the design of the Firefly Metaheuristic applyed to the hier treated problem. This approach consists of viewing the solutions for the DARP as vectors in a multidimensional space. These solutions are represented by the fireflies, which can movement themselves in the search space by changing the components of the vector. There is a function with takes a vector as input and gives a real number that indicate how bright the firefly is, that is to say, how good the solution is.
+This section aims to explain the design of the Firefly Metaheuristic applied to the here treated problem. This approach consists of viewing the solutions for the DARP as vectors in a multidimensional space. These solutions are represented by the fireflies, which can movement themselves in the search space by changing the components of the vector. There is a function with takes a vector as input and gives a real number that indicate how bright the firefly is, that is to say, how good the solution is.
 
 The challenge is to fit the problem in this model, so that it can be computed in a effective and efficient way. This includes defining the vector of a solution, the brightness function, distance and movements in the space, the parameters, the randomness and the evolution of the optimization process.
 
@@ -367,13 +425,13 @@ For reasons of efficiency of the implementation and numerical error the Manhatta
 $$d(\mathbf{p},\mathbf{q}) = \parallel \mathbf{p} - \mathbf{q} \parallel = \sum_{i=1}^{n} \mid \mathbf{p}_{i}-\mathbf{q}_{i} \mid$$
 
 \subsection{Attractiveness}
-As proposed by \autocite{Yang_2010} the attractiveness is calculated with the following quotient, which varies with the squared distance between two vectors.
+As proposed by \textcite[p. 173]{yang_firefly_2009} the attractiveness is calculated with the following quotient, which varies with the squared distance between two vectors.
 $$\beta(r) = \frac{\beta_{0}}{1 + \gamma r^2}$$
 However, without loss of quality in the method, the attractiveness can be set to vary directly with the distance as the search space is too large and concerns with numerical errors play a important role. So the function is rewritten as follows.
 $$\beta(r) = \frac{\beta_{0}}{1 + \gamma r}$$
 
 \subsection{Randomization Term}
-The random term of the metaheuristic movement equation is by default $\alpha \cdot \epsilon$, where $\epsilon \sim N(0,1)$. Though, as stated by \autocite{Yang_2010}, \emph{”it is a good idea to replace $\alpha$ by $\alpha S_k$ where the scaling parameters $S_k (k=1,...,d)$ in the $d$ dimensions should be determined by the actual scales of the problem of interest”}. As the size of each dimension are easily obtainable, they are used in this model. Moreover, \autocite{Yang_2013} presents a iterative change of the alpha parameter, by turning it variable to the optimization evolution $t$. Thus, he introduces a new variable delta and that parameter is updated by the equation
+The random term of the metaheuristic movement equation is by default $\alpha \cdot \epsilon$, where $\epsilon \sim N(0,1)$. Though, as stated by \textcite[p. 80]{yang_firefly_2010}, \emph{”it is a good idea to replace $\alpha$ by $\alpha S_k$ where the scaling parameters $S_k (k=1,...,d)$ in the $d$ dimensions should be determined by the actual scales of the problem of interest”}. As the size of each dimension are easily obtainable, they are used in this model. Moreover, \textcite[p. 37-38]{yang_firefly_2013} presents an iterative change of the alpha parameter, by turning it variable to the optimization evolution $t$. Thus, he introduces a new variable delta and that parameter is updated by the equation
 $$ \alpha_t = \alpha_{t-1} \cdot \delta, (0 < \delta < 1),$$ where $\alpha_0$ is the initial scaling factor. The author gives also an advice about setting delta: \emph{”$\delta$ is essentially a cooling factor. For most applications, we can use $\delta = 0.95$ to $0.97$”}.
 
 At last, it is wanted a integer number for the stochastic term, as the search space is discrete. In order to achieve that, rounding is performed, proper concerns about numerical errors should be taken in the implementation, so that they are reduced at most.
@@ -400,7 +458,7 @@ $$I(\mathbf{x}) = \begin{cases} 0 & \text{if }\mathbf{x}\text{ does not meet the
 A initial set of feasible solutions is calculated by simply generating random natural numbers in an interval to each component of the vector. Firstly, the first component is randomized, its range is $[0, k^n)$, where there are $n$ requests and $k$ buses. Secondly, the other components are randomized, their domain intervals are determined based on the distribution of requests to buses resulted from the first component randomization. So the first generation of fireflies can be efficiently created. [ARE THEY FEASIBLE WHEN THE BUSES HAVE LIMIT OF PASSENGERS? OR TIME CONSTRAINTS? NO!]
 
 \subsection{Parameters}
-The choice of the parameters is basically based on the work of \autocite{Yang2013}. For that the scale $L$ of the problem is taken into consideration, it represents the size of the search space and is calculated by multiplying the sizes of the intervals, in which the intensity function is defined, of each dimension. The parameter gamma is then set $\gamma = 1/\sqrt{L}$. In order to have an broad exploration of the space it is set $\alpha_0 = 0.1$, the parameter is reduced along the optimization process. Lastly, it is set $\beta_0 = 1$, $\delta = 0.95$ and the number of fireflies to 40.
+The choice of the parameters is basically based on the work of \textcite[p. 37-38]{yang_firefly_2013}. For that the scale $L$ of the problem is taken into consideration, it represents the size of the search space and is calculated by multiplying the sizes of the intervals, in which the intensity function is defined, of each dimension. The parameter gamma is then set $\gamma = 1/\sqrt{L}$. In order to have an broad exploration of the space it is set $\alpha_0 = 0.1$, the parameter is reduced along the optimization process. Lastly, it is set $\beta_0 = 1$, $\delta = 0.95$ and the number of fireflies to 40.
 
 \subsection{Two-Phase Optimization}
 It is to note in a regular problem instance that the distribution of requests to bus has a greater weight it the cost function. Empirical observations suggest that this distribution is roughly the most determinant factor in the calculation of the costs. For instance, the grouping requests that are geographically near tends to show better results regardless of the route. Yet, the route of each bus plays an important role in finding an optimal result.
