@@ -1,0 +1,31 @@
+%----------------------------------------------------------------------------------------
+%	Macros para definir programa linear
+%----------------------------------------------------------------------------------------
+\makeatletter
+\newcommand{\minproblem}{\@ifstar\minproblemstar\minproblemplain}
+\newcommand{\minproblemplain}[3][]{
+  \begin{align}
+    \text{#1}\textbf{minimize}\qquad & #2\\
+    \textbf{subject to}\qquad & #3
+  \end{align}
+}
+\newcommand{\minproblemstar}[3][]{
+  \begin{align*}
+    \text{#1}\textbf{minimize}\qquad & #2\\
+    \textbf{subject to}\qquad & #3
+  \end{align*}
+}
+\newcommand{\maxproblem}{\@ifstar\maxproblemstar\maxproblemplain}
+\newcommand{\maxproblemplain}[3][]{
+  \begin{align}
+    \text{#1}\textbf{maximize}\qquad & #2\\
+    \textbf{subject to}\qquad & #3
+  \end{align}
+}
+\newcommand{\maxproblemstar}[3][]{
+  \begin{align*}
+    \text{#1}\textbf{maximize}\qquad & #2\\
+    \textbf{subject to}\qquad & #3
+  \end{align*}
+}
+\makeatother

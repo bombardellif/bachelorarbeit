@@ -55,6 +55,9 @@
 \usepackage{amsthm}
 \newtheorem{definition}{Definition}
 
+% Linear Programming
+\input{macro_lp.tex}
+
 % 
 % Informações gerais
 % 
@@ -120,7 +123,7 @@
 \keyword{Dial-a-ride problem}
 \keyword{firefly algorithm}
 \keyword{metaheuristic}
-\keyword{mathematical programming}
+\keyword{integer programming}
 
 %\settowidth{\seclen}{1.10~}
 
@@ -201,7 +204,9 @@
 
 % aqui comeca o texto propriamente dito
 
-% introducao
+%============================================================
+% Chapter 1. Introduction
+%============================================================
 \chapter{Introduction}
 In current urban areas, mainly in very populated cities, there is a huge number of mobility problems. These problems have been seen with much interest by the scientific community, which has been strongly contributing to the improvement of transportation and logistic networks, thus promoting advances towards a better urban mobility.
 
@@ -262,6 +267,9 @@ Also in an economical view this research contributes to the win of new markets b
 
 At last, the concerns of the proposed model shows also an ecological relevance by enabling the decrease of the emission of greenhouse gases in the urban area, directly, considering that in this case costs are direct proportional to the consume of fuel, and consequently to the emission of gases, such as CO$_{2}$, and indirectly by reducing the circulation of other automobiles.
 
+%============================================================
+% Chapter 2. Literature Review
+%============================================================
 \chapter{Literature Review}
 According to \textcite[p. 30]{cordeau_dial--ride_2007}, the Dial-a-ride Problem (DARP) is very similar to other problems studied in the scientific society, namely the \emph{Pickup and Delivery Vehicle Routing Problem} (PDVRP) and the \emph{Vehicle Routing Problem with Time Windows} (VRPTW), problems that have application in logistics. The authors point out that, what basically differs the DARP from these other ones is the human perspective, by the fact that people are transported. It often appears presenting two goals, minimizing operation costs subject to the constraints and maximizing the availability and quality of the service. The quality criteria include frequently aspects like route duration, customer waiting and ride time, maximum vehicle ride time, among others, and are usually treated as the constraints of the optimization problem.
 
@@ -279,21 +287,55 @@ In this work we apply the \textbf{firefly metaheuristic}, that has been showing 
 
 The firefly algorithm has also been applied to discrete optimization problems, also known as \textbf{integer programming}. \textcite{jati_evolutionary_2011} address the classical \textbf{Travelling Salesman Problem} with the help of the FA. In the same way, \textcite{apostolopoulos_application_2010} deal with another combinatorial optimization problem, the \emph{Economic Emissions Load Dispatch Problem}. At last, \textcite{sayadi_discrete_2010} and \textcite{sayadi_firefly-inspired_2013} also utilize this technique, in order to solve other $\mathcal{NP}$-hard problems.
 
+%============================================================
+% Chapter 3. Theoretical Basis
+%============================================================
 \chapter{Theoretical Basis}
 This chapter presents a theoretical framework that configure a background necessary to understand, analyze, design and implement the solution for the addressed problem.
 
 \section{Graph Theory}
-- Cycle
-
-- Full tree
+%- Cycle
+%- Full tree
 \section{Computational Complexity}
 \subsection{Travelling Salesman Problem}
-\section{Mathematical Optimization}
 
+\section{Linear and Integer Programming}
+Linear Programming is a technique in mathematics used for \textbf{optimization of linear functions}. With it, it is possible to model optimization problems in which a cost (or utility) linear function is to be minimized (or maximized) given a set of constraints which the function's independent variables are subject to. In short, it enables the formulation of optimization problems in a very simple mathematical language.
+
+To formulate a linear program three specifications are required. At first, the so-called decision variables $x_{i}$, that are the ones which values are assigned to. Secondly, the objective function, that is a linear function $f(x)$ to be optimized. Lastly, the constraints, that are linear inequalities describing relations between the decision variables and parameters of the problem instance. Therefore, it is expected from a solver, given a linear program and data parameters, to deliver the set of assignments of values to the decision variables that minimize or maximize the objective function respecting the constraints. The most prominent method for solving linear programming is the \textbf{simplex method} \parencite[p. 5-6]{shenoy_linear_2007}.
+
+As a result, a linear program with $n$ variables and $m$ constraints for the minimization of a function can be written as follows.
+
+\minproblem*{\sum_{i=1}^{n} c_{i}x_{i}}{
+    \sum_{i=1}^{n} a_{ki}x_{i} 	\leq b_{m} 	& \forall k = 1, 2, ..., m\\
+    & x_{i}						\geq 0		& \forall i = 1, 2, ..., n
+}
+
+However, there are problems where real values are not accepted as assignment to variables, because they require integer values. These problem are to be treated differently by adding an additional integer-value constraint to the domain of the variables ($x_{i} \in \mathbb{Z}$). A technique derived from linear programming addresses the issue, namely \textbf{integer programming}. Although there are other more specific concepts for problems that are similar to integer programming, such as mixed integer programming and zero-one programming, they all can be handled by quite the same principles \parencite[p. 175]{shenoy_linear_2007}. As an implication, the simplex method is not able to solve this type of optimization problem neither is, generally, numerical approximation a good solution. Thus, there are several algorithm in the literature, for instance the \textbf{branch-and-bound} and the \textbf{cutting planes} are widespread and one of the most common.
+
+The integer-value constraint implies a vast difference regarding the complexity of the integer problem when compared to the linear one. It is then discussed, whether these problems can be solved in polynomial time, referred to as \emph{certificate of optimality}. \textcite{wolsey_integer_2014} point out that there are algorithms capable of solving linear programming in polynomial time, whereas no such algorithm is known to integer programming. Moreover, many known $\mathcal{NP}$-complete problems, such as the TSP and the knapsack problem, can be reduced to an instance of integer programming. It turns out that integer programming is not only $\mathcal{NP}$-hard but $\mathcal{NP}$-complete as well \parencite[p. 21]{schrijver_theory_1998}.
 
 \section{Metaheuristics}
+
+\textcite[p. 1]{osman_meta-heuristics_2012} state in their work: \enquote{Meta-heuristics are the most recent development in approximate search methods for solving complex optimization problems.}. As he follows, a metaheuristic guides the development of algorithms using artificial intelligence, biological, physical, mathematical and natural phenomena as source of inspiration. Firstly should be understood what heuristics are. According to \textcite[p. 13]{carvalho_121_2004}, there is no common definition for heuristics. They suggest that: \enquote{Heuristics can be rules, strategies, principles or methods for increasing the effectiveness of a problem resolution [...]. [They] neither provide direct and definite answers, nor guaranty a solution for a problem.}. On the whole, heuristics are a powerful weapon to attack difficult combinatorial optimization problems.
+
+On metaheuristics the concept is concise, \textcite[p. 3]{osman_meta-heuristics_2012} explain in the following way.
+
+\begin{quote}
+\enquote{A Meta-heuristic is an interactive generation process which guides a subordinate heuristic by combining intelligently different concepts for exploring and exploiting the search space using learning strategies to structure information in order to find efficiently near-optimal solutions.}
+\end{quote}
+
+Therefore, metaheuristics do not necessarily deliver an optimal solution, but the benefit in terms of performance overcome the possibility of not obtaining a proved optimal solution. Even though, the late advances in the field have contributed strongly in order to get very good in quality results (ibid.).
+
+As a metaheuristc gives quasi instructions to write an algorithm, it is common to almost every technique four basic elements which should be modeled. First, a \textbf{solution representation} is to be determined, this should be able to describe any possible solution and to be evaluated by a function which determines its cost or benefit. Secondly, the algorithm should \textbf{initialize solutions}, it means, there is a procedure to create the so-called initial solutions. Thirdly, \textbf{new solutions} should be generated from existing ones, in some metaheuristics this step is called \emph{movement}, \emph{genetic operator}, among other terms. Finally, a \textbf{stop criterion} is established in order to determine the termination of the method.
+
+- The methods (local search / nature-inspired)
+
 \section{The Firefly Metaheuristic}
 
+%============================================================
+% Chapter 4. Argumentation
+%============================================================
 \chapter{Argumentation}
 \section{Integer Linear Programming Formulation}
 \section{Firefly Metaheuristic Modeling}
@@ -478,6 +520,9 @@ To obtain a better performance and the most recent implemented features it is re
 
 - Input (Manual,help)
 
+%============================================================
+% Chapter 5. Evaluation
+%============================================================
 \chapter{Evaluation}
 - Method for evaluation
 
@@ -489,6 +534,9 @@ To obtain a better performance and the most recent implemented features it is re
 
 - Comparison
 
+%============================================================
+% Chapter 6. Conclusion
+%============================================================
 \chapter{Conclusion}
 - Further Research
 
