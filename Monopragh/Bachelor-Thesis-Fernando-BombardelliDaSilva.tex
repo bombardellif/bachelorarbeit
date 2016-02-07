@@ -56,9 +56,11 @@
 \usepackage{amsmath}
 \usepackage{amsthm}
 \newtheorem{definition}{Definition}
+\allowdisplaybreaks
 
 % Linear Programming
 \input{macro_lp.tex}
+\renewcommand\theequation{\arabic{equation}}
 
 % 
 % Informações gerais
@@ -223,7 +225,7 @@ Many difficulties are found when trying to solve the described problem, the comb
 \enquote{The Dial-a-Ride Problem (DARP) consists of designing vehicle routes and schedules for $n$ users who specify pickup and delivery requests between origins and destinations. The aim is to plan a set of $m$ minimum cost vehicle routes capable of accommodating as many users as possible, under a set of constraints.}
 \end{quote}
 
-The author summarizes very well, however, a closer look is to be taken. The instances of the problem specify the following properties, that are taken as input by the solver. Firstly, there is an \textbf{amount of homogeneous vehicles}, that is to say, no distinction should be made concerning types of buses. Secondly, it is assumed a \textbf{single depot}, which the vehicles start from and which they arrive to. Next, the cars have the attributes of \textbf{capacity}, in other words, how many passengers it can carry at a time, and its \textbf{maximal duration time} that the car cannot exceed. Then, the passengers have a \textbf{maximum allowed travel time} to guaranty their comfort. Finally, there are $n$ \textbf{requests}, which have these features:
+The author summarizes very well, however, a closer look is to be taken. The instances of the problem specify the following properties, that are taken as input by the solver. Firstly, there is an \textbf{amount of homogeneous vehicles}, that is to say, no distinction should be made concerning types of buses. Secondly, it is assumed a \textbf{single depot}, which the vehicles start from and which they arrive to. Next, the cars have the attributes of \textbf{capacity}, in other words, how many passengers it can carry at a time, and its \textbf{maximal duration time} that the car cannot exceed. Then, the passengers have a \textbf{maximum allowed travel time} to guarantee their comfort. Finally, there are $n$ \textbf{requests}, which have these features:
 
 \begin{itemize}
 \item Pickup location;
@@ -385,18 +387,57 @@ where the third term models a stochastic variation and $t$ is the iteration numb
 \chapter{Argumentation}
 The objective of this chapter is to present in details the design and implementation of the two approaches taken in order to solve the DARP. Firstly, the integer programming formulation is explained and discussed. Then, the model for the firefly metaheuristic is introduced showing the main procedures and decisions.
 
-\section{Integer Linear Programming Formulation}
+\section{Integer Linear Programming Model}
 As the DARP is an optimization problem, one can define it as an mathematical integer program. On the one hand, This is a powerful way to solve this kind of problem, since it is relatively easy to formulate and quite flexible in adding new rules  and conditions. On the other hand, the solving by a generic solver or by an exact algorithm is usually cost intensive and limited by the strictness of the linear program formulation.
 
-In this work it is considered the three-index formulation proposed by \textcite[p. 574-575]{cordeau_branch-and-cut_2006}. For this purpose, consider $n$ the number of requests of a problem instance. The DARP can then be defined through a directed graph $G(V,A)$, where $V$ is the set of vertices representing stop locations. This set can be partitioned in three subsets, (1) the initial and final depot, that contains the vertices $0$ and $2n+1$; (2) the pickup points comprehending the vertices $P=\{1,\dotsc,n\}$; (3) the deliver points including the vertices $D=\{n+1,\dotsc,2n\}$. This way, one define a request as a ordered pair $(i,n+i)$. Additionally, $A$ is the set of edges that interconnect the locations to represent the travel time $y_{ij}$ and the travel costs $c_{ij}^{k}$ for a vehicle $k$. With that, $G$ becomes a complete digraph, that is to say, there is exact two edges connecting every pair of distinct vertices, one edge in each direction. For reason of simplification, one can assume an undirected graph, where the costs of driving from a stop $i$ to another $j$ are the same as from $j$ to $i$, for the same reason, one can set the costs $c_{ij}^{k} = t_{ij}$.
+\subsection{Mathematical Formulation}
+In this work it is considered the \textbf{three-index formulation} proposed by \textcite[p. 574-575]{cordeau_branch-and-cut_2006}. For this purpose, consider $n$ the number of requests of a problem instance. The DARP can then be defined through a directed graph $G(V,A)$, where $V$ is the set of vertices representing stop locations. This set can be partitioned in three subsets, (1) the initial and final depot, that contains the vertices $0$ and $2n+1$; (2) the pickup points comprehending the vertices $P=\{1,\dotsc,n\}$; (3) the deliver points including the vertices $D=\{n+1,\dotsc,2n\}$. This way, one define a request as a ordered pair $(i,n+i)$. Additionally, $A$ is the set of edges that interconnect the locations to represent the travel time $y_{ij}$ and the travel costs $c_{ij}^{k}$ for a vehicle $k$. With that, $G$ becomes a complete digraph, that is to say, there is exact two edges connecting every pair of distinct vertices, one edge in each direction. For reason of simplification, one can assume an undirected graph, where the costs of driving from a stop $i$ to another $j$ are the same as from $j$ to $i$, for the same reason, one can set the costs $c_{ij}^{k} = t_{ij}$.
 
 Moreover, every vertex has associated a load $q_{i}$ that tells the quantity of passenger boarding or alighting in the point, these values are then positive or negative, respectively, thus, $q_{i}\geq 1, (\forall i \in P)$ and $q_{i} = -q_{i-n}, (\forall i \in D)$ and $q_{i} = 0, (\forall i \in \{0,2n+1\})$. Likewise, the vertices indicate also a duration $d{i}$ which is a positive number that informs the time necessary to realize the service at that stop. Furthermore, a time window $[e_{i}, l_{i}]$ is associated to every vertex and represents, respectively, the earliest and the latest time at which the service may start at the location.
 
 Regarding the vehicle attributes, let $K$ be the quantity of buses at disposal, so, it is defined a vehicle capacity $Q_{k}$ and a maximal route duration $T_{k}$, but, as we are considering the homogeneous version of the DARP, the indexation by $k \in K$ does not play an important role. At the last, the maximal route duration in respect of the passenger is given by the constant $L$.
 
-Having considered all these parameters, it is possible to define the set of decision variables which identify a solution to the addressed problem. 
+Having considered all these parameters, it is possible to define the set of decision variables which identify a solution to the addressed problem. So, for each edge $(i,j) \in A$ and vehicle $k \in K$ there is a variable $x_{ij}^k$ which is equal to \emph{one} if the vehicle passes through this edge and equal to \emph{zero} otherwise. Further, let $u_i^k$ be the time at which the car $k$ starts the boarding at the location $i$, $w_i^k$ the load of $k$ as leaving that point, and $r_i^k$ the travel time of the users of the request identified by $i$. The linear program is then written as follows.
+\minproblem{\sum_{k\in K}\sum_{i\in V}\sum_{j\in V} c_{ij}^k x_{ij}^k}{
+    \sum_{k\in K}\sum_{j\in V} x_{ij}^k = 1 					& \forall i \in P \\
+    & \sum_{i\in V} x_{0i}^k = \sum_{i\in V} x_{i,2n+1}^k = 1 	& \forall k \in K \\
+    & \sum_{j\in V} x_{ij}^k - \sum_{j\in V} x_{n+i,j}^k = 0 	& \forall i \in P,k \in K \\
+    & \sum_{j\in V} x_{ji}^k - \sum_{j\in V} x_{ij}^k = 0 		& \forall i \in P \cup D,k \in K \\
+    & u_j^k \geq (u_i^k + d_i + t_{ij}) x_{ij}^k				& \forall i,j \in V, k \in K \\
+    & w_j^k \geq (w_i^k + q_j) x_{ij}^k							& \forall i,j \in V, k \in K \\
+    & r_i^k \geq u_{n+i}^k - (u_i^k + d_i)						& \forall i \in P,k \in K \\
+    & u_{2n+1}^k - u_0^k \leq T_k								& \forall k \in K \\
+    & e_i \leq u_i^k \leq l_i									& \forall i \in V,k \in K \\
+    & t_{i,n+i} \leq r_i^k \leq L								& \forall i \in P,k \in K \\
+    & max\{0, q_i\} \leq w_i^k \leq min\{Q_k, Q_k + q_i\}		& \forall i \in V,k \in K \\
+    & x_{ij}^k \in \mathbb{B}									& \forall i,j \in V, k \in K
+}
 
-\section{Firefly Metaheuristic Modeling}
+In the program above, the objective function (1) minimizes the total operation costs which is calculated by the sum of the costs of every arc $(i,j)$ where a vehicle travels through, since in this case on would have $x_{ij}^k = 1$. The equation (2) ensure that every request is taken by one and only one bus. Equation (3) model the single depot rule, which says that every vehicle starts and ends at the garage, identified by the vertices $0$ and $2n+1$. Equation (4) gives consistency to the assignments of vehicles to requests, since it constraints the solutions such that the bus $k$ that picks up a request $i$ is the same that delivers it to the final destination $n+i$. Analogously, (5) guarantee route consistency, that means that the bus that arrives at a determined site is the same to departure from this.
+
+In the next constraints are defined the complementary decision variables. These are represented in the conditions (6), (7) and (8), which indirectly determine values to the time in which a vehicle $k$ starts serving $i$ ($u_i^k$), the load of $k$ when leaving vertex $i$ ($w_i^k$) and the ride time of the passengers served by $i$ ($r_i^k$), respectively. Constraint (9) assures that a vehicle does not ride longer that it is allowed, the idea is that by subtracting the initial time of the route from the time when the vehicle terminates it, yields the the total ride time of a bus and then the condition can be easily expressed. Additionally, the equation (10) guarantees the restriction of time windows from the requests. In the same way, equation (11) guarantees that the ride time $r_i^k$ of the passengers of a request $i$ does not exceed the limit $L$.
+
+Lastly, the consistency of the vehicle load is determined by the constraint (12). Note that, in the case which the vehicle picks passenger up, i.e. $q_i > 0$, this condition ensures a minimum load of $q_i$ and a maximum of the load limit $Q_k$, the integrity of the rule is then fully covered by the equation (7). In the case which passengers drop off, i.e. $q_i < 0$, the constraint guarantees, besides a positive load, a superior value according to the load limit and the number of alighting passengers. Finally, the line (13) define the binary domain restriction over the variable $x_{ij}^k$.
+
+\subsection{Linearization}
+This proposed formulation is nevertheless not completely linear, since the the constraints (6) and (7) contain a multiplication of variables $u_i^k \cdot x_{ij}^k$ and $w_i^k \cdot x_{ij}^k$, respectively. Thus, they should pass through a linearization process which adds the constants $M_{ij}^k$ and $W_{ij}^k$. As a result, these two equations are replaced by the following ones.
+\begin{align}
+	u_j^k \geq u_i^k + d_i + t_{ij} - M_{ij}^k(1 - x_{ij}^k)	\qquad & \forall i,j \in V, k \in K \\
+	w_j^k \geq w_i^k + q_j - W_{ij}^k(1 - x_{ij}^k)				\qquad & \forall i,j \in V, k \in K
+\end{align}
+
+In order that these new constraints are valid, the constants $M$ and $W$ are subject to the next presented conditions.
+\begin{align}
+	M_{ij}^k \geq max\{0, l_i+d_i+t_{ij} - e_j\}	\qquad & \forall i,j \in V, k \in K \\
+	W_{ij}^k \geq min\{Q_k, Q_k+q_i\}				\qquad & \forall i,j \in V, k \in K
+\end{align}
+
+This procedure closely resembles \emph{Miller-Tucker-Zemlin} subtour elimination constraints for the TSP \parencite[p. 575]{cordeau_branch-and-cut_2006}. Yet, the current formulation is not able to run in a generic linear programming solver. Then, in order to workaround the issue, it is enough to assign $M_{ij}^k$ and $W_{ij}^k$ a sufficient large positive number such that the condition (16) and (17) hold always true for the problem instances \parencite[p. 44]{hall_integrated_2009}.
+
+\subsection{Implementation}
+As part of the approach of this research, we seek exact solutions for a set of instances available in the literature. The first step in order to achieve that is transcribing the above detailed mathematical model into a programming language. The chosen language was AMPL\footnote{See \url{http://ampl.com/}} which permits a quasi direct translation of the integer programming description to AMPL's notation \parencite[p. 520]{fourer_modeling_1990}. Additionally, in a lower level lies the GLPK\footnote{See \url{https://www.gnu.org/software/glpk/}} (GNU Linear Programming Kit) solver whose role is to interpret the written program, admit the input, validate the linear model, execute an optimization algorithm and deliver an optimal solution by outputting the assignment of value to decision variables and calculating the objective function. Details of the experiments are showed in the corresponding chapter.
+
+\section{Firefly Metaheuristic Model}
 This section aims to explain the design of the Firefly Metaheuristic applied to the here treated problem. This approach consists of viewing the solutions for the DARP as vectors in a multidimensional space. These solutions are represented by the fireflies, which can movement themselves in the search space by changing the components of the vector. There is a function which takes a vector as input and gives a real number that indicate how bright the firefly is, that is to say, how good the solution is.
 
 The challenge is to fit the problem in this model, so that it can be computed in a effective and efficient way. This includes defining the vector of a solution, the brightness function, distance and movements in the space, the parameters, the randomness and the evolution of the optimization process.
@@ -573,7 +614,7 @@ On the basis of these observations, an optimization process with two phases is a
 [PICTURE SHOWING PROGRESS OF THE ITERATIONS]
 
 \subsection{Implementation}
-One of the main difficulties in implementing the algorithm is with the large that the numbers may have. To workaround the problem the programming language Python\footnote{\url{https://www.python.org/}} was chosen, since it has a native implementation of unlimited integers. Besides, the proposed model has a considerable quantity of matrix operations, therefore, the libraries NumPy\footnote{\url{http://www.numpy.org/}} and Scipy\footnote{\url{http://www.scipy.org/}} were used for that purpose. For drawing the graphs the was adopted library Matplotlib\footnote{\url{http://matplotlib.org/}}, which has an easy-to-use interface for the programmer.
+One of the main difficulties in implementing the algorithm is the magnitude that the numbers may have. To workaround the problem the programming language Python\footnote{See \url{https://www.python.org/}} was chosen, since it has a native implementation of unlimited integers. Besides, the proposed model has a considerable quantity of matrix operations, therefore, the libraries NumPy\footnote{See \url{http://www.numpy.org/}} and Scipy\footnote{See \url{http://www.scipy.org/}} were used for that purpose. For drawing the graphs the was adopted library Matplotlib\footnote{See \url{http://matplotlib.org/}}, which has an easy-to-use interface for the programmer.
 
 Care by the numerical operations and data type had to be specially taken to ensure no capacity overflows and a controlled numerical error at a lowest level.
 
