@@ -33,7 +33,9 @@
 
 % Necessário para incluir figuras
 \usepackage{graphicx}         % pacote para importar figuras
+\usepackage{float}
 \graphicspath{ {img/} }
+\setlength{\intextsep}{1\baselineskip} % evita espaços antes e depois de floats
 
 \usepackage{times}            % pacote para usar fonte Adobe Times
 % \usepackage{palatino}
@@ -185,7 +187,7 @@
 	\item[AMPL] A Mathematical Programming Language
     \item[DARP] Dial-a-Ride Problem
     \item[FA] Firefly Algorithm
-    \item[GA] Genetic Algorithm
+    \item[GA] Genetic Algorithms
     \item[GLPK] GNU Linear Programming Kit
     \item[MD-H-DARP] Multi-Depot Heterogeneous Dial-A-Ride Problem
     \item[PDVRP] Pickup and Delivery Vehicle Routing Problem
@@ -259,7 +261,7 @@ Finally, the goal of the research is to compare the performance of the two diffe
 \section{Justification}
 It is expected that the results of this work may bring relevant contributions to the handling of the presented problem, and even of other ones. By having two distinct approaches it is possible to compare results regarding important features of the problem, such as scalability, feasibility and deviation to an optimal solution. Furthermore, the application of the relatively new firefly algorithm to the problem can show how it performs in a such a solution space.
 
-In addition to the contributions to the understanding of the behavior of swarming metaheuristics applied to optimization problems of transportation, the new procedure of solving the problem serves as a prototype and brings a new perspective to commercial applications which seek constantly to treat the problem in a more efficient and scalable way.
+In addition to the contributions to the understanding of the behavior of swarm metaheuristics applied to optimization problems of transportation, the new procedure of solving the problem serves as a prototype and brings a new perspective to commercial applications which seek constantly to treat the problem in a more efficient and scalable way.
 
 With regard to the current cities' mobility, there is a growing demand for an efficient alternative to the classical means of transportation. The implementation of such a system improves the possibility of movement of the population and makes it more efficient, since it allows the decrease of the number of cars that drive through the urban network everyday causing traffic jams in big cities. Moreover, it helps to solve a demanding problem in today's society where there is an increasing number of elderly or handicapped people, who have the right to mobility and need assistance to travel in the town.
 
@@ -279,9 +281,9 @@ Another distinction to be made is between the \textbf{homogeneous} and the \text
 
 In their survey, \textcite{cordeau_dial--ride_2007} identify in the literature three formulations. Two of them are described as a mathematical linear program and the other one as a scheduling problem. The \textbf{three-index mathematical formulation}, proposed by \textcite{cordeau_branch-and-cut_2006}, uses binary three-index variables $x_{i,j}^{k}$ to assign routes to each bus and then to minimize costs. In addition, \textcite{ropke_models_2007} come up with a \textbf{two-index formulation} which ignores the maximum ride constraints in order to simplify the model.
 
-Exact algorithms have been proposed by several researchers, to highlight are the \textbf{branch-and-cut} by \textcite{cordeau_branch-and-cut_2006} and by \textcite{ropke_models_2007}. However, to speed up running times many other methods based on \textbf{metaheuristics} have been suggested in the literature, among them are the \textbf{genetic algorithm} by \textcite{jorgensen_solving_2007}, the \textbf{simulated annealing} by \cite{zidi_multi-objective_2012}, the \textbf{granular tabu search} by \textcite{kirchler_granular_2013} and the approach with \textbf{large neighborhood search} performed by \textcite{parragh_hybrid_2013}. Lately, \cite{urra_hyperheuristic_2015} published a new method with the so-called \textbf{hyperheuristic}.
+Exact algorithms have been proposed by several researchers, to highlight are the \textbf{branch-and-cut} by \textcite{cordeau_branch-and-cut_2006} and by \textcite{ropke_models_2007}. However, to speed up running times many other methods based on \textbf{metaheuristics} have been suggested in the literature, among them are the \textbf{genetic algorithms} by \textcite{jorgensen_solving_2007}, the \textbf{simulated annealing} by \cite{zidi_multi-objective_2012}, the \textbf{granular tabu search} by \textcite{kirchler_granular_2013} and the approach with \textbf{large neighborhood search} performed by \textcite{parragh_hybrid_2013}. Lately, \cite{urra_hyperheuristic_2015} published a new method with the so-called \textbf{hyperheuristic}.
 
-All in all, none of the studied methods takes a swarm-based metaheuristic approach to solve the problem. Swarm intelligence is a technique applied in the computer science, more precisely in artificial intelligence and operations research, that is based on observations of nature patterns and behaviors, particle swarming optimization (PSO), ant colony and the firefly algorithm (FA) are example of techniques that apply these ideas. In this point of view, these metaheuristics resemble the genetic algorithms (GA), since GAs are also nature-based, but they differ in the fact that, genetic algorithms have mutation and crossover operators and are based on the theory of evolution of the species, whereas swarm intelligence techniques are based purely on the behavior of swarms \parencite[p. 189-190]{yang_efficiency_2012}.
+All in all, none of the studied methods takes a swarm-based metaheuristic approach to solve the problem. Swarm intelligence is a technique applied in the computer science, more precisely in artificial intelligence and operations research, that is based on observations of nature patterns and behaviors, \emph{particle swarm optimization} (PSO), \texttt{ant colony} and the \emph{firefly algorithm} (FA) are example of techniques that apply these ideas. In this point of view, these metaheuristics resemble the \emph{genetic algorithms} (GA), since GAs are also nature-based, but they differ in the fact that, genetic algorithms have mutation and crossover operators and are based on the theory of evolution of the species, whereas swarm intelligence techniques are based purely on the behavior of swarms \parencite[p. 189-190]{yang_efficiency_2012}.
 
 In this work we apply the \textbf{firefly metaheuristic}, that has been showing good results in the solution of nonlinear global optimization problems. It was introduced by \textcite{yang_firefly_2009}, who compares it against the PSO by running simulations in a variety of objective functions and concludes affirming that the FA can outperform the PSO and that it is potentially more powerful in solving $\mathcal{NP}$-hard problems. Additionally, \textcite{yang_efficiency_2012} presents a theoretical analysis on swarm intelligence having as study cases the firefly algorithm and particle swarm optimization. \textcite{yang_firefly_2013} introduce the FA by approaching parameter settings, complexity and applications with examples, at the end he draws a conclusion showing a growing application of the method in the scientific community and foreseeing an expansion of the subject and the improvement of the metaheuristic.
 
@@ -293,11 +295,11 @@ The firefly algorithm has also been applied to discrete optimization problems, a
 \chapter{Theoretical Basis}
 This chapter presents a theoretical framework that configure a background necessary to understand, analyze, design and implement the solution for the addressed problem.
 
-\section{Graph Theory}
+%\section{Graph Theory}
 %- Cycle
 %- Full tree
-\section{Computational Complexity}
-\subsection{Travelling Salesman Problem}
+%\section{Computational Complexity}
+%\subsection{Travelling Salesman Problem}
 
 \section{Linear and Integer Programming}
 Linear Programming is a technique in mathematics used for \textbf{optimization of linear functions}. With it, it is possible to model optimization problems in which a cost (or utility) linear function is to be minimized (or maximized) given a set of constraints which the function's independent variables are subject to. In short, it enables the formulation of optimization problems in a very simple mathematical language.
@@ -305,12 +307,10 @@ Linear Programming is a technique in mathematics used for \textbf{optimization o
 To formulate a linear program three specifications are required. At first, the so-called decision variables $x_{i}$, that are the ones which values are assigned to. Secondly, the objective function, that is a linear function $f(x)$ to be optimized. Lastly, the constraints, that are linear inequalities describing relations between the decision variables and parameters of the problem instance. Therefore, it is expected from a solver, given a linear program and data parameters, to deliver the set of assignments of values to the decision variables that minimize or maximize the objective function respecting the constraints. The most prominent method for solving linear programming is the \textbf{simplex method} \parencite[p. 5-6]{shenoy_linear_2007}.
 
 As a result, a linear program with $n$ variables and $m$ constraints for the minimization of a function can be written as follows.
-
 \minproblem*{\sum_{i=1}^{n} c_{i}x_{i}}{
     \sum_{i=1}^{n} a_{ki}x_{i} 	\leq b_{m} 	& \forall k = 1, 2, ..., m\\
     & x_{i}						\geq 0		& \forall i = 1, 2, ..., n
 }
-
 However, there are problems where real values are not accepted as assignment to variables, because they require integer values. These problem are to be treated differently by adding an additional integer-value constraint to the domain of the variables ($x_{i} \in \mathbb{Z}$). A technique derived from linear programming addresses the issue, namely \textbf{integer programming}. Although there are other more specific concepts for problems that are similar to integer programming, such as mixed integer programming and zero-one programming, they all can be handled by quite the same principles \parencite[p. 175]{shenoy_linear_2007}. As an implication, the simplex method is not able to solve this type of optimization problem neither is, generally, numerical approximation a good solution. Thus, there are several algorithm in the literature, for instance the \textbf{branch-and-bound} and the \textbf{cutting planes} are widespread and one of the most common.
 
 The integer-value constraint implies a vast difference regarding the complexity of the integer problem when compared to the linear one. It is then discussed, whether these problems can be solved in polynomial time, referred to as \emph{certificate of optimality}. \textcite{wolsey_integer_2014} point out that there are algorithms capable of solving linear programming in polynomial time, whereas no such algorithm is known to integer programming. Moreover, many known $\mathcal{NP}$-complete problems, such as the TSP and the knapsack problem, can be reduced to an instance of integer programming. It turns out that integer programming is not only $\mathcal{NP}$-hard but $\mathcal{NP}$-complete as well \parencite[p. 21]{schrijver_theory_1998}.
@@ -320,7 +320,6 @@ The integer-value constraint implies a vast difference regarding the complexity 
 \textcite[p. 1]{osman_meta-heuristics_2012} state in their work: \enquote{Meta-heuristics are the most recent development in approximate search methods for solving complex optimization problems.}. As he follows, a metaheuristic guides the development of algorithms using artificial intelligence, biological, physical, mathematical and natural phenomena as source of inspiration. Firstly should be understood what heuristics are. According to \textcite[p. 13]{carvalho_121_2004}, there is no common definition for heuristics. They suggest that: \enquote{Heuristics can be rules, strategies, principles or methods for increasing the effectiveness of a problem resolution [...]. [They] neither provide direct and definite answers, nor guaranty a solution for a problem.}. On the whole, heuristics are a powerful weapon to attack difficult combinatorial optimization problems.
 
 On metaheuristics the concept is concise, \textcite[p. 3]{osman_meta-heuristics_2012} explain in the following way.
-
 \begin{quote}
 \enquote{A Meta-heuristic is an interactive generation process which guides a subordinate heuristic by combining intelligently different concepts for exploring and exploiting the search space using learning strategies to structure information in order to find efficiently near-optimal solutions.}
 \end{quote}
@@ -329,17 +328,76 @@ Therefore, metaheuristics do not necessarily deliver an optimal solution, but th
 
 As a metaheuristc gives quasi instructions to write an algorithm, it is common to almost every technique four basic elements which should be modeled. First, a \textbf{solution representation} is to be determined, this should be able to describe any possible solution and to be evaluated by a function which determines its cost or benefit. Secondly, the algorithm should \textbf{initialize solutions}, it means, there is a procedure to create the so-called initial solutions. Thirdly, \textbf{new solutions} should be generated from existing ones, in some metaheuristics this step is called \emph{movement}, \emph{genetic operator}, among other terms. Finally, a \textbf{stop criterion} is established in order to determine the termination of the method.
 
-- The methods (local search / nature-inspired)
+The metaheuristics can be classified in two types, the ones based on \textbf{local search} (or neighborhood search) and the others based on \textbf{nature observations}. The former explores the search space in search of an optimal solution by generating new solutions that lie near the current analyzed one, it then requires a move mechanism besides a \emph{selection} and a \emph{acceptance} criteria, which decide whether a new generated solution is approved in order to progress with the iterations. Whereas simpler methods, such as \emph{variable neighbohood search}, have the drawback of tending to a local optimum, others, like \emph{simulated annealing}, \emph{tabu search} and \emph{GRASP}, aim to workaround the issue. In contrast, the nature-inspired metaheuristcs are generally based on the behavior of populations of living beings and how the its members interact. They are characterized by having a set of solutions, instead of only one, with which local searches are performed in different areas of the search space \parencite[p. 7]{osman_meta-heuristics_2012}. Examples of this kind of method are the \emph{genetic algorithms}, \emph{particle swarm optimization}, \emph{ant colony} and the \emph{firefly algorithm}.
 
-\section{The Firefly Metaheuristic}
+\section{The Firefly Algorithm}
+The \textbf{firefly algorithm} (FA), or firefly metaheuristic, was brought forth by \textcite{yang_firefly_2009}. It is a \textbf{nature-inspired metaheuristic} based on observations of fireflies populations that resembles other techniques, such as the \emph{particle swarm optimization} and the \emph{bacterial foraging algorithm}. The following explanations relies on the work of (ibid.).
+
+A firefly is a flying insect that emits flashes of light from its tail. This luminous signal serves then as a mean of communication between these animals, that is used for sexual attraction and selection. So, the main conception in the FA is related to this light emission. Let the \textbf{position of a firefly} in the space be a unique representation of a solution to a optimization problem, thus this position can be represented through a mathematical vector. Now, for reason of abstraction, let the \textbf{intensity of the light} emitted by the firefly be proportional to the function to be optimized and assume that the \textbf{attractiveness between the fireflies} is stronger when the light intensity is greater. Consequently, one can construct a model that takes these factor into account in order to \textbf{simulate the movements} of the several fireflies. As a result, due to the tendency to a convergence of them to a set of optimal positions (solutions), it is possible to use the mechanism for optimization.
+
+For the abstraction of the natural system three principles are to be considered:
+\begin{enumerate}
+	\item The fireflies are attracted to each other regardless of their sex;
+	\item The attractiveness is proportional to the brightness so that a less brighter firefly moves in the direction of the brighter one. In the same way, the brightness is relative to the observer, thus, the farther away two fireflies are from each other, the weaker the attractiveness between them is. If there is no firefly brighter than a particular one, it moves randomly;
+	\item The brightness is determined by the landscape of the objective function.
+\end{enumerate}
+
+Hence, the firefly algorithm can be described as follows.
+\begin{algorithm}[H]
+\setstretch{1}
+\caption{Firefly Algorithm}
+\begin{algorithmic}
+\Function{Firefly Algorithm}{}
+\State Define a objective function $f(x), \mathbf{x}=(x_{1},...,x_{d})^{T}$
+\State Generate initial population of fireflies $x_{i}(i=1,2,...,n)$
+\State Let the intensity $I_{i}$ be proportional to $f(x_{i})$
+\While{t < MaxGeneration}
+	\For{$i = 1 : n$}
+		\For{$j = 1 : i$}
+			\If{$I_{j} \cdot Attractiveness > I_{i}$}
+				\State $\text{Move firefly }i\text{ towards }j$
+			\EndIf
+		\EndFor
+	\EndFor
+	\If{$\text{Firefly }i\text{ did not move}$}
+		\State $\text{Move }i\text{ randomly}$
+	\EndIf
+	\State Rank the fireflies to determine the current best
+\EndWhile
+\State \Return Best solution
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+In the algorithm it is assumed that the brightness of a firefly in a position $\mathbf{x}$ is determined by the objective function applied to the vector $\mathbf{x}$ so that $I(\mathbf{x}) \propto f(\mathbf{x})$. However, the brightness perception depends on the distance $r$ between the vectors. So, an attractiveness function $\beta(r)$ is to be defined. Given a medium absorption coefficient $\gamma$ and the brightness $\beta_{0}$ in the source , this function varies according to the inverse square law and can be written as
+$$\beta(r) = \beta_{0}e^{-\gamma r^{2}},$$ which is, after a series expansion analysis, equivalent to
+$$\beta(r) = \frac{\beta_{0}}{1 + \gamma r^{2}}.$$
+
+Concerning the distance, it can be, as commonly, defined as the euclidean distance $r_{ij} = \sqrt{(x_{i1} - x_{j1})^{2}+(x_{i2} - x_{j2})^{2}+\cdots+(x_{id} - x_{jd})^{2}}$ although another distance definition may be used depending on the type of the problem \parencite[p. 193]{yang_efficiency_2012}. At last, the movement is calculated by a sum of vectors which characterize that a firefly will move a larger distance towards the other one, as the brightness is stronger and the current distance is shorter. Hence, one can describe it as
+$$\mathbf{x}^{t+1} = \mathbf{x}^{t} + \beta_{0}e^{-\gamma r_{ij}^{2}} + \alpha_{t} \mathbf{\epsilon^{t}},$$
+where the third term models a stochastic variation and $t$ is the iteration number. In the formula $\alpha^{t}$ represents the radius in which the random variation is allowed and $\mathbf{\epsilon^{t}}$ is a vector of numbers sampled from a random distribution. This distribution can be uniform, Gaussian or also another one depending on the desired effect.
+
+\textcite[p. 177]{yang_firefly_2009} carries out a statistical comparison between the FA, PSO and GA with a set of functions. The firefly algorithm outperformed both in every presented case. The author states also that \enquote{FA is potentially more powerful in solving $\mathcal{NP}$-hard problems}, which is the case of the DARP. Insights about parameter settings, complexity, recent applications and efficiency analysis can be found in \textcite{yang_firefly_2013}.
 
 %============================================================
 % Chapter 4. Argumentation
 %============================================================
 \chapter{Argumentation}
+The objective of this chapter is to present in details the design and implementation of the two approaches taken in order to solve the DARP. Firstly, the integer programming formulation is explained and discussed. Then, the model for the firefly metaheuristic is introduced showing the main procedures and decisions.
+
 \section{Integer Linear Programming Formulation}
+As the DARP is an optimization problem, one can define it as an mathematical integer program. On the one hand, This is a powerful way to solve this kind of problem, since it is relatively easy to formulate and quite flexible in adding new rules  and conditions. On the other hand, the solving by a generic solver or by an exact algorithm is usually cost intensive and limited by the strictness of the linear program formulation.
+
+In this work it is considered the three-index formulation proposed by \textcite[p. 574-575]{cordeau_branch-and-cut_2006}. For this purpose, consider $n$ the number of requests of a problem instance. The DARP can then be defined through a directed graph $G(V,A)$, where $V$ is the set of vertices representing stop locations. This set can be partitioned in three subsets, (1) the initial and final depot, that contains the vertices $0$ and $2n+1$; (2) the pickup points comprehending the vertices $P=\{1,\dotsc,n\}$; (3) the deliver points including the vertices $D=\{n+1,\dotsc,2n\}$. This way, one define a request as a ordered pair $(i,n+i)$. Additionally, $A$ is the set of edges that interconnect the locations to represent the travel time $y_{ij}$ and the travel costs $c_{ij}^{k}$ for a vehicle $k$. With that, $G$ becomes a complete digraph, that is to say, there is exact two edges connecting every pair of distinct vertices, one edge in each direction. For reason of simplification, one can assume an undirected graph, where the costs of driving from a stop $i$ to another $j$ are the same as from $j$ to $i$, for the same reason, one can set the costs $c_{ij}^{k} = t_{ij}$.
+
+Moreover, every vertex has associated a load $q_{i}$ that tells the quantity of passenger boarding or alighting in the point, these values are then positive or negative, respectively, thus, $q_{i}\geq 1, (\forall i \in P)$ and $q_{i} = -q_{i-n}, (\forall i \in D)$ and $q_{i} = 0, (\forall i \in \{0,2n+1\})$. Likewise, the vertices indicate also a duration $d{i}$ which is a positive number that informs the time necessary to realize the service at that stop. Furthermore, a time window $[e_{i}, l_{i}]$ is associated to every vertex and represents, respectively, the earliest and the latest time at which the service may start at the location.
+
+Regarding the vehicle attributes, let $K$ be the quantity of buses at disposal, so, it is defined a vehicle capacity $Q_{k}$ and a maximal route duration $T_{k}$, but, as we are considering the homogeneous version of the DARP, the indexation by $k \in K$ does not play an important role. At the last, the maximal route duration in respect of the passenger is given by the constant $L$.
+
+Having considered all these parameters, it is possible to define the set of decision variables which identify a solution to the addressed problem. 
+
 \section{Firefly Metaheuristic Modeling}
-This section aims to explain the design of the Firefly Metaheuristic applied to the here treated problem. This approach consists of viewing the solutions for the DARP as vectors in a multidimensional space. These solutions are represented by the fireflies, which can movement themselves in the search space by changing the components of the vector. There is a function with takes a vector as input and gives a real number that indicate how bright the firefly is, that is to say, how good the solution is.
+This section aims to explain the design of the Firefly Metaheuristic applied to the here treated problem. This approach consists of viewing the solutions for the DARP as vectors in a multidimensional space. These solutions are represented by the fireflies, which can movement themselves in the search space by changing the components of the vector. There is a function which takes a vector as input and gives a real number that indicate how bright the firefly is, that is to say, how good the solution is.
 
 The challenge is to fit the problem in this model, so that it can be computed in a effective and efficient way. This includes defining the vector of a solution, the brightness function, distance and movements in the space, the parameters, the randomness and the evolution of the optimization process.
 
@@ -349,8 +407,10 @@ In this model any solution can be represented through a natural number vector. T
 \subsubsection{Modeling the Assignment of Requests to Buses}
 The delegation of $n$ requests to $k$ buses can be represented by an n-tuple, in which each element varies from $0$ to $k-1$. Therefore, the number of possible combinations is $k^{n}$. The arrangement of these tuples can be structured in a full tree with a height of $n$, where every non-leaf node has $k$ children. So the leafs can be enumerated from $0$ to $k^{n}$, which is the total number of combinations. Thus every walk on the tree yields a possible assignment request-bus and every possibility can be yielded by a unique walk. Hence this enumeration is used in the representation of the solution.
 
-Therefore, the process of transforming the component of the solution vector into a tuple describing the delegation of the requests to buses can be described by a bijective function described by a simple algorithm:
-
+Therefore, the process of transforming the component of the solution vector into a tuple describing the delegation of the requests to buses can be described by a bijective function described by a simple algorithm.
+\begin{algorithm}[H]
+\setstretch{1}
+\caption{Transformation Vector-Solution}
 \begin{algorithmic}
 \Function{Transform Component into Assignment Request-Bus}{$x$}
 \State $a \gets x$
@@ -361,34 +421,34 @@ Therefore, the process of transforming the component of the solution vector into
 \State \Return $T$
 \EndFunction
 \end{algorithmic}
+\end{algorithm}
 
 \subsubsection{Modeling the Routes of the Buses}
 A similar analysis, as in the modeling of the previous section, can be done to the definition of the routes of the buses with the difference that in this case there is a permutation of the boarding and alighting nodes. Moreover, more constraints are applied to the numerical representation of a route, namely, that an alighting node of a given request cannot occur before the boarding of the same.
 
 The following figure illustrates the route tree of a bus which was assigned three requests. \textbf{EXPLAIN!!}
-
 \begin{figure}[H]
     \caption{Route possibilities represented through a tree}
     \begin{center}
-        \includegraphics[scale=0.9]{fig_tree_bus_route}
+        \includegraphics[width=\textwidth]{fig_tree_bus_route}
     \end{center}
+    \center Source: Own authorship
     \label{fig:tree_bus_route}
 \end{figure}
 
 Determining how the tree structure at each level is and how many leafs altogether there are depends on what the load of the bus in a given vertex is, it means, it depends on how many requests are being carried on and how many there are to pick up. The figure \ref{fig:load_bus_scheme} helps to explain the structure of the tree. In the illustration each knot represents the load of the bus in a depth of the tree, how further down it is greater is its respective depth. The edges under a knot tells, how many children with the following load are generated by each vertex with a given load.
-
 \begin{figure}[H]
     \caption{Graph describing the structure of the routes tree}
     \begin{center}
         \includegraphics{fig_load_bus_scheme}
     \end{center}
+	\center Source: Own authorship
     \label{fig:load_bus_scheme}
 \end{figure}
 
 Nevertheless, in order to build a function that allows us to have a mapping from each walk to a natural number, thus enumerating all the possible routes of a bus, is necessary to know, given a depth in the tree how many leafs are under each vertex of this depth. Once this information is available, the transformation function can be computed in a very efficient way.
 
 From the graph illustrated in the figure \ref{fig:load_bus_scheme} it is possible to extract two matrices to represent the structure by denoting the numbers on the edges that leave a knot on the right and on the left in the matrix $Q_{in}$ and $Q_{out}$ respectively. Each column of the matrix $Q_{in}$ has the quantity of children with a larger load to be created by each vertex with a given load, the matrix $Q_{out}$ is analogously constructed, with the difference that it carries the quantity of children with a lower load in the next stage. In addition, each row corresponds then to a load of the bus, beginning from $0$ in the first row to $n$ in the last row, be $n$ the number of requests. Note that, for the generalization it is assumed that a bus can at a moment be carrying all the requests to him assigned. Further constraints should be checked in a future procedure, in order to decide whether a route is feasible according to the input. Knowing that there are $n$ requests implies that there are $2n$ columns, since every request must be picked up and delivered. The mentioned matrices for the figure \ref{fig:load_bus_scheme} are as follows represented.
-
 $$
 Q_{in} = 
 \begin{bmatrix}
@@ -406,9 +466,10 @@ Q_{out} =
 0 & 0 & 0 & 3 & 0 & 0
 \end{bmatrix}
 $$
-
 An iterative algorithm with these two matrices as input yields a new matrix, which shows, for each depth of the above shown routes tree, the number of vertices for each bus load.
-
+\begin{algorithm}[H]
+\setstretch{1}
+\caption{Matrix Generation}
 \begin{algorithmic}
 \Function{Generate Matrix of Knots Per Load and Depth}{$Q^{in}, Q^{out}$}
 \State Let $n$ be the the number of requests and $\odot$ the element-wise multiplication
@@ -420,9 +481,9 @@ An iterative algorithm with these two matrices as input yields a new matrix, whi
 \State \Return $Q$
 \EndFunction
 \end{algorithmic}
+\end{algorithm}
 
 The result of applying the function for the shown matrices $Q_{in}$ and $Q_{out}$ is shown below. This provide additionally a new information about the size of the domain which the component of the vector find feasible values, namely in $Q_{1,1}$, since it tells the total number of leafs in the tree. It is useful for constraints check and for a fast creation of the initial generation of fireflies.
-
 $$
 Q = 
 \begin{bmatrix}
@@ -432,9 +493,10 @@ Q =
 0 & 0 & 0 & 6 & 0 & 0 & 0
 \end{bmatrix}
 $$
-
 With help of these three matrices and given a correspondent vector component value, the path of a bus can be computed by a transformation function. Below is shown a function that takes these arguments and delivers a path performed by a bus, where its elements do not represent the requests themselves, but the knots of the walk in the tree, which is relative to each bus. A mapping to the absolute requests can be trivially done, once the requests assigned to each bus are known.
-
+\begin{algorithm}[H]
+\setstretch{1}
+\caption{Transformation Vector-Solution}
 \begin{algorithmic}
 \Function{Transform component to a cycle in the graph}{$Q^{in}, Q^{out}, Q, x$}
 \State Let $n$ be the the number of requests of the bus
@@ -460,10 +522,10 @@ With help of these three matrices and given a correspondent vector component val
 \State \Return $Path$
 \EndFunction
 \end{algorithmic}
+\end{algorithm}
 
 \subsection{Distance}
-For reasons of efficiency of the implementation and numerical error the Manhattan distance can be used to approximate the distance between two vectors in the search space. The Manhattan distance can be described as follows:
-
+For reasons of efficiency of the implementation and numerical error the Manhattan distance can be used to approximate the distance between two vectors in the search space. The Manhattan distance can be described as follows.
 $$d(\mathbf{p},\mathbf{q}) = \parallel \mathbf{p} - \mathbf{q} \parallel = \sum_{i=1}^{n} \mid \mathbf{p}_{i}-\mathbf{q}_{i} \mid$$
 
 \subsection{Attractiveness}
@@ -473,8 +535,8 @@ However, without loss of quality in the method, the attractiveness can be set to
 $$\beta(r) = \frac{\beta_{0}}{1 + \gamma r}$$
 
 \subsection{Randomization Term}
-The random term of the metaheuristic movement equation is by default $\alpha \cdot \epsilon$, where $\epsilon \sim N(0,1)$. Though, as stated by \textcite[p. 80]{yang_firefly_2010}, \emph{”it is a good idea to replace $\alpha$ by $\alpha S_k$ where the scaling parameters $S_k (k=1,...,d)$ in the $d$ dimensions should be determined by the actual scales of the problem of interest”}. As the size of each dimension are easily obtainable, they are used in this model. Moreover, \textcite[p. 37-38]{yang_firefly_2013} presents an iterative change of the alpha parameter, by turning it variable to the optimization evolution $t$. Thus, he introduces a new variable delta and that parameter is updated by the equation
-$$ \alpha_t = \alpha_{t-1} \cdot \delta, (0 < \delta < 1),$$ where $\alpha_0$ is the initial scaling factor. The author gives also an advice about setting delta: \emph{”$\delta$ is essentially a cooling factor. For most applications, we can use $\delta = 0.95$ to $0.97$”}.
+The random term of the metaheuristic movement equation is by default $\alpha \cdot \epsilon$, where $\epsilon \sim N(0,1)$. Though, as stated by \textcite[p. 80]{yang_firefly_2010}, \enquote{it is a good idea to replace $\alpha$ by $\alpha S_k$ where the scaling parameters $S_k (k=1,...,d)$ in the $d$ dimensions should be determined by the actual scales of the problem of interest}. As the size of each dimension are easily obtainable, they are used in this model. Moreover, \textcite[p. 37-38]{yang_firefly_2013} presents an iterative change of the alpha parameter, by turning it variable to the optimization evolution $t$. Thus, he introduces a new variable delta and that parameter is updated by the equation
+$$ \alpha_t = \alpha_{t-1} \cdot \delta, (0 < \delta < 1),$$ where $\alpha_0$ is the initial scaling factor. The author gives also an advice about setting delta: \enquote{$\delta$ is essentially a cooling factor. For most applications, we can use $\delta = 0.95$ to $0.97$}.
 
 At last, it is wanted a integer number for the stochastic term, as the search space is discrete. In order to achieve that, rounding is performed, proper concerns about numerical errors should be taken in the implementation, so that they are reduced at most.
 
@@ -491,7 +553,6 @@ The intensity function models the brightness of a firefly and should be directly
 Nevertheless, the costs function has an lowest possible value, that can be estimated. Here it is proposed to sum the $v$ most distance vertices in the requests graph, so that $v$ is twice the number of requests, since every request has two correspondent vertices, one for getting in and one for getting out. Once this value is calculated, the costs of a given solution can be subtracted from it, in order to obtain an utility function. The process is equivalent to translating the function.
 
 Let $m$ be the mentioned superior limit for the costs, $f$ a function that tells in a binary matrix which edges are visited by a solution vector and $C$ the adjacency matrix of the requests graph with the costs between any one of them, then the intensity can be defined like in the following formula.
-
 $$I(\mathbf{x}) = \begin{cases} 0 & \text{if }\mathbf{x}\text{ does not meet the constraints}\\
 								m - \displaystyle\sum_{i=1}^{2n+1}\sum_{j=1}^{2n+1} f(\mathbf{x})_{i,j} \cdot C_{i,j} & \text{else}
 					\end{cases}$$
