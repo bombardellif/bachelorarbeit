@@ -125,9 +125,10 @@
 % iniciar todas com letras minúsculas, exceto no caso de abreviaturas
 % 
 \keyword{Dial-a-ride problem}
-\keyword{firefly algorithm}
-\keyword{metaheuristic}
-\keyword{integer programming}
+\keyword{Firefly algorithm}
+\keyword{Metaheuristic}
+\keyword{Integer programming}
+\keyword{Vehicle routing}
 
 %\settowidth{\seclen}{1.10~}
 
@@ -170,7 +171,7 @@
 % resumo na outra língua
 % como parametros devem ser passados o titulo e as palavras-chave
 % na outra língua, separadas por vírgulas
-\begin{englishabstract}{Lösung des Dial-a-Ride-Problems mit der Firefly Metaheuristik}{Electronic document preparation. \LaTeX. ABNT. UFRGS}
+\begin{englishabstract}{Lösung des Dial-a-Ride-Problems mit der Firefly-Metaheuristik}{Dial-a-ride-Problem. Firefly-Algorithmus. Metaheuristik. Ganzzahlige Optimierung. Tourenplanung}
     This document is an example on how to prepare documents at II/UFRGS
     using the \LaTeX\ classes provided by the UTUG\@. At the same time, it
     may serve as a guide for general-purpose commands. \emph{The text in
@@ -187,6 +188,7 @@
 % o parametro deve ser a abreviatura mais longa
 \begin{listofabbrv}{MD-H-DARP}
 	\item[AMPL] A Mathematical Programming Language
+	\item[CPU] Central Processing Unit
     \item[DARP] Dial-a-Ride Problem
     \item[FA] Firefly Algorithm
     \item[GA] Genetic Algorithms
@@ -194,6 +196,7 @@
     \item[MD-H-DARP] Multi-Depot Heterogeneous Dial-A-Ride Problem
     \item[PDVRP] Pickup and Delivery Vehicle Routing Problem
     \item[PSO] Particle Swarm Optimization
+    \item[RAM] Random Access Memory
     \item[VRPTW] Vehicle Routing Problem with Time Windows
 \end{listofabbrv}
 
@@ -432,13 +435,13 @@ In order that these new constraints are valid, the constants $M$ and $W$ are sub
 	W_{ij}^k \geq min\{Q_k, Q_k+q_i\}				\qquad & \forall i,j \in V, k \in K
 \end{align}
 
-This procedure closely resembles \emph{Miller-Tucker-Zemlin} subtour elimination constraints for the TSP \parencite[p. 575]{cordeau_branch-and-cut_2006}. Yet, the current formulation is not able to run in a generic linear programming solver. Then, in order to workaround the issue, it is enough to assign $M_{ij}^k$ and $W_{ij}^k$ a sufficient large positive number such that the condition (16) and (17) hold always true for the problem instances \parencite[p. 44]{hall_integrated_2009}.
+This procedure closely resembles \emph{Miller-Tucker-Zemlin} subtour elimination constraints for the TSP \parencite[p. 575]{cordeau_branch-and-cut_2006}. Yet the current formulation is not able to run in a generic linear programming solver. Then, in order to workaround the issue, it is enough to assign $M_{ij}^k$ and $W_{ij}^k$ a sufficient large positive number such that the condition (16) and (17) hold always true for the problem instances \parencite[p. 44]{hall_integrated_2009}.
 
 \subsection{Implementation}
 As part of the approach of this research, we seek exact solutions for a set of instances available in the literature. The first step in order to achieve that is transcribing the above detailed mathematical model into a programming language. The chosen language was AMPL\footnote{See \url{http://ampl.com/}} which permits a quasi direct translation of the integer programming description to AMPL's notation \parencite[p. 520]{fourer_modeling_1990}. Additionally, in a lower level lies the GLPK\footnote{See \url{https://www.gnu.org/software/glpk/}} (GNU Linear Programming Kit) solver whose role is to interpret the written program, admit the input, validate the linear model, execute an optimization algorithm and deliver an optimal solution by outputting the assignment of value to decision variables and calculating the objective function. Details of the experiments are showed in the corresponding chapter.
 
 \section{Firefly Metaheuristic Model}
-This section aims to explain the design of the Firefly Metaheuristic applied to the here treated problem. This approach consists of viewing the solutions for the DARP as vectors in a multidimensional space. These solutions are represented by the fireflies, which can movement themselves in the search space by changing the components of the vector. There is a function which takes a vector as input and gives a real number that indicate how bright the firefly is, that is to say, how good the solution is.
+This section aims to explain the design of the Firefly Metaheuristic applied to the problem treated here. This approach consists of viewing the solutions for the DARP as vectors in a multidimensional space. These solutions are represented by the fireflies, which can movement themselves in the search space by changing the components of the vector. There is a function which takes a vector as input and gives a real number that indicate how bright the firefly is, that is to say, how good the solution is.
 
 The challenge is to fit the problem in this model, so that it can be computed in a effective and efficient way. This includes defining the vector of a solution, the brightness function, distance and movements in the space, the parameters, the randomness and the evolution of the optimization process.
 
@@ -605,7 +608,7 @@ A initial set of feasible solutions is calculated by simply generating random na
 The choice of the parameters is basically based on the work of \textcite[p. 37-38]{yang_firefly_2013}. For that the scale $L$ of the problem is taken into consideration, it represents the size of the search space and is calculated by multiplying the sizes of the intervals, in which the intensity function is defined, of each dimension. The parameter gamma is then set $\gamma = 1/\sqrt{L}$. In order to have an broad exploration of the space it is set $\alpha_0 = 0.1$, the parameter is reduced along the optimization process. Lastly, it is set $\beta_0 = 1$, $\delta = 0.95$ and the number of fireflies to 40.
 
 \subsection{Two-Phase Optimization}
-It is to note in a regular problem instance that the distribution of requests to bus has a greater weight it the cost function. Empirical observations suggest that this distribution is roughly the most determinant factor in the calculation of the costs. For instance, the grouping requests that are geographically near tends to show better results regardless of the route. Yet, the route of each bus plays an important role in finding an optimal result.
+It is to note in a regular problem instance that the distribution of requests to bus has a greater weight it the cost function. Empirical observations suggest that this distribution is roughly the most determinant factor in the calculation of the costs. For instance, the grouping requests that are geographically near tends to show better results regardless of the route. Yet the route of each bus plays an important role in finding an optimal result.
 
 Moreover, as the contribution to the cost function by the vector components that describe the routes is strongly dependent on the distribution of requests to each bus, it makes no sense trying to optimize these components if this assignment varies strongly in the cost minimization procedure.
 
@@ -614,27 +617,76 @@ On the basis of these observations, an optimization process with two phases is a
 [PICTURE SHOWING PROGRESS OF THE ITERATIONS]
 
 \subsection{Implementation}
-One of the main difficulties in implementing the algorithm is the magnitude that the numbers may have. To workaround the problem the programming language Python\footnote{See \url{https://www.python.org/}} was chosen, since it has a native implementation of unlimited integers. Besides, the proposed model has a considerable quantity of matrix operations, therefore, the libraries NumPy\footnote{See \url{http://www.numpy.org/}} and Scipy\footnote{See \url{http://www.scipy.org/}} were used for that purpose. For drawing the graphs the was adopted library Matplotlib\footnote{See \url{http://matplotlib.org/}}, which has an easy-to-use interface for the programmer.
+One of the main difficulties in implementing the algorithm is the magnitude that the numbers may have. To workaround the problem the programming language \emph{Python}\footnote{See \url{https://www.python.org/}} was chosen, since it has a native implementation of unlimited integers. Besides, the proposed model has a considerable quantity of matrix operations, therefore, the libraries \emph{NumPy}\footnote{See \url{http://www.numpy.org/}} and \emph{Scipy}\footnote{See \url{http://www.scipy.org/}} were used for that purpose. For drawing the graphs the was adopted library \emph{Matplotlib}\footnote{See \url{http://matplotlib.org/}}, which has an easy-to-use interface for the programmer.
 
-Care by the numerical operations and data type had to be specially taken to ensure no capacity overflows and a controlled numerical error at a lowest level.
+Care by the numerical operations and data type had to be specially taken to ensure no capacity overflows and a controlled numerical error at the lowest level.
 
-To obtain a better performance and the most recent implemented features it is required that the implementation program runs on the newest possible tool versions. Namely, it was developed on the versions 3.3 of Python, 1.10 of the NumPy, 0.16 of the SciPy and 1.3 of the Matplotlib.
-
-- Input (Manual,help)
+To obtain a better performance and the most recent implemented features it is required that the implementation program runs on the newest possible tool versions. Namely, it was developed on the versions 3.3 of \emph{Python}, 1.10 of the \emph{NumPy}, 0.16 of the \emph{SciPy} and 1.3 of the \emph{Matplotlib}.
 
 %============================================================
 % Chapter 5. Evaluation
 %============================================================
 \chapter{Evaluation}
-- Method for evaluation
+The objective of this chapter is evaluate the proposed implementation of the firefly metaheuristic by running it with several problem instances as input. The characteristics that are taken into consideration are the \textbf{result quality}, that is to say, how far the calculated cost for the best solution found is from the instance's optimal solution, the \textbf{algorithm evolution}, which tells how better the best solution found is in comparison to the initial solution, and, at last, the \textbf{running time}.
 
-- Experiments Setup
+Two distinct types of experiments are carried out. In the first place, the firefly approach is compared against the generic solver one by executing both programs with the same input. With it, it is expected to asses to what extent the metaheuristic implementation outperforms the generic solver. In the second place, the near-optimal approach is tested with instances that are recurrently used in the literature. Similarly, the deviation of the solution to the optimal and the program processing time are evaluated and compared to state-of-the-art methods.
 
-- Dataset
+In the total, the experiments include 24 instances which are solved in a computational environment with a 64bits \emph{Intel Xeon} CPU at 2.6 GHz, 15 GB of main memory and a \emph{Python} interpreter version 3.3 on a \emph{Linux} operating system.
 
-- Results
+\section{Instances}
+A set of benchmark instances were created by \textcite{cordeau_branch-and-cut_2006}, these ones have been extensively used in other works in the literature for the DARP. Therefore, they constitute the instance dataset for this work. Originally, \textcite{cordeau_branch-and-cut_2006} came up with a collection of 12 random generated problem instances which were lately expanded by \textcite{ropke_models_2007} who proposed 12 new larger and harder to solve ones. The same authors provided the optimal solutions for the whole dataset, whereas \textcite{parragh_hybrid_2013} presented the state-of-the-art heuristic approach.
 
-- Comparison
+The instances are described in text files which describe the parameters of the problem. The number of requests varies from 16 until 96 and contain always the load of one passenger, it means, it is assumed one passenger per request. Similarly, the boarding time is considered to be 3 units of time for every request. The number of vehicles varies as well, between 2 and 8 cars which have a capacity of 3 passengers in every case.
+
+The locations where the requests are to be served are randomly generated, according to a uniform distribution, in a plan space inside the range of [-10, 10] x [-10, 10]. The depot is set in the center of the area, that is, the origin (0,0). The costs of traveling between any two stops is equals to the travel time between them which is assumed to be simply the \emph{Euclidean distance} between the two points.
+
+The number of requests is always even and can be divided into two groups, while a half of them are \textbf{outbound} requests the other half are \textbf{inbound} requests. The former means that the constraint of time window exists only at the arrival time at the destination, the latter, on the other hand, has this kind of constraints only at the departure time. To better understand, one can cite the example from \textcite[p. 29]{cordeau_dial--ride_2007}, they compare it with the case of patients who need transportation from home to the hospital, they suggest that the time window constraint should be set in order to come to the hospital on time, that would be the so-called outbound request, likewise, patients should be picked up from the hospital in a specific time interval, that would then be an inbound request.
+
+In the dataset considered here the time window at the arrival at the destiny $[e_{n+i}, l_{n+i}]$ for an outbound request $i$ comprehend a 15 minute interval. So, let T be the maximal route time allowed for the buses, with it, $l_{n+i}$ is randomly picked from the interval [60, T] and, as a consequence, $e_{n+i}$ is calculated by subtracting 15 from the upper limit, i.e. $e_{n+i} = l_{n+i} - 15$. Similarly, for an inbound request $i$, $e_i$ is chosen from the interval [0, T-60] and then $l_i = e_i + 15$.
+
+Lastly, the maximal route time T, also referred to as planning horizon, varies between 240 and 720 and the maximal ride time L of a passenger is constantly 30 for every instance.
+
+The Table \ref{tab:instances-attributes} lists all the instances along with their names and properties. The columns \emph{Request} and \emph{Buses} show the quantity of each of these attributes, the column \emph{Capacity} tells the maximal load of the buses. The \emph{Optimum} is the cost of the minimal solution which has been calculated by \textcite[p. 270]{ropke_models_2007}. At last, the column \emph{CPU$^1$} refers to the processing time in minutes provided by the metaheuristic implementation with \emph{variable neighborhood search} from \textcite{parragh_introducing_2011} (executed on a 3.2 GHz \emph{Intel Pentium D} CPU with 4 GB of RAM) while \emph{CPU$^2$} refers to the running time in minutes of the state-of-the-art heuristic implementation with \emph{large neighborhood search} by \textcite{parragh_hybrid_2013} (executed on an \emph{Intel Xeon} CPU at 2.67 GHz with 24 GB of RAM).
+
+\begin{table}[H]
+\centering
+\caption{Characteristics of the problem instances}
+\setstretch{1}
+\begin{tabular}{l | r | r | r | r | r | r}
+\hline
+Instance & Requests & Buses & Capacity & Optimum & CPU$^1$ & CPU$^2$ \\
+\hline
+a2-16 & 	16 & 	2 & 	3 & 	294.25 & 	68.2 & 	0.12\\
+a2-20 & 	20 & 	2 & 	3 & 	344.83 & 	133.8 & 	0.28\\
+a2-24 & 	24 & 	2 & 	3 & 	431.12 & 	187.8 & 	0.35\\
+a3-18 & 	18 & 	3 & 	3 & 	300.48 & 	45.4 & 	-\\
+a3-24 & 	24 & 	3 & 	3 & 	344.83 & 	86.8 & 	0.29\\
+a3-30 & 	30 & 	3 & 	3 & 	494.85 & 	105.6 & 	0.50\\
+a3-36 & 	36 & 	3 & 	3 & 	583.19 & 	162.6 & 	0.83\\
+a4-16 & 	16 & 	4 & 	3 & 	282.68 & 	26.0 & 	-\\
+a4-24 & 	24 & 	4 & 	3 & 	375.02 & 	50.8 & 	-\\
+a4-32 & 	32 & 	4 & 	3 & 	485.50 & 	86.0 & 	0.55\\
+a4-40 & 	40 & 	4 & 	3 & 	557.69 & 	130.6 & 	0.78\\
+a4-48 & 	48 & 	4 & 	3 & 	668.82 & 	253.8 & 	1.62\\
+a5-40 & 	40 & 	5 & 	3 & 	498.41 & 	 & 	0.85\\
+a5-50 & 	50 & 	5 & 	3 & 	686.62 & 	 & 	1.60\\
+a5-60 & 	60 & 	5 & 	3 & 	808.42 & 	 & 	2.51\\
+a6-48 & 	48 & 	6 & 	3 & 	604.12 & 	 & 	1.14\\
+a6-60 & 	60 & 	6 & 	3 & 	819.25 & 	 & 	2.29\\
+a6-72 & 	72 & 	6 & 	3 & 	916.05 & 	 & 	4.43\\
+a7-56 & 	56 & 	7 & 	3 & 	724.04 & 	 & 	1.67\\
+a7-70 & 	70 & 	7 & 	3 & 	889.12 & 	 & 	2.88\\
+a7-84 & 	84 & 	7 & 	3 & 	1033.37 & 	 & 	7.04\\
+a8-64 & 	64 & 	8 & 	3 & 	747.46 & 	 & 	2.14\\
+a8-80 & 	80 & 	8 & 	3 & 	945.73 & 	 & 	5.73\\
+a8-96 & 	96 & 	8 & 	3 & 	1232.61 & 	 & 	9.92\\
+\hline
+\end{tabular}
+\center Source: Own authorship
+\label{tab:instances-attributes}
+\end{table}
+
+\section{Results and Discussion}
 
 %============================================================
 % Chapter 6. Conclusion
