@@ -25,7 +25,7 @@ class FireflyAlgorithm:
         'alpha': []
     }
 
-    def __init__(self, dimension, alpha, alphaDivisor, gamma=1, gammaDenominator=None, beta0=1):
+    def __init__(self, dimension, alpha, alphaDivisor, gamma=1, gammaDenominator=None, beta0=1, alphaDecay=95):
         self._dimension = dimension
         self._alpha = alpha
         self._alphaDivisor = fractions.Fraction(1, alphaDivisor)
@@ -36,6 +36,7 @@ class FireflyAlgorithm:
         else:
             self._gamma = fractions.Fraction(1, gammaDenominator)
         self._beta0 = beta0
+        self._alphaDecay = alphaDecay
 
     @staticmethod
     def logState(fireflies, theBest, movedDistance, changesBecauseIntensity, attractMean, alpha):
@@ -127,7 +128,6 @@ class FireflyAlgorithm:
         '''
 
         currentAlpha = self._alpha[0]
-        alphaDecay = 85
 
         movedDistance = 0
         changesBecauseIntensity = 0
@@ -185,19 +185,19 @@ class FireflyAlgorithm:
                     self._beta0 = 1
             # Update alpha variable
             if currentAlpha > 1:
-                currentAlpha *= alphaDecay/100
+                currentAlpha *= self._alphaDecay/100
                 # if alpha arrives to 1, change to next stage of alpha cooling
                 if currentAlpha < 1:
                     if self._alphaStage < self._alpha.size-1:
                         self._alphaStage += 1
                         currentAlpha = self._alpha[self._alphaStage]
-                        alphaDecay = 85
+                        self._alphaDecay -= 5
                         self._currentAlphaDivisor = self._alphaDivisor
                     else:
                         currentAlpha = 1
                         self._currentAlphaDivisor = None
                 else:
-                    self._currentAlphaDivisor = fractions.Fraction(self._currentAlphaDivisor.numerator * alphaDecay,
+                    self._currentAlphaDivisor = fractions.Fraction(self._currentAlphaDivisor.numerator * self._alphaDecay,
                                                         self._currentAlphaDivisor.denominator * 100)
             # Rank fireflies and find the best
             sortedFireflies = sorted(fireflies, reverse=True)
@@ -207,7 +207,7 @@ class FireflyAlgorithm:
             else:
                 loopWoImprove += 1
             # Decide whether to stop the loop
-            if self._alphaStage > 1 and currentAlpha <= 1 and loopWoImprove > 50:
+            if self._alphaStage > 0 and currentAlpha <= 1 and loopWoImprove > 100:
                 break
         # end optimization loop
         print("ALPHA: "+str(currentAlpha))

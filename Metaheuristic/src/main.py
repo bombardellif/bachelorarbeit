@@ -64,6 +64,7 @@ sqrtSizeRoutesComponents = Solution.getChildrenSizeMatrixFor(R//B)[0,0] ** (B//2
 
 alphaDivisor = 10
 alpha = numpy.array([(B**R) // alphaDivisor, sizeRoutesComponents // alphaDivisor], dtype=object)
+alphaDecay = 95 if (B**R) < 10**10 else 85
 
 #gamma = 1/math.sqrt(B**R)
 gammaDenominator = (B**(R//2)) * sqrtSizeRoutesComponents
@@ -73,7 +74,7 @@ numFireflies = 40
 
 # Instanciate Solver
 FireflyAlgorithm.registerEvolution = True
-fireflyOptimization = FireflyAlgorithm(1+B, alpha, alphaDivisor, gammaDenominator=gammaDenominator, beta0=beta0)
+fireflyOptimization = FireflyAlgorithm(1+B, alpha, alphaDivisor, gammaDenominator=gammaDenominator, beta0=beta0, alphaDecay=alphaDecay)
 
 # Output Parameters
 print('============= Parameters ===============')
