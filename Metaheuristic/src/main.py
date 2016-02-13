@@ -14,7 +14,7 @@ from RequestsGraph import RequestsGraph
 ## __main__
 
 parser = argparse.ArgumentParser(description='Dial-a-Ride Solver.')
-parser.add_argument('data', help="Instance's file path")
+parser.add_argument('data', help="Instance file path")
 parser.add_argument('format', help='Format of the data file. Either 1 or 2.', type=int, choices=[1,2])
 parser.add_argument('output', help='Output file path')
 parser.add_argument('-v', '--verbose', help="Show graph windows with the evolution.", action="store_true")
@@ -59,16 +59,16 @@ Solution.determineWorstCost()
 # pdb.set_trace()
 
 # Define Parameters
-#alpha = numpy.zeros(1+B, dtype=int)
 sizeRoutesComponents = Solution.getChildrenSizeMatrixFor(R//B)[0,0] ** B
 sqrtSizeRoutesComponents = Solution.getChildrenSizeMatrixFor(R//B)[0,0] ** (B//2)
-alpha = numpy.array([(B**R) // 10, sizeRoutesComponents // 10], dtype=object)
-#alpha = numpy.array([(B**R), sizeRoutesComponents], dtype=object)
+
 alphaDivisor = 10
+alpha = numpy.array([(B**R) // alphaDivisor, sizeRoutesComponents // alphaDivisor], dtype=object)
+
 #gamma = 1/math.sqrt(B**R)
 gammaDenominator = (B**(R//2)) * sqrtSizeRoutesComponents
 beta0 = 1
-maxGeneration = 2000
+maxGeneration = 10000
 numFireflies = 40
 
 # Instanciate Solver

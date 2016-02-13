@@ -127,13 +127,14 @@ class FireflyAlgorithm:
         '''
 
         currentAlpha = self._alpha[0]
-        alphaDecay = 95
+        alphaDecay = 85
 
         movedDistance = 0
         changesBecauseIntensity = 0
         attractAcc = 0
         sortedFireflies = sorted(fireflies, reverse=True)
         theBest = fireflies[0]
+        loopWoImprove = 0
 
         for t in range(maxGeneration):
             # Register the state
@@ -190,7 +191,7 @@ class FireflyAlgorithm:
                     if self._alphaStage < self._alpha.size-1:
                         self._alphaStage += 1
                         currentAlpha = self._alpha[self._alphaStage]
-                        alphaDecay = 90
+                        alphaDecay = 85
                         self._currentAlphaDivisor = self._alphaDivisor
                     else:
                         currentAlpha = 1
@@ -198,10 +199,16 @@ class FireflyAlgorithm:
                 else:
                     self._currentAlphaDivisor = fractions.Fraction(self._currentAlphaDivisor.numerator * alphaDecay,
                                                         self._currentAlphaDivisor.denominator * 100)
-
+            # Rank fireflies and find the best
             sortedFireflies = sorted(fireflies, reverse=True)
             if sortedFireflies[0].intensity() > theBest.intensity():
                 theBest = sortedFireflies[0]
+                loopWoImprove = 0
+            else:
+                loopWoImprove += 1
+            # Decide whether to stop the loop
+            if self._alphaStage > 1 and currentAlpha <= 1 and loopWoImprove > 50:
+                break
         # end optimization loop
         print("ALPHA: "+str(currentAlpha))
         return sortedFireflies, theBest
