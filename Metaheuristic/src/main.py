@@ -64,7 +64,7 @@ sqrtSizeRoutesComponents = Solution.getChildrenSizeMatrixFor(R//B)[0,0] ** (B//2
 
 alphaDivisor = 10
 alpha = numpy.array([(B**R) // alphaDivisor, sizeRoutesComponents // alphaDivisor], dtype=object)
-alphaDecay = 95 if (B**R) < 10**10 else 85
+alphaDecay = 95 if (B**R) < 10**10 else 90
 
 #gamma = 1/math.sqrt(B**R)
 gammaDenominator = (B**(R//2)) * sqrtSizeRoutesComponents
