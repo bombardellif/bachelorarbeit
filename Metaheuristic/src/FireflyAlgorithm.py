@@ -22,7 +22,8 @@ class FireflyAlgorithm:
         'movedDistance': [],
         'changesBecauseIntensity': [],
         'attractMean': [],
-        'alpha': []
+        'alpha': [],
+        'initialSolution': None
     }
 
     def __init__(self, dimension, alpha, alphaDivisor, gamma=1, gammaDenominator=None, beta0=1, alphaDecay=95):
@@ -40,6 +41,8 @@ class FireflyAlgorithm:
 
     @staticmethod
     def logState(fireflies, theBest, movedDistance, changesBecauseIntensity, attractMean, alpha):
+        if theBest.isInsideDomain():
+            FireflyAlgorithm.evolutionLog['initialSolution'] = theBest.intensity()
         vectors = [ff.getVectorRep().tolist() for ff in fireflies]
         intensityVec = [ff.intensity() for ff in fireflies]
         FireflyAlgorithm.evolutionLog['vectors'].append(vectors)

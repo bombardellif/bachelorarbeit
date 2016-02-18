@@ -266,6 +266,7 @@ class Solution:
             and (self._routesComponent < self.getSizeDomainEachBus()).all()\
             and (self._routesComponent >= 0).all()\
             and self.matchCapacityContraint()\
+            and self.matchUserTimeConstraint()\
             and self.matchTimeConstraints()
 
     def canApplyTimeAdjust(self):
@@ -289,6 +290,27 @@ class Solution:
                 .cumsum() > Solution.maxCapacity).any():
                     match = False
                     break
+        return match
+
+    def matchUserTimeConstraint(self):
+        rows, columns = self.getRoutesInEdges(concatenated=False)
+
+        pdb.set_trace()
+        match = True
+        for i in range(len(rows)):
+            minPossible = Solution.requestGraph.timeMatrix[[0] + rows[i], [0] + columns[i]].cumsum() \
+                + numpy.concatenate(([0], Solution.requestGraph.durations[rows[i]]))
+
+            routeLocations = numpy.array([0] + columns[i])
+            pickupIdx = routeLocations[routeLocations > Solution.totalRequests].argsort()
+            deliverIdx = routeLocations[routeLocations <= Solution.totalRequests][1:-1].argsort()
+
+            timesPickup = minPossible[routeLocations > Solution.totalRequests][pickupIdx]
+            timesDeliver = minPossible[routeLocations <= Solution.totalRequests][1:-1][deliverIdx]
+            if ((timesDeliver - timesPickup) > Solution.requestGraph.userTime).any():
+                match = False
+                break
+
         return match
 
     def matchTimeConstraints(self):

@@ -110,8 +110,12 @@ with open(args.output, 'w') as outfile:
 
 print('============= Summary =================')
 if FireflyAlgorithm.registerEvolution:
-    print('Best initial solution:\t', FireflyAlgorithm.evolutionLog['best'][1])
-    print('Best initial cost:\t', Solution.worstCost - FireflyAlgorithm.evolutionLog['best'][1])
+    if FireflyAlgorithm.evolutionLog['initialSolution'] is not None:
+        print('Best initial solution:\t', FireflyAlgorithm.evolutionLog['initialSolution'])
+        print('Best initial cost:\t', Solution.worstCost - FireflyAlgorithm.evolutionLog['initialSolution'])
+    else:
+        print('Best initial solution:\t', 0)
+        print('Best initial cost:\t', '-')
 print('Best solution:\t', theBest.intensity())
 print('Best cost:\t', Solution.worstCost - theBest.intensity())
 print('Total time (sec):\t', (end - begin).total_seconds())
