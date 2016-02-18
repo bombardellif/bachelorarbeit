@@ -295,7 +295,6 @@ class Solution:
     def matchUserTimeConstraint(self):
         rows, columns = self.getRoutesInEdges(concatenated=False)
 
-        pdb.set_trace()
         match = True
         for i in range(len(rows)):
             minPossible = Solution.requestGraph.timeMatrix[[0] + rows[i], [0] + columns[i]].cumsum() \
