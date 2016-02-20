@@ -5,7 +5,10 @@ import scipy
 import scipy.misc
 import random
 import fractions
+import itertools
 import pdb
+
+from ConstraintSatisfaction import ConstraintSatisfaction
 
 class Solution:
 
@@ -71,6 +74,19 @@ class Solution:
 
     def __gt__(self, b):
         return self.intensity() > b.intensity()
+
+    # Public getters to acces the parameters of the instance
+    @staticmethod
+    def getWindowOf(location):
+        return Solution.requestGraph.timeConstraints[location+1]
+
+    @staticmethod
+    def getTimeDistance(location1, location2):
+        return Solution.requestGraph.timeMatrix[location1+1, location2+1]
+
+    @staticmethod
+    def getWaitingTime(location):
+        return Solution.requestGraph.durations[location+1]
 
     # Lazy getters
     def getVectorRep(self):
@@ -261,13 +277,13 @@ class Solution:
 
     # Domain transformation methods
     def isInsideDomain(self):
-        return (self._requestComponent < Solution.sizeDomainRequestComponent).all()\
-            and (self._requestComponent >= 0).all()\
-            and (self._routesComponent < self.getSizeDomainEachBus()).all()\
+        return (self._requestComponent >= 0).all()\
+            and (self._requestComponent < Solution.sizeDomainRequestComponent).all()\
             and (self._routesComponent >= 0).all()\
+            and (self._routesComponent < self.getSizeDomainEachBus()).all()\
             and self.matchCapacityContraint()\
-            and self.matchUserTimeConstraint()\
             and self.matchTimeConstraints()
+#            and self.matchUserTimeConstraint()\
 
     def canApplyTimeAdjust(self):
         return (self._requestComponent < Solution.sizeDomainRequestComponent).all()\
@@ -320,9 +336,6 @@ class Solution:
             minPossible = Solution.requestGraph.timeMatrix[[0] + rows[i], [0] + columns[i]].cumsum() \
                 + numpy.concatenate(([0], Solution.requestGraph.durations[rows[i]]))
             limits = Solution.requestGraph.timeConstraints[rows[i] + [0]]
-            # print(rows[i])
-            # print(minPossible)
-            # print(limits)
 
             # Minimum feasible time regarding to the "min" constraint of time
             # here we add in the total travel waiting times to match this constraint
@@ -336,7 +349,10 @@ class Solution:
                 else:
                     minPossible[j] = currentMinTime
 
-            # print(minPossible)
+            # if Solution.prin:
+            #     debug = numpy.hstack((minPossible[numpy.newaxis].T,limits))
+            #     #debug = numpy.hstack(((numpy.array(rows[i] + [0])-1)[numpy.newaxis].T,limits))
+            #     print(debug)
             # The minimum possible track must match the "max" constraint of time
             if (minPossible > limits[:, 1]).any():
                 match = False
@@ -360,90 +376,135 @@ class Solution:
         for i in range(len(routes)):
             if routes[i].size:
                 numReq = requestEachBus[i]
-                limits = Solution.requestGraph.timeConstraints[rows[j] + [0]]
-                ordered = numpy.array(rows[j] + [0])[numpy.argsort(limits[:,1])[:numReq]] - 1
+                #limits = Solution.requestGraph.timeConstraints[rows[j] + [0]]
+                #ordered = numpy.array(rows[j] + [0])[numpy.argsort(limits[:,1])[:numReq]] - 1
+                #newRoute = self.satisfyTimeConstraintsRoute(numReq, routes[i], ordered.tolist())
 
-                newRoute = self.satisfyTimeConstraintsRoute(numReq, routes[i], ordered.tolist())
+                limits = Solution.requestGraph.timeConstraints[rows[j][1:]]
+                ordered = numpy.array(rows[j][1:])[numpy.argsort(limits[:,1])] - 1
+                newRoute = self.satisfyTimeConstraintsRoute(numReq, routes[i], limits, ordered.tolist())
+
+                #debug = numpy.hstack((newRoute[numpy.newaxis].T,Solution.requestGraph.timeConstraints[newRoute + 1]))
 
                 j += 1
             else:
                 newRoute = routes[i]
-            newRoutes.append(numpy.array(newRoute))
+            newRoutes.append(newRoute)
 
         # Generate the vector values from the new Routes
         relativeRoutes = numpy.array(newRoutes)
         for i in range(len(relativeRoutes)):
-                relativeRoutes[i][numpy.argsort(newRoutes[i])] = numpy.arange(len(newRoutes[i]))
+            relativeRoutes[i][numpy.argsort(newRoutes[i])] = numpy.arange(len(newRoutes[i]))
         newPath = [self._transformRelativeRequestToTreePath(requestEachBus[i], relativeRoutes[i]) for i in range(len(relativeRoutes))]
         newComponent = numpy.array([self._transformTreePathToRouteComponent(requestEachBus[i], newPath[i]) for i in range(len(relativeRoutes))], dtype=object)
 
         return newComponent
 
-    def satisfyTimeConstraintsRoute(self, numRequests, route, satisfyingOrder):
-        def satisfyOrder(newRoute, stop, i):
-            result = True
-            #if stop is in the order list, we have to check its validity
-            if stop in satisfyingOrder:
-                idx = satisfyingOrder.index(stop)
-                result = set(satisfyingOrder[:idx]).issubset(newRoute[:i])
-            return result
+    def satisfyTimeConstraintsRoute(self, numRequests, route, limits, ordered):
+        # Build the domains
+        domains = {}
+        for var in route:
+            domains[var] = list(range(2*numRequests))
 
-        stops = route[route >= Solution.totalRequests].tolist()
+        # Build the constraints pairs (a,b) where a muss appear before b, concerning time windows
+        constraints = []
+        inferiorLimits = limits[:,0]
+        routeList = route.tolist()
+        for i, var in enumerate(ordered):
+            # If there is a location after this in the ordered list, generate constraints for this case
+            if i+1 < len(ordered):
+                idxRoute = routeList.index(var)
+                idxRouteNext = routeList.index(ordered[i+1])
+                maxTimeCurrent = limits[idxRoute, 1]
+                maxTimeNext = limits[idxRouteNext, 1]
 
-        # Determine the new path that adjusts the route to satisfy time constraints
-        newRoute = []
-        routePtr = 0
-        orderPtr = 0
-        load = 0
-        for i in range(0, numRequests*2):
-            # try first element that is in the priority ordered list
-            while orderPtr<len(satisfyingOrder) and satisfyingOrder[orderPtr] in newRoute:
-                orderPtr += 1
-            if orderPtr<len(satisfyingOrder)\
-            and satisfyingOrder[orderPtr] in stops\
-            and (load < Solution.maxCapacity or satisfyingOrder[orderPtr] < Solution.totalRequests):
-                newRoute.append(satisfyingOrder[orderPtr])
-                orderPtr += 1
-            # then, try the "get-in" vertex for the next constraint, if possible
-            elif orderPtr<len(satisfyingOrder)\
-            and satisfyingOrder[orderPtr] < Solution.totalRequests\
-            and load < Solution.maxCapacity\
-            and (satisfyingOrder[orderPtr] + Solution.totalRequests) in stops:
-                newRoute.append(satisfyingOrder[orderPtr] + Solution.totalRequests)
-            else:
-                # then, try to fit the existing route
-                while routePtr<len(route) and route[routePtr] in newRoute:
-                    routePtr += 1
-                # Add to route only if bus has space for it
-                if routePtr<len(route)\
-                and satisfyOrder(newRoute, route[routePtr], i)\
-                and (load < Solution.maxCapacity or route[routePtr] < Solution.totalRequests):
-                    newRoute.append(route[routePtr])
-                    routePtr += 1
-                else:
-                # then, try the next possible
-                    j = 0
-                    while j<len(stops) and not satisfyOrder(newRoute, stops[j], i):
-                        j += 1
-                    if j<len(stops):
-                        newRoute.append(stops[j])
-                    else:
-                        newRoute.append(stops[0])
+                mussAfter = route[(inferiorLimits >= maxTimeCurrent) & (inferiorLimits < maxTimeNext)]
+                if mussAfter.size > 1:
+                    newConstraints = numpy.empty((mussAfter.size,2),dtype=numpy.int32)
+                    newConstraints[:,0] = var
+                    newConstraints[:,1] = mussAfter
+                    constraints.extend(newConstraints.tolist())
+                elif mussAfter.size > 0:
+                    constraints.append([var,mussAfter[0]])
+            # Constraint of the order "pickup-deliver"
+            if var >= Solution.totalRequests:
+                constraints.append([var, var - Solution.totalRequests])
 
-            # Update stops list
-            # If it's a alighting, delete this request because it's now delivered
-            # else, set this to the number correspondent to the future alighting
-            # important: sort the list of pendent request, so that the exits stay first
-            stopsIdx = stops.index(newRoute[i])
-            if stops[stopsIdx] < Solution.totalRequests:
-                load -= 1
-                del stops[stopsIdx]
-            else:
-                load += 1
-                stops[stopsIdx] -= Solution.totalRequests
-                stops.sort()
+        newRoute = numpy.full(numRequests*2, -1, dtype=int)
+        newDomains,t2 = ConstraintSatisfaction.satisfyConstraints(self, route, domains, constraints, ordered, newRoute)
+        if newDomains is not None:
+            newRoute = numpy.empty(len(newDomains),dtype=int)
+            newRoute[list(itertools.chain.from_iterable(newDomains.values()))] = list(newDomains.keys())
+        else:
+            newRoute = route
 
         return newRoute
+
+    # def satisfyTimeConstraintsRoute(self, numRequests, route, satisfyingOrder):
+    #     def satisfyOrder(newRoute, stop, i):
+    #         result = True
+    #         #if stop is in the order list, we have to check its validity
+    #         if stop in satisfyingOrder:
+    #             idx = satisfyingOrder.index(stop)
+    #             result = set(satisfyingOrder[:idx]).issubset(newRoute[:i])
+    #         return result
+    #
+    #     stops = route[route >= Solution.totalRequests].tolist()
+    #
+    #     # Determine the new path that adjusts the route to satisfy time constraints
+    #     newRoute = []
+    #     routePtr = 0
+    #     orderPtr = 0
+    #     load = 0
+    #     for i in range(0, numRequests*2):
+    #         # try first element that is in the priority ordered list
+    #         while orderPtr<len(satisfyingOrder) and satisfyingOrder[orderPtr] in newRoute:
+    #             orderPtr += 1
+    #         if orderPtr<len(satisfyingOrder)\
+    #         and satisfyingOrder[orderPtr] in stops\
+    #         and (load < Solution.maxCapacity or satisfyingOrder[orderPtr] < Solution.totalRequests):
+    #             newRoute.append(satisfyingOrder[orderPtr])
+    #             orderPtr += 1
+    #         # then, try the "get-in" vertex for the next constraint, if possible
+    #         elif orderPtr<len(satisfyingOrder)\
+    #         and satisfyingOrder[orderPtr] < Solution.totalRequests\
+    #         and load < Solution.maxCapacity\
+    #         and (satisfyingOrder[orderPtr] + Solution.totalRequests) in stops:
+    #             newRoute.append(satisfyingOrder[orderPtr] + Solution.totalRequests)
+    #         else:
+    #             # then, try to fit the existing route
+    #             while routePtr<len(route) and route[routePtr] in newRoute:
+    #                 routePtr += 1
+    #             # Add to route only if bus has space for it
+    #             if routePtr<len(route)\
+    #             and satisfyOrder(newRoute, route[routePtr], i)\
+    #             and (load < Solution.maxCapacity or route[routePtr] < Solution.totalRequests):
+    #                 newRoute.append(route[routePtr])
+    #                 routePtr += 1
+    #             else:
+    #             # then, try the next possible
+    #                 j = 0
+    #                 while j<len(stops) and not satisfyOrder(newRoute, stops[j], i):
+    #                     j += 1
+    #                 if j<len(stops):
+    #                     newRoute.append(stops[j])
+    #                 else:
+    #                     newRoute.append(stops[0])
+    #
+    #         # Update stops list
+    #         # If it's a alighting, delete this request because it's now delivered
+    #         # else, set this to the number correspondent to the future alighting
+    #         # important: sort the list of pendent request, so that the exits stay first
+    #         stopsIdx = stops.index(newRoute[i])
+    #         if stops[stopsIdx] < Solution.totalRequests:
+    #             load -= 1
+    #             del stops[stopsIdx]
+    #         else:
+    #             load += 1
+    #             stops[stopsIdx] -= Solution.totalRequests
+    #             stops.sort()
+    #
+    #     return newRoute
 
     def assignComponentValues(self, newVector):
         # Clip the requests domain [0,Size_Domain_Request_Permutation)

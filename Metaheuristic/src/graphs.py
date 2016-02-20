@@ -33,6 +33,8 @@ Solution.initializeClass()
 # Estimate superior limit for the Utility function
 Solution.determineWorstCost()
 
+pdb.set_trace()
+
 # Load JSON data
 evolutionLog = None
 with open(args.solution, 'r') as solutionFile:
