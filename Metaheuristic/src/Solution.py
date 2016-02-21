@@ -349,23 +349,21 @@ class Solution:
                 else:
                     minPossible[j] = currentMinTime
 
-            if Solution.prin:
-                debug = numpy.hstack((numpy.rint(minPossible)[numpy.newaxis].T.astype(int),
-                    numpy.array(rows[i] + [0],dtype=int)[numpy.newaxis].T - 1,
-                    limits))
-                #debug = numpy.hstack(((numpy.array(rows[i] + [0])-1)[numpy.newaxis].T,limits))
-                print(debug)
+            # if Solution.prin:
+            #     debug = numpy.hstack((numpy.rint(minPossible)[numpy.newaxis].T.astype(int),
+            #         numpy.array(rows[i] + [0],dtype=int)[numpy.newaxis].T - 1,
+            #         limits))
+            #     #debug = numpy.hstack(((numpy.array(rows[i] + [0])-1)[numpy.newaxis].T,limits))
+            #     print(debug)
             # The minimum possible track must match the "max" constraint of time
             if (minPossible > limits[:, 1]).any():
                 match = False
-                if not Solution.prin:
-                    break
+                break
 
             # The maximum travel time of the car has a constraint too
             if minPossible[-1] > Solution.requestGraph.totalTime:
                 match = False
-                if not Solution.prin:
-                    break
+                break
 
         return match
 
