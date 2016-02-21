@@ -349,19 +349,23 @@ class Solution:
                 else:
                     minPossible[j] = currentMinTime
 
-            # if Solution.prin:
-            #     debug = numpy.hstack((minPossible[numpy.newaxis].T,limits))
-            #     #debug = numpy.hstack(((numpy.array(rows[i] + [0])-1)[numpy.newaxis].T,limits))
-            #     print(debug)
+            if Solution.prin:
+                debug = numpy.hstack((numpy.rint(minPossible)[numpy.newaxis].T.astype(int),
+                    numpy.array(rows[i] + [0],dtype=int)[numpy.newaxis].T - 1,
+                    limits))
+                #debug = numpy.hstack(((numpy.array(rows[i] + [0])-1)[numpy.newaxis].T,limits))
+                print(debug)
             # The minimum possible track must match the "max" constraint of time
             if (minPossible > limits[:, 1]).any():
                 match = False
-                break
+                if not Solution.prin:
+                    break
 
             # The maximum travel time of the car has a constraint too
             if minPossible[-1] > Solution.requestGraph.totalTime:
                 match = False
-                break
+                if not Solution.prin:
+                    break
 
         return match
 
@@ -431,7 +435,7 @@ class Solution:
                 constraints.append([var, var - Solution.totalRequests])
 
         newRoute = numpy.full(numRequests*2, -1, dtype=int)
-        newDomains,t2 = ConstraintSatisfaction.satisfyConstraints(self, route, domains, constraints, ordered, newRoute)
+        newDomains,_ = ConstraintSatisfaction.satisfyConstraints(self, route, domains, constraints, ordered, newRoute)
         if newDomains is not None:
             newRoute = numpy.empty(len(newDomains),dtype=int)
             newRoute[list(itertools.chain.from_iterable(newDomains.values()))] = list(newDomains.keys())

@@ -43,24 +43,25 @@ Solution.initializeClass()
 # Estimate superior limit for the Utility function
 Solution.determineWorstCost()
 
-# out = 0
-# suc = 0
-# for i in range(10):
-#     Solution.prin = False
-#     sol = Solution().randomize()
-#     #sol = Solution(numpy.array([51299, 51118381357, 47235088]))
-#     # pdb.set_trace()
-#     if not sol.isInsideDomain():
-#         out += 1
-#         newRoutesComponent = sol.satisfyTimeConstraints()
-#         sol = Solution(numpy.concatenate((sol.getVectorRep()[:1], newRoutesComponent)))
-#         #Solution.prin = True
-#         if sol.isInsideDomain():
-#             suc += 1
-# print(out)
-# print(suc)
-# sys.exit(0)
-# #pdb.set_trace()
+out = 0
+suc = 0
+for i in range(50):
+    Solution.prin = False
+    sol = Solution().randomize()
+    #sol = Solution(numpy.array([3343, 62164504818601, 29576]))
+    print(sol.getVectorRep())
+    # pdb.set_trace()
+    if not sol.isInsideDomain():
+        out += 1
+        newRoutesComponent = sol.satisfyTimeConstraints()
+        sol = Solution(numpy.concatenate((sol.getVectorRep()[:1], newRoutesComponent)))
+        Solution.prin = False
+        if sol.isInsideDomain():
+            suc += 1
+print(out)
+print(suc)
+sys.exit(0)
+#pdb.set_trace()
 
 # Define Parameters
 sizeRoutesComponents = Solution.getChildrenSizeMatrixFor(R//B)[0,0] ** B
