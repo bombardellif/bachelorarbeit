@@ -3,6 +3,7 @@ import numpy
 import scipy.spatial.distance
 import csv
 import re
+import math
 import pdb
 
 from Request import Request
@@ -45,7 +46,7 @@ class RequestsGraph:
         #self.timeConstraints = numpy.concatenate((endIntervals, startIntervals))
 
     def loadFromFileORLibrary(self, filename, firstDestiny=False, dataset=1):
-        parser = re.compile('\s*(\d+)\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)\s+(\d+)\s+-?\d+\s+(\d+)\s+(\d+)')
+        parser = re.compile('\s*(\d+)\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)\s+(\d+)\s+(-?\d+)\s+(\d+)\s+(\d+)')
 
         isFirst = True
         error = False
@@ -82,9 +83,25 @@ class RequestsGraph:
                         idx = int(data[0])
                         if idx < numLocations:
                             location = [float(data[1]), float(data[2])]
-                            time = [int(data[4]), int(data[5])]
                             duration = int(data[3])
+                            load = int(data[4])
+                            time = [int(data[5]), int(data[6])]
 
+                            # Calculate the second time window (inbound, outbound)
+                            if load < 0:
+                                pickupIdx = idx - numRequests
+                                pickupDuration = durations[pickupIdx]
+                                minDistance = math.floor(scipy.spatial.distance.euclidean(locations[pickupIdx], location))
+                                # If it's an outbound request, calculate the pickup times
+                                if time[0] != 0:
+                                    times[pickupIdx,0] = time[0] - pickupDuration - RequestsGraph.userTime
+                                    times[pickupIdx,1] = time[1] - pickupDuration - minDistance
+                                # If inbound request, calculate deliver times
+                                else:
+                                    time[0] = times[pickupIdx,0] + pickupDuration + minDistance
+                                    time[1] = times[pickupIdx,1] + pickupDuration + RequestsGraph.userTime
+
+                            # store in the data structures
                             locations[idx,:] = location
                             times[idx,:] = time
                             durations[idx] = duration

@@ -282,8 +282,8 @@ class Solution:
             and (self._routesComponent >= 0).all()\
             and (self._routesComponent < self.getSizeDomainEachBus()).all()\
             and self.matchCapacityContraint()\
+            and self.matchUserTimeConstraint()\
             and self.matchTimeConstraints()
-#            and self.matchUserTimeConstraint()\
 
     def canApplyTimeAdjust(self):
         return (self._requestComponent < Solution.sizeDomainRequestComponent).all()\
