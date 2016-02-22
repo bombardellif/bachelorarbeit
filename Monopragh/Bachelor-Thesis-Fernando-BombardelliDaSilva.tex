@@ -286,9 +286,9 @@ Another distinction to be made is between the \textbf{homogeneous} and the \text
 
 In their survey, \textcite{cordeau_dial--ride_2007} identify in the literature three formulations. Two of them are described as a mathematical linear program and the other one as a scheduling problem. The \textbf{three-index mathematical formulation}, proposed by \textcite{cordeau_branch-and-cut_2006}, uses binary three-index variables $x_{i,j}^{k}$ to assign routes to each bus and then to minimize costs. In addition, \textcite{ropke_models_2007} come up with a \textbf{two-index formulation} which ignores the maximum ride constraints in order to simplify the model.
 
-Exact algorithms have been proposed by several researchers, to highlight are the \textbf{branch-and-cut} by \textcite{cordeau_branch-and-cut_2006} and by \textcite{ropke_models_2007}. However, to speed up running times many other methods based on \textbf{metaheuristics} have been suggested in the literature, among them are the \textbf{genetic algorithms} by \textcite{jorgensen_solving_2007}, the \textbf{simulated annealing} by \cite{zidi_multi-objective_2012}, the \textbf{granular tabu search} by \textcite{kirchler_granular_2013} and the approach with \textbf{large neighborhood search} performed by \textcite{parragh_hybrid_2013}. Lately, \cite{urra_hyperheuristic_2015} published a new method with the so-called \textbf{hyperheuristic}.
+Exact algorithms have been proposed by several researchers, to highlight are the \textbf{branch-and-cut} by \textcite{cordeau_branch-and-cut_2006} and by \textcite{ropke_models_2007}. However, to speed up running times many other methods based on \textbf{metaheuristics} have been suggested in the literature, among them are the \textbf{genetic algorithms} by \textcite{jorgensen_solving_2007}, the \textbf{simulated annealing} by \textcite{zidi_multi-objective_2012}, the \textbf{granular tabu search} by \textcite{kirchler_granular_2013} and the approach with \textbf{large neighborhood search} performed by \textcite{parragh_hybrid_2013}. Lately, \textcite{urra_hyperheuristic_2015} published a new method with the so-called \textbf{hyperheuristic}.
 
-All in all, none of the studied methods takes a swarm-based metaheuristic approach to solve the problem. Swarm intelligence is a technique applied in the computer science, more precisely in artificial intelligence and operations research, that is based on observations of nature patterns and behaviors, \emph{particle swarm optimization} (PSO), \texttt{ant colony} and the \emph{firefly algorithm} (FA) are example of techniques that apply these ideas. In this point of view, these metaheuristics resemble the \emph{genetic algorithms} (GA), since GAs are also nature-based, but they differ in the fact that, genetic algorithms have mutation and crossover operators and are based on the theory of evolution of the species, whereas swarm intelligence techniques are based purely on the behavior of swarms \parencite[p. 189-190]{yang_efficiency_2012}.
+All in all, none of the studied methods takes a swarm-based metaheuristic approach to solve the problem. Swarm intelligence is a technique applied in the computer science, more precisely in artificial intelligence and operations research, that is based on observations of nature patterns and behaviors, \emph{particle swarm optimization} (PSO), \emph{ant colony} and the \emph{firefly algorithm} (FA) are example of techniques that apply these ideas. In this point of view, these metaheuristics resemble the \emph{genetic algorithms} (GA), since GAs are also nature-based, but they differ in the fact that, genetic algorithms have mutation and crossover operators and are based on the theory of evolution of the species, whereas swarm intelligence techniques are based purely on the behavior of swarms \parencite[p. 189-190]{yang_efficiency_2012}.
 
 In this work we apply the \textbf{firefly metaheuristic}, that has been showing good results in the solution of nonlinear global optimization problems. It was introduced by \textcite{yang_firefly_2009}, who compares it against the PSO by running simulations in a variety of objective functions and concludes affirming that the FA can outperform the PSO and that it is potentially more powerful in solving $\mathcal{NP}$-hard problems. Additionally, \textcite{yang_efficiency_2012} presents a theoretical analysis on swarm intelligence having as study cases the firefly algorithm and particle swarm optimization. \textcite{yang_firefly_2013} introduce the FA by approaching parameter settings, complexity and applications with examples, at the end he draws a conclusion showing a growing application of the method in the scientific community and foreseeing an expansion of the subject and the improvement of the metaheuristic.
 
@@ -576,30 +576,41 @@ With help of these three matrices and given a correspondent vector component val
 \end{algorithmic}
 \end{algorithm}
 
-At last, after transforming a vectorial representation of a solution of the DARP, which is inside its valid value interval, into the list of vehicle routes, the only infeasibility that there may be is the one concerning time windows constraints. This will be discussed in subsequent sections.
+At last, after transforming a vectorial representation of a solution of the DARP, which is inside its valid value interval, into the list of vehicle routes, the only infeasibility that there may be is the one concerning time windows and ride time constraints. This will be discussed in subsequent sections.
 
 \subsection{Distance}
-For reasons of efficiency of the implementation and numerical error the Manhattan distance can be used to approximate the distance between two vectors in the search space. The Manhattan distance can be described as follows.
+For reasons of efficiency of the implementation and numerical error the \textbf{Manhattan distance} can be used to approximate the distance between two vectors in the search space. Note that the \emph{Manhattan distance} is very convenient for combinatorial applications because if the vectors are composed only by integer numbers, then its result will be as well expressed in integer numbers. The distance is calculated as follows.
 $$d(\mathbf{p},\mathbf{q}) = \parallel \mathbf{p} - \mathbf{q} \parallel = \sum_{i=1}^{n} \mid \mathbf{p}_{i}-\mathbf{q}_{i} \mid$$
 
-\subsection{Attractiveness}
+\subsection{Attractiveness}\label{sec:attractiveness}
 As proposed by \textcite[p. 173]{yang_firefly_2009} the attractiveness is calculated with the following quotient, which varies with the squared distance between two vectors.
 $$\beta(r) = \frac{\beta_{0}}{1 + \gamma r^2}$$
-However, without loss of quality in the method, the attractiveness can be set to vary directly with the distance as the search space is too large and concerns with numerical errors play a important role. So the function is rewritten as follows.
-$$\beta(r) = \frac{\beta_{0}}{1 + \gamma r}$$
+
+However, without loss of quality in the method, the attractiveness can vary directly with the distance, as the search space is too large and concerns with numerical errors play an important role. Moreover, due to these concerns, we assume that $\beta_0 = 1$ and define the inverse function $\beta^{-1}$ which will be useful for calculating the dislocation of a firefly with a minor error.
+$$\beta^{-1}(r) = 1 + \gamma r$$
 
 \subsection{Randomization Term}
 The random term of the metaheuristic movement equation is by default $\alpha \cdot \epsilon$, where $\epsilon \sim N(0,1)$. Though, as stated by \textcite[p. 80]{yang_firefly_2010}, \enquote{it is a good idea to replace $\alpha$ by $\alpha S_k$ where the scaling parameters $S_k (k=1,...,d)$ in the $d$ dimensions should be determined by the actual scales of the problem of interest}. As the size of each dimension are easily obtainable, they are used in this model. Moreover, \textcite[p. 37-38]{yang_firefly_2013} presents an iterative change of the alpha parameter, by turning it into being variable to the optimization evolution $t$. Thus, he introduces a new variable delta and that parameter is updated by the equation
-$$ \alpha_t = \alpha_{t-1} \cdot \delta, (0 < \delta < 1),$$ where $\alpha_0$ is the initial scaling factor. The author gives also an advice about setting \emph{delta}: \enquote{$\delta$ is essentially a cooling factor. For most applications, we can use $\delta = 0.95$ to $0.97$}.
+$$ \alpha_t = \alpha_{t-1} \cdot \delta, (0 < \delta < 1),$$ where $\alpha_0$ is the initial scaling factor. Additionally, the author gives also an advice about setting \emph{delta}: \enquote{$\delta$ is essentially a cooling factor. For most applications one can use $\delta = 0.95$ to $0.97$}.
 
-At last, it is wanted a integer number for the stochastic term, as the search space is discrete. In order to achieve that, rounding is performed, proper concerns about numerical errors should be taken in the implementation, so that they are reduced at most.
+At last, it is wanted an integer number for the stochastic term, as the search space is discrete. In order to achieve that, rounding is performed, proper concerns about numerical errors should be taken in the implementation, so that they are at most reduced.
 
 \subsection{Movement in the Discrete Space}
-The movement of a firefly $i$ towards $j$ is determined by $$\mathbf{x^{t+1}_i} = \mathbf{x^{t}_i} + \beta(d(\mathbf{x^{t}_i}, \mathbf{x^{t}_j})) \cdot (\mathbf{x^{t}_j} - \mathbf{x^{t}_i}) + RandomTerm(t)$$
-As the fireflies move in a discrete vector space, the terms of the sum should be also integer number. Since $\beta$ is less or equal than one and its image is the set of the real numbers, the equation can be modified, by turning the multiplication into a division by the inverse function and by rounding the result of the function $\beta$, or rather, implementing it, so that its image is the set of the natural numbers.
+The movement of a firefly $i$ towards $j$ is determined by the following equation.
+$$\mathbf{x^{t+1}_i} = \mathbf{x^{t}_i} + \beta(d(\mathbf{x^{t}_i}, \mathbf{x^{t}_j})) \cdot (\mathbf{x^{t}_j} - \mathbf{x^{t}_i}) + RandomTerm(t)$$
+
+As the fireflies move in a discrete vector space, the terms of the sum above should also be integer numbers. The first and the last one are intrinsically in the set of the integers. Despite of that, the second term muss be rewritten, so that it delivers an integer number with a low error as possible. Thus, we use the $\beta^{-1}$ function, defined in the Section \ref{sec:attractiveness}, and turn the multiplication into a division. Lastly, a rounding should be performed in the quotient, this is done by applying the floor function. As a result, we obtain the function below.
 $$\mathbf{x^{t+1}_i} = \mathbf{x^{t}_i} +  \lfloor \frac{(\mathbf{x^{t}_j} - \mathbf{x^{t}_i})}{\beta^{-1}(d(\mathbf{x^{t}_i}, \mathbf{x^{t}_j}))} \rfloor + RandomTerm(t)$$
 
 AND WHEN IT IS OUT OF DOMAIN? WHAT TO MAKE?
+
+\begin{figure}[H]
+	\centering
+    \caption{Illustration of the domain correction procedure}
+    \includegraphics[width=\textwidth]{fig_solution_domain}\par
+	Source: Own authorship
+    \label{fig:solution_domain}
+\end{figure}
 
 \subsection{Intensity Function}
 The intensity function models the brightness of a firefly and should be directly proportional to the utility function of the problem to be maximized. However, the problem's goal is to minimize the operation costs, and in the Firefly Algorithm it is not enough utilizing the negative costs function instead, since the intensity function is by definition non-negative.
@@ -641,7 +652,7 @@ The objective of this chapter is evaluate the proposed implementation of the fir
 
 Two distinct types of experiments are carried out. In the first place, the firefly approach is compared against the generic solver one by executing both programs with the same input. With it, it is expected to asses to what extent the metaheuristic implementation outperforms the generic solver. In the second place, the near-optimal approach is tested with instances that are recurrently used in the literature. Similarly, the deviation of the solution to the optimal and the program processing time are evaluated and compared to state-of-the-art methods.
 
-In the total, the experiments include 24 instances which are solved in a computational environment with a 64bits \emph{Intel Xeon} CPU at 2.6 GHz, 15 GB of main memory and a \emph{Python} interpreter version 3.4 on a \emph{Linux} operating system.
+In the total, the experiments include 24 instances which are solved in a computational environment with a 64bits \emph{Intel Xeon} CPU at 2.5 GHz, 1 GB of main memory and a \emph{Python} interpreter version 3.4 on a \emph{Linux} operating system.
 
 \section{Instances}
 A set of benchmark instances were created by \textcite{cordeau_branch-and-cut_2006}, these ones have been extensively used in other works in the literature for the DARP. Therefore, they constitute the instance dataset for this work. Originally, \textcite{cordeau_branch-and-cut_2006} came up with a collection of 12 random generated problem instances which were lately expanded by \textcite{ropke_models_2007} who proposed 12 new larger and harder to solve ones. The same authors provided the optimal solutions for the whole dataset, whereas \textcite{parragh_hybrid_2013} presented the state-of-the-art heuristic approach.
