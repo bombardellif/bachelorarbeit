@@ -29,14 +29,15 @@ class ConstraintSatisfaction:
                     timeWindowViolation = None
                 idx = choosableVars.index(orderedVars[0])
 
-        elif originalAssignment and len(choosableVars) == len(variables):
-            # if the route wasn't changed yet and that's the first variable choice, then pick the first variable
-            idx = 0
         elif originalAssignment:
-            # if it's not the first variable choice and the route is original, then pick the nearest variable in the tree
-            diff = numpy.absolute(numpy.array(choosableVars) - variables[0])
-            idx = numpy.argmin(diff)
-            originalAssignment = False
+            # if the route wasn't changed yet and that's the first variable choice, then pick the first variable
+            if variables[0] == choosableVars[0]:
+                idx = 0
+            else:
+                # if it's not the first variable choice and the route is original, then pick the nearest variable in the tree
+                diff = numpy.absolute(numpy.array(choosableVars) - variables[0])
+                idx = numpy.argmin(diff)
+                originalAssignment = False
         else:
             # heristic: pick the lowest in time window
             originalAssignment = False

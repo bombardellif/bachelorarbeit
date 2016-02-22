@@ -41,7 +41,7 @@ class FireflyAlgorithm:
 
     @staticmethod
     def logState(fireflies, theBest, movedDistance, changesBecauseIntensity, attractMean, alpha):
-        if theBest.isInsideDomain():
+        if FireflyAlgorithm.evolutionLog['initialSolution'] is None and theBest.isInsideDomain():
             FireflyAlgorithm.evolutionLog['initialSolution'] = theBest.intensity()
         vectors = [ff.getVectorRep().tolist() for ff in fireflies]
         intensityVec = [ff.intensity() for ff in fireflies]
