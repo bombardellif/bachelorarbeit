@@ -210,7 +210,7 @@ class FireflyAlgorithm:
             else:
                 loopWoImprove += 1
             # Decide whether to stop the loop
-            if self._alphaStage > 0 and currentAlpha <= 1 and loopWoImprove > 2000:
+            if self._alphaStage > 0 and currentAlpha <= 1 and loopWoImprove > 200:
                 break
         # end optimization loop
         print("ALPHA: "+str(currentAlpha))
