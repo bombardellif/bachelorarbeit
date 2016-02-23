@@ -239,14 +239,10 @@ class Solution:
             candidate = Solution(newVector)
 
             # Set the rest of the vector if the first component is valid
-            if candidate.isInsideDomain():
-                if alphaStage == 0:
-                    #newVector[1:] = vector[1:] + numpy.rint(randomVector[1:]).astype(int)
-                    newVector[1:] = 0
-                else:
-                    newVector[1:] = vector[1:] \
-                        + (candidate.getSizeDomainEachBus() * (alphaDivisor.numerator * numpy.rint(randomVector[1:] * Solution.randomPrecisionMult).astype(int).astype(object))) \
-                            // (alphaDivisor.denominator * Solution.randomPrecisionMult)
+            if alphaStage != 0 and candidate.canApplyTimeAdjust():
+                newVector[1:] = vector[1:] \
+                    + (candidate.getSizeDomainEachBus() * (alphaDivisor.numerator * numpy.rint(randomVector[1:] * Solution.randomPrecisionMult).astype(int).astype(object))) \
+                        // (alphaDivisor.denominator * Solution.randomPrecisionMult)
             else:
                 newVector[1:] = vector[1:]
             new = Solution(newVector)
@@ -289,8 +285,7 @@ class Solution:
         return (self._requestComponent < Solution.sizeDomainRequestComponent).all()\
             and (self._requestComponent >= 0).all()\
             and (self._routesComponent < self.getSizeDomainEachBus()).all()\
-            and (self._routesComponent >= 0).all()\
-            and self.matchCapacityContraint()
+            and (self._routesComponent >= 0).all()
 
     def getSizeDomainEachBus(self):
         return [self.getChildrenSizeMatrixFor(nRequests)[0,0] for nRequests in self.getNumRequestsEachBus()]
