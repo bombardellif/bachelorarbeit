@@ -34,8 +34,10 @@
 % Necessário para incluir figuras
 \usepackage{graphicx}         % pacote para importar figuras
 \usepackage{float}
+\usepackage{subcaption}
 \graphicspath{ {img/} }
 \setlength{\intextsep}{1\baselineskip} % evita espaços antes e depois de floats
+\setlength{\belowcaptionskip}{10pt plus 3pt minus 2pt} % espaço depois de caption
 
 \usepackage{times}            % pacote para usar fonte Adobe Times
 % \usepackage{palatino}
@@ -282,7 +284,7 @@ According to \textcite[p. 30]{cordeau_dial--ride_2007}, the Dial-a-ride Problem 
 
 \textcite{cordeau_dial--ride_2007} realized a survey on the subject, they show different variations in the formulation and in the approach. Firstly, the DARP occurs in a \textbf{static} version in which the requests are known beforehand, this one we would like to treat here, alternatively, there is a \textbf{dynamic} version, dealt by \textcite{berbeglia_dynamic_2010}, in which requests can be entered during the operation of the transportation service.
 
-Another distinction to be made is between the \textbf{homogeneous} and the \textbf{heterogeneous} Dial-a-ride Problem. The former proceeds on the assumption that every vehicle is equal. The latter on the other hand distinguish the vehicles either in capacity or in new features, such as space for wheelchair, etc. \parencite[p. 593]{parragh_models_2010}. In the same way, the objectives can differ by aiming \textbf{cost minimization} or \textbf{satisfied demand maximization} \parencite[p. 30]{cordeau_dial--ride_2007}. \textcite{urra_hyperheuristic_2015} have succeeded on handling the second one. A last differentiation of the problem is done regarding the depots, which can be a \textbf{single} one or \textbf{multiple} ones, in this case referred to as \emph{Multi-Depot Heterogeneous Dial-A-Ride Problem} (MD-H-DARP) \parencite[p. 166]{braekers_exact_2014}.
+Another distinction to be made is between the \textbf{homogeneous} and the \textbf{heterogeneous} Dial-a-ride Problem. The former proceeds on the assumption that every vehicle is equal. The latter on the other hand distinguish the vehicles either in capacity or in new features, such as space for wheelchair, etc. \parencite[p. 593]{parragh_models_2012}. In the same way, the objectives can differ by aiming \textbf{cost minimization} or \textbf{satisfied demand maximization} \parencite[p. 30]{cordeau_dial--ride_2007}. \textcite{urra_hyperheuristic_2015} have succeeded on handling the second one. A last differentiation of the problem is done regarding the depots, which can be a \textbf{single} one or \textbf{multiple} ones, in this case referred to as \emph{Multi-Depot Heterogeneous Dial-A-Ride Problem} (MD-H-DARP) \parencite[p. 166]{braekers_exact_2014}.
 
 In their survey, \textcite{cordeau_dial--ride_2007} identify in the literature three formulations. Two of them are described as a mathematical linear program and the other one as a scheduling problem. The \textbf{three-index mathematical formulation}, proposed by \textcite{cordeau_branch-and-cut_2006}, uses binary three-index variables $x_{i,j}^{k}$ to assign routes to each bus and then to minimize costs. In addition, \textcite{ropke_models_2007} come up with a \textbf{two-index formulation} which ignores the maximum ride constraints in order to simplify the model.
 
@@ -660,6 +662,30 @@ A special concern with the numerical operations and the data types had to be tak
 
 To obtain a better performance and to have the most recent features available, the implementation was developed and executed on the newest possible tool versions. Namely, the versions 3.4 of \emph{Python}, 1.10 of \emph{NumPy}, 0.16 of \emph{SciPy} and 1.3 of \emph{Matplotlib}.
 
+The Figure \ref{fig:output} shows an example of one of the output given by the implemented program, it displays the routes of two vehicles in a xy-plane. In each graph, the black dot represents the depot and the red dots represent the drop-off stops, while the blue and the green dots are pickup stops.
+\begin{figure}[H]
+	\centering
+    \caption{Example of output by the program}
+    \begin{subfigure}[b]{0.49\textwidth}
+	    \includegraphics[width=\textwidth]{fig_output1}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.49\textwidth}
+	    \includegraphics[width=\textwidth]{fig_output2}
+    \end{subfigure}
+    \par
+	Source: Own authorship
+    \label{fig:output}
+\end{figure}
+
+The Figure \ref{fig:best-solution-evolution} illustrates how the current best solution evolves along the algorithm  execution with a test input. Observe that the Y-axis represents the utility function instead of the costs.
+\begin{figure}[H]
+	\centering
+    \caption{Evolution of the current best solution along the iterations}
+    \includegraphics[width=0.9\textwidth]{fig_best_sol_evolution}\par
+	Source: Own authorship
+    \label{fig:best-solution-evolution}
+\end{figure}
+
 %============================================================
 % Chapter 5. Evaluation
 %============================================================
@@ -668,7 +694,7 @@ The objective of this chapter is evaluate the proposed implementation of the fir
 
 Two distinct types of experiments are carried out. In the first place, the firefly approach is compared against the generic solver one by executing both programs with the same input. With it, it is expected to asses to what extent the metaheuristic implementation outperforms the generic solver. In the second place, the near-optimal approach is tested with instances that are recurrently used in the literature. Similarly, the deviation of the solution to the optimal and the program processing time are evaluated and compared to state-of-the-art methods.
 
-In the total, the experiments include 24 instances which are solved in a computational environment with a 64bits \emph{Intel Xeon} CPU at 2.3 GHz, 24 GB of main memory and a \emph{Python} interpreter version 3.4 on a \emph{Linux} operating system.
+In the total, the experiments include 24 instances which are solved in a computational environment with a 64bits \emph{Intel Xeon} CPU at 2.3 GHz, 15 GB of main memory and a \emph{Python} interpreter version 3.4 on a \emph{Linux} operating system.
 
 \section{Instances}
 A set of benchmark instances were created by \textcite{cordeau_branch-and-cut_2006}, these ones have been extensively used in other works in the literature for the DARP. Therefore, they constitute the instance dataset for this work. Originally, \textcite{cordeau_branch-and-cut_2006} came up with a collection of 12 random generated problem instances which were lately expanded by \textcite{ropke_models_2007} who proposed 12 new larger and harder to solve ones. The same authors provided the optimal solutions for the whole dataset, whereas \textcite{parragh_hybrid_2013} presented the state-of-the-art heuristic approach.
@@ -705,18 +731,18 @@ a4-24 & 	24 & 	4 & 	3 & 	375.02 & 	50.8 & 	-\\
 a4-32 & 	32 & 	4 & 	3 & 	485.50 & 	86.0 & 	0.55\\
 a4-40 & 	40 & 	4 & 	3 & 	557.69 & 	130.6 & 	0.78\\
 a4-48 & 	48 & 	4 & 	3 & 	668.82 & 	253.8 & 	1.62\\
-a5-40 & 	40 & 	5 & 	3 & 	498.41 & 	 & 	0.85\\
-a5-50 & 	50 & 	5 & 	3 & 	686.62 & 	 & 	1.60\\
-a5-60 & 	60 & 	5 & 	3 & 	808.42 & 	 & 	2.51\\
-a6-48 & 	48 & 	6 & 	3 & 	604.12 & 	 & 	1.14\\
-a6-60 & 	60 & 	6 & 	3 & 	819.25 & 	 & 	2.29\\
-a6-72 & 	72 & 	6 & 	3 & 	916.05 & 	 & 	4.43\\
-a7-56 & 	56 & 	7 & 	3 & 	724.04 & 	 & 	1.67\\
-a7-70 & 	70 & 	7 & 	3 & 	889.12 & 	 & 	2.88\\
-a7-84 & 	84 & 	7 & 	3 & 	1033.37 & 	 & 	7.04\\
-a8-64 & 	64 & 	8 & 	3 & 	747.46 & 	 & 	2.14\\
-a8-80 & 	80 & 	8 & 	3 & 	945.73 & 	 & 	5.73\\
-a8-96 & 	96 & 	8 & 	3 & 	1232.61 & 	 & 	9.92\\
+a5-40 & 	40 & 	5 & 	3 & 	498.41 & 	- & 	0.85\\
+a5-50 & 	50 & 	5 & 	3 & 	686.62 & 	- & 	1.60\\
+a5-60 & 	60 & 	5 & 	3 & 	808.42 & 	- & 	2.51\\
+a6-48 & 	48 & 	6 & 	3 & 	604.12 & 	- & 	1.14\\
+a6-60 & 	60 & 	6 & 	3 & 	819.25 & 	- & 	2.29\\
+a6-72 & 	72 & 	6 & 	3 & 	916.05 & 	- & 	4.43\\
+a7-56 & 	56 & 	7 & 	3 & 	724.04 & 	- & 	1.67\\
+a7-70 & 	70 & 	7 & 	3 & 	889.12 & 	- & 	2.88\\
+a7-84 & 	84 & 	7 & 	3 & 	1033.37 & 	- & 	7.04\\
+a8-64 & 	64 & 	8 & 	3 & 	747.46 & 	- & 	2.14\\
+a8-80 & 	80 & 	8 & 	3 & 	945.73 & 	- & 	5.73\\
+a8-96 & 	96 & 	8 & 	3 & 	1232.61 & 	- & 	9.92\\
 \hline
 \end{tabular}
 \center Source: Own authorship
@@ -724,12 +750,50 @@ a8-96 & 	96 & 	8 & 	3 & 	1232.61 & 	 & 	9.92\\
 \end{table}
 
 \section{Results and Discussion}
+First of all, we want to evaluate the exact approach through the integer programming solver GLPK and how it performs in comparison to the near-optimal implementation. The instances were then executed with a memory limit of 10 GB. But, as one could have expected, the generic solver was not able to solve even the smallest instance \emph{a2-16}, neither a feasible non-optimal solution could be found. Though, in order to present results of comparison, the instance \emph{a2-16} was reduced in several smaller ones, between 3 and 8 requests.
+
+The results are shown in the Figure \ref{tab:evaluation-1}, which summarizes the values that we are interested in. In the columns \emph{Req.}, \emph{Buses} and \emph{Cap.} are listed the features \emph{number of requests}, \emph{number of buses} and \emph{vehicle capacity}, respectively, for each instance. The columns \emph{Opt.} and \emph{CPU-GLPK} display the cost of the optimal solution found by the generic solver and the CPU time in minutes, respectively. The columns \emph{Firefly Sol.} and \emph{Dev.} show the solution found by the metaheuristic approach and its deviation to the optimum, this is calculated by simply dividing the value in \emph{Opt.} by the one \emph{Firefly Sol.}. Finally, the time in minutes of the solution through the Firefly algorithm can be seen in the last column.
+\begin{table}[H]
+\centering
+\caption{Results of the first evaluation}
+\setstretch{1}
+\begin{tabular}{l | r | r | r | r | r | r | r | r}
+\hline
+Inst. & Req. & Buses & Cap. & Opt. & CPU-GLPK & Firefly Sol. & Dev. & CPU-Firefly\\
+\hline
+Test-1 & 	3 & 	2 & 	3 & 	58,05 & 	0,1 & 	69,75 & 	83,2\% & 	7,4 \\
+Test-2 & 	4 & 	2 & 	3 & 	68,10 & 	0,9 & 	98,51 & 	69,1\% & 	11,7 \\
+Test-3 & 	5 & 	2 & 	3 & 	76,27 & 	2,0 & 	134,29 & 	56,8\% & 	2,5 \\
+Test-4 & 	6 & 	2 & 	3 & 	96,54 & 	45,0 & 	149,32 & 	64,6\% & 	3,3 \\
+Test-5 & 	8 & 	2 & 	3 & 	- & 	- & 	158,67 & 	- & 	5,7 \\
+\hline
+\end{tabular}
+\center Source: Own authorship
+\label{tab:evaluation-1}
+\end{table}
+
+In light of the results, one can conclude that, on the one hand, GLPK is very effective for small instances, but on the other hand, due to its high complexity of both time and space, it is not capable of been applied for greater inputs, as in real applications. As opposed to that, the solution with the metaheuristic may be not so effective in delivering the optimal result. However, on the basis of its robustness, its efficiency when solving larger instances lies way above the former. One can see that in the running times of the experiments, since the algorithm's computational time presents a relatively small variation and appears to have a steady growth as the inputs become larger. This observation is supported by the subsequent experiments.
+
+\begin{table}[H]
+\centering
+\caption{Results of the second evaluation}
+\setstretch{1}
+\begin{tabular}{l | r | r | r | r | r}
+\hline
+Inst. & Initial Sol. & Final Sol. & Dev. to Initial Sol. & Dev. to Optimum & CPU-Firefly\\
+\hline
+\hline
+\end{tabular}
+\center Source: Own authorship
+\label{tab:evaluation-2}
+\end{table}
 
 %============================================================
 % Chapter 6. Conclusion
 %============================================================
 \chapter{Conclusion}
 - Further Research
+- Possible improvements
 
 % e aqui vai a parte principal
 % 
