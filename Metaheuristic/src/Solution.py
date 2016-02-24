@@ -312,12 +312,14 @@ class Solution:
                 + numpy.concatenate(([0], Solution.requestGraph.durations[rows[i]]))
 
             routeLocations = numpy.array([0] + columns[i])
+            routeDurations = Solution.requestGraph.durations[[0] + columns[i]]
             pickupIdx = routeLocations[routeLocations > Solution.totalRequests].argsort()
             deliverIdx = routeLocations[routeLocations <= Solution.totalRequests][1:-1].argsort()
 
             timesPickup = minPossible[routeLocations > Solution.totalRequests][pickupIdx]
             timesDeliver = minPossible[routeLocations <= Solution.totalRequests][1:-1][deliverIdx]
-            if ((timesDeliver - timesPickup) > Solution.requestGraph.userTime).any():
+            durationPickup = routeDurations[routeLocations > Solution.totalRequests][pickupIdx]
+            if ((timesDeliver - timesPickup - durationPickup) > Solution.requestGraph.userTime).any():
                 match = False
                 break
 
@@ -381,13 +383,14 @@ class Solution:
                 ordered = numpy.array(rows[j][1:])[numpy.argsort(limits[:,1])] - 1
                 newRoute = self.satisfyTimeConstraintsRoute(numReq, routes[i], limits, ordered.tolist())
 
-                #debug = numpy.hstack((newRoute[numpy.newaxis].T,Solution.requestGraph.timeConstraints[newRoute + 1]))
+                # debug = numpy.hstack((newRoute[numpy.newaxis].T,Solution.requestGraph.timeConstraints[newRoute + 1]))
+                # print(debug)
 
                 j += 1
             else:
                 newRoute = routes[i]
             newRoutes.append(newRoute)
-
+        #pdb.set_trace()
         # Generate the vector values from the new Routes
         relativeRoutes = numpy.array(newRoutes)
         for i in range(len(relativeRoutes)):
@@ -428,7 +431,7 @@ class Solution:
                 constraints.append([var, var - Solution.totalRequests])
 
         newRoute = numpy.full(numRequests*2, -1, dtype=int)
-        newDomains,_ = ConstraintSatisfaction.satisfyConstraints(self, route, domains, constraints, ordered, newRoute)
+        newDomains,_ = ConstraintSatisfaction.satisfyConstraints(self, route, domains, numpy.array(constraints), ordered, newRoute)
         if newDomains is not None:
             newRoute = numpy.empty(len(newDomains),dtype=int)
             newRoute[list(itertools.chain.from_iterable(newDomains.values()))] = list(newDomains.keys())

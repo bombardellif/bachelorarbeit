@@ -45,10 +45,13 @@ Solution.determineWorstCost()
 
 # out = 0
 # suc = 0
+# suc2= 0
+# suc3= 0
 # for i in range(50):
 #     Solution.prin = False
 #     sol = Solution().randomize()
 #     #sol = Solution(numpy.array([3343, 62164504818601, 29576]))
+#     #sol = Solution(numpy.array([10228233, 1445216875758163566, 160803576754056]))
 #     print(sol.getVectorRep())
 #     # pdb.set_trace()
 #     if not sol.isInsideDomain():
@@ -58,8 +61,14 @@ Solution.determineWorstCost()
 #         Solution.prin = False
 #         if sol.isInsideDomain():
 #             suc += 1
+#         if sol.matchTimeConstraints():
+#             suc2 += 1
+#         if sol.matchUserTimeConstraint():
+#             suc3 += 1
 # print(out)
 # print(suc)
+# print(suc2)
+# print(suc3)
 # sys.exit(0)
 #pdb.set_trace()
 
@@ -124,7 +133,7 @@ if FireflyAlgorithm.registerEvolution:
         print('Best initial cost:\t', '-')
 print('Best solution:\t', theBest.intensity())
 print('Best cost:\t', Solution.worstCost - theBest.intensity())
-print('Total time (sec):\t', (end - begin).total_seconds())
+print('Total time (sec):\t', (end - begin).total_seconds() / 60)
 
 # Show Results
 if args.verbose:
