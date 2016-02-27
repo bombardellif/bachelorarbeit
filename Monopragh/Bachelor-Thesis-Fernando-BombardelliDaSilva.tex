@@ -289,6 +289,59 @@ In this work we apply the \textbf{firefly metaheuristic}, that has been showing 
 
 The firefly algorithm has also been applied to discrete optimization problems, also known as \textbf{integer programming}. \textcite{jati_evolutionary_2011} address the classical \textbf{Travelling Salesman Problem} with the help of the FA. In the same way, \textcite{apostolopoulos_application_2010} deal with another combinatorial optimization problem, the \emph{Economic Emissions Load Dispatch Problem}. At last, \textcite{sayadi_discrete_2010} and \textcite{sayadi_firefly-inspired_2013} also utilize this technique, in order to solve other $\mathcal{NP}$-hard problems.
 
+\section{Instances}
+A set of benchmark instances were created by \textcite{cordeau_branch-and-cut_2006}, these ones have been extensively used in other works in the literature for the DARP. Therefore, they constitute the instance dataset for this work. Originally, \textcite{cordeau_branch-and-cut_2006} came up with a collection of 12 random generated problem instances which were lately expanded by \textcite{ropke_models_2007} who proposed 12 new larger and harder to solve ones. The same authors provided the optimal solutions for the whole dataset, whereas \textcite{parragh_hybrid_2013} presented the state-of-the-art heuristic approach.
+
+The instances are described in text files which describe the parameters of the problem. The number of requests varies from 16 until 96 and contain always the load of one passenger, it means, it is assumed one passenger per request. Similarly, the boarding time is considered to be 3 units of time for every request. The number of vehicles varies as well, between 2 and 8 cars which have a capacity of 3 passengers in every case.
+
+The locations where the requests are to be served are randomly generated, according to a uniform distribution, in a plan space inside the range of [-10, 10] x [-10, 10]. The depot is set in the center of the area, that is, the origin (0,0). The costs of traveling between any two stops is equals to the travel time between them which is assumed to be simply the \emph{Euclidean distance} between the two points.
+
+The number of requests is always even and can be divided into two groups, while a half of them are \textbf{outbound} requests the other half are \textbf{inbound} requests. The former means that the constraint of time window exists only at the arrival time at the destination, the latter, on the other hand, has this kind of constraints only at the departure time. To better understand, one can cite the example from \textcite[p. 29]{cordeau_dial--ride_2007}, they compare it with the case of patients who need transportation from home to the hospital, they suggest that the time window constraint should be set in order to come to the hospital on time, that would be the so-called outbound request, likewise, patients should be picked up from the hospital in a specific time interval, that would then be an inbound request.
+
+In the dataset considered here the time window at the arrival at the destiny $[e_{n+i}, l_{n+i}]$ for an outbound request $i$ comprehend a 15 minute interval. So, let T be the maximal route time allowed for the buses, with it, $l_{n+i}$ is randomly picked from the interval [60, T] and, as a consequence, $e_{n+i}$ is calculated by subtracting 15 from the upper limit, i.e. $e_{n+i} = l_{n+i} - 15$. Similarly, for an inbound request $i$, $e_i$ is chosen from the interval [0, T-60] and then $l_i = e_i + 15$.
+
+Lastly, the maximal route time T, also referred to as planning horizon, varies between 240 and 720 and the maximal ride time L of a passenger is constantly 30 for every instance.
+
+The Table \ref{tab:instances-attributes} lists all the instances along with their names and properties. The columns \emph{Request} and \emph{Buses} show the quantity of each of these attributes, the column \emph{Capacity} tells the maximal load of the buses. The \emph{Optimum} is the cost of the minimal solution which has been calculated by \textcite[p. 270]{ropke_models_2007}. At last, the column \emph{CPU$^1$} refers to the processing time in minutes provided by the metaheuristic implementation with \emph{variable neighborhood search} from \textcite{parragh_introducing_2011} (executed on a 3.2 GHz \emph{Intel Pentium D} CPU with 4 GB of RAM) while \emph{CPU$^2$} refers to the running time in minutes of the state-of-the-art heuristic implementation with \emph{large neighborhood search} by \textcite{parragh_hybrid_2013} (executed on an \emph{Intel Xeon} CPU at 2.67 GHz with 24 GB of RAM).
+
+\begin{table}[H]
+\centering
+\caption{Characteristics of the problem instances}
+\setstretch{1}
+\begin{tabular}{l | r | r | r | r | r | r}
+\hline
+Instance & Requests & Buses & Capacity & Optimum & CPU$^1$ & CPU$^2$ \\
+\hline
+a2-16 & 	16 & 	2 & 	3 & 	294.25 & 	68.2 & 	0.12\\
+a2-20 & 	20 & 	2 & 	3 & 	344.83 & 	133.8 & 	0.28\\
+a2-24 & 	24 & 	2 & 	3 & 	431.12 & 	187.8 & 	0.35\\
+a3-18 & 	18 & 	3 & 	3 & 	300.48 & 	45.4 & 	-\\
+a3-24 & 	24 & 	3 & 	3 & 	344.83 & 	86.8 & 	0.29\\
+a3-30 & 	30 & 	3 & 	3 & 	494.85 & 	105.6 & 	0.50\\
+a3-36 & 	36 & 	3 & 	3 & 	583.19 & 	162.6 & 	0.83\\
+a4-16 & 	16 & 	4 & 	3 & 	282.68 & 	26.0 & 	-\\
+a4-24 & 	24 & 	4 & 	3 & 	375.02 & 	50.8 & 	-\\
+a4-32 & 	32 & 	4 & 	3 & 	485.50 & 	86.0 & 	0.55\\
+a4-40 & 	40 & 	4 & 	3 & 	557.69 & 	130.6 & 	0.78\\
+a4-48 & 	48 & 	4 & 	3 & 	668.82 & 	253.8 & 	1.62\\
+a5-40 & 	40 & 	5 & 	3 & 	498.41 & 	- & 	0.85\\
+a5-50 & 	50 & 	5 & 	3 & 	686.62 & 	- & 	1.60\\
+a5-60 & 	60 & 	5 & 	3 & 	808.42 & 	- & 	2.51\\
+a6-48 & 	48 & 	6 & 	3 & 	604.12 & 	- & 	1.14\\
+a6-60 & 	60 & 	6 & 	3 & 	819.25 & 	- & 	2.29\\
+a6-72 & 	72 & 	6 & 	3 & 	916.05 & 	- & 	4.43\\
+a7-56 & 	56 & 	7 & 	3 & 	724.04 & 	- & 	1.67\\
+a7-70 & 	70 & 	7 & 	3 & 	889.12 & 	- & 	2.88\\
+a7-84 & 	84 & 	7 & 	3 & 	1033.37 & 	- & 	7.04\\
+a8-64 & 	64 & 	8 & 	3 & 	747.46 & 	- & 	2.14\\
+a8-80 & 	80 & 	8 & 	3 & 	945.73 & 	- & 	5.73\\
+a8-96 & 	96 & 	8 & 	3 & 	1232.61 & 	- & 	9.92\\
+\hline
+\end{tabular}
+\center Source: \parencite[p. 928]{parragh_introducing_2011} and \parencite[p. 496]{parragh_hybrid_2013}
+\label{tab:instances-attributes}
+\end{table}
+
 %============================================================
 % Chapter 3. Theoretical Basis
 %============================================================
@@ -683,103 +736,122 @@ The Figure \ref{fig:best-solution-evolution} illustrates how the current best so
 % Chapter 5. Evaluation
 %============================================================
 \chapter{Evaluation}
-The objective of this chapter is evaluate the proposed implementation of the firefly metaheuristic by running it with several problem instances as input. The characteristics that are taken into consideration are the \textbf{result quality}, that is to say, how far the calculated cost for the best solution found is from the instance's optimal solution, the \textbf{algorithm evolution}, which tells how better the best solution found is in comparison to the initial solution, and, at last, the \textbf{running time}.
+The objective of this chapter is evaluate the proposed implementation of the firefly metaheuristic by running it with several problem instances as input. The characteristics that are taken into consideration are the \textbf{result quality}, that is to say, how far the calculated cost for the best solution found is from the instance's optimal solution, the \textbf{algorithm progress}, which tells how better the best solution found is in comparison to the initial solution, and, at last, the \textbf{running time}.
 
 Two distinct types of experiments are carried out. In the first place, the firefly approach is compared against the generic solver one by executing both programs with the same input. With it, it is expected to asses to what extent the metaheuristic implementation outperforms the generic solver. In the second place, the near-optimal approach is tested with instances that are recurrently used in the literature. Similarly, the deviation of the solution to the optimal and the program processing time are evaluated and compared to state-of-the-art methods.
 
 In the total, the experiments include 24 instances which are solved in a computational environment with a 64bits \emph{Intel Xeon} CPU at 2.3 GHz, 15 GB of main memory and a \emph{Python} interpreter version 3.4 on a \emph{Linux} operating system.
 
-\section{Instances}
-A set of benchmark instances were created by \textcite{cordeau_branch-and-cut_2006}, these ones have been extensively used in other works in the literature for the DARP. Therefore, they constitute the instance dataset for this work. Originally, \textcite{cordeau_branch-and-cut_2006} came up with a collection of 12 random generated problem instances which were lately expanded by \textcite{ropke_models_2007} who proposed 12 new larger and harder to solve ones. The same authors provided the optimal solutions for the whole dataset, whereas \textcite{parragh_hybrid_2013} presented the state-of-the-art heuristic approach.
-
-The instances are described in text files which describe the parameters of the problem. The number of requests varies from 16 until 96 and contain always the load of one passenger, it means, it is assumed one passenger per request. Similarly, the boarding time is considered to be 3 units of time for every request. The number of vehicles varies as well, between 2 and 8 cars which have a capacity of 3 passengers in every case.
-
-The locations where the requests are to be served are randomly generated, according to a uniform distribution, in a plan space inside the range of [-10, 10] x [-10, 10]. The depot is set in the center of the area, that is, the origin (0,0). The costs of traveling between any two stops is equals to the travel time between them which is assumed to be simply the \emph{Euclidean distance} between the two points.
-
-The number of requests is always even and can be divided into two groups, while a half of them are \textbf{outbound} requests the other half are \textbf{inbound} requests. The former means that the constraint of time window exists only at the arrival time at the destination, the latter, on the other hand, has this kind of constraints only at the departure time. To better understand, one can cite the example from \textcite[p. 29]{cordeau_dial--ride_2007}, they compare it with the case of patients who need transportation from home to the hospital, they suggest that the time window constraint should be set in order to come to the hospital on time, that would be the so-called outbound request, likewise, patients should be picked up from the hospital in a specific time interval, that would then be an inbound request.
-
-In the dataset considered here the time window at the arrival at the destiny $[e_{n+i}, l_{n+i}]$ for an outbound request $i$ comprehend a 15 minute interval. So, let T be the maximal route time allowed for the buses, with it, $l_{n+i}$ is randomly picked from the interval [60, T] and, as a consequence, $e_{n+i}$ is calculated by subtracting 15 from the upper limit, i.e. $e_{n+i} = l_{n+i} - 15$. Similarly, for an inbound request $i$, $e_i$ is chosen from the interval [0, T-60] and then $l_i = e_i + 15$.
-
-Lastly, the maximal route time T, also referred to as planning horizon, varies between 240 and 720 and the maximal ride time L of a passenger is constantly 30 for every instance.
-
-The Table \ref{tab:instances-attributes} lists all the instances along with their names and properties. The columns \emph{Request} and \emph{Buses} show the quantity of each of these attributes, the column \emph{Capacity} tells the maximal load of the buses. The \emph{Optimum} is the cost of the minimal solution which has been calculated by \textcite[p. 270]{ropke_models_2007}. At last, the column \emph{CPU$^1$} refers to the processing time in minutes provided by the metaheuristic implementation with \emph{variable neighborhood search} from \textcite{parragh_introducing_2011} (executed on a 3.2 GHz \emph{Intel Pentium D} CPU with 4 GB of RAM) while \emph{CPU$^2$} refers to the running time in minutes of the state-of-the-art heuristic implementation with \emph{large neighborhood search} by \textcite{parragh_hybrid_2013} (executed on an \emph{Intel Xeon} CPU at 2.67 GHz with 24 GB of RAM).
-
-\begin{table}[H]
-\centering
-\caption{Characteristics of the problem instances}
-\setstretch{1}
-\begin{tabular}{l | r | r | r | r | r | r}
-\hline
-Instance & Requests & Buses & Capacity & Optimum & CPU$^1$ & CPU$^2$ \\
-\hline
-a2-16 & 	16 & 	2 & 	3 & 	294.25 & 	68.2 & 	0.12\\
-a2-20 & 	20 & 	2 & 	3 & 	344.83 & 	133.8 & 	0.28\\
-a2-24 & 	24 & 	2 & 	3 & 	431.12 & 	187.8 & 	0.35\\
-a3-18 & 	18 & 	3 & 	3 & 	300.48 & 	45.4 & 	-\\
-a3-24 & 	24 & 	3 & 	3 & 	344.83 & 	86.8 & 	0.29\\
-a3-30 & 	30 & 	3 & 	3 & 	494.85 & 	105.6 & 	0.50\\
-a3-36 & 	36 & 	3 & 	3 & 	583.19 & 	162.6 & 	0.83\\
-a4-16 & 	16 & 	4 & 	3 & 	282.68 & 	26.0 & 	-\\
-a4-24 & 	24 & 	4 & 	3 & 	375.02 & 	50.8 & 	-\\
-a4-32 & 	32 & 	4 & 	3 & 	485.50 & 	86.0 & 	0.55\\
-a4-40 & 	40 & 	4 & 	3 & 	557.69 & 	130.6 & 	0.78\\
-a4-48 & 	48 & 	4 & 	3 & 	668.82 & 	253.8 & 	1.62\\
-a5-40 & 	40 & 	5 & 	3 & 	498.41 & 	- & 	0.85\\
-a5-50 & 	50 & 	5 & 	3 & 	686.62 & 	- & 	1.60\\
-a5-60 & 	60 & 	5 & 	3 & 	808.42 & 	- & 	2.51\\
-a6-48 & 	48 & 	6 & 	3 & 	604.12 & 	- & 	1.14\\
-a6-60 & 	60 & 	6 & 	3 & 	819.25 & 	- & 	2.29\\
-a6-72 & 	72 & 	6 & 	3 & 	916.05 & 	- & 	4.43\\
-a7-56 & 	56 & 	7 & 	3 & 	724.04 & 	- & 	1.67\\
-a7-70 & 	70 & 	7 & 	3 & 	889.12 & 	- & 	2.88\\
-a7-84 & 	84 & 	7 & 	3 & 	1033.37 & 	- & 	7.04\\
-a8-64 & 	64 & 	8 & 	3 & 	747.46 & 	- & 	2.14\\
-a8-80 & 	80 & 	8 & 	3 & 	945.73 & 	- & 	5.73\\
-a8-96 & 	96 & 	8 & 	3 & 	1232.61 & 	- & 	9.92\\
-\hline
-\end{tabular}
-\center Source: Own authorship
-\label{tab:instances-attributes}
-\end{table}
-
 \section{Results and Discussion}
-First of all, we want to evaluate the exact approach through the integer programming solver GLPK and how it performs in comparison to the near-optimal implementation. The instances were then executed with a memory limit of 10 GB. But, as one could have expected, the generic solver was not able to solve even the smallest instance \emph{a2-16}, neither a feasible non-optimal solution could be found. Though, in order to present results of comparison, the instance \emph{a2-16} was reduced in several smaller ones, between 3 and 8 requests.
+First of all, we wanted to evaluate the exact approach through the integer programming solver GLPK and how it performs in comparison to the near-optimal implementation. The instances were then executed with a memory limit of 7 GB. But, as one could have expected, the generic solver was not able to solve even the smallest instance \emph{a2-16}, neither a feasible non-optimal solution could be found. Though, in order to present results of comparison, the instance \emph{a2-16} was reduced in several smaller ones, between 3 and 8 requests.
 
-The results are shown in the Figure \ref{tab:evaluation-1}, which summarizes the values that we are interested in. In the columns \emph{Req.}, \emph{Buses} and \emph{Cap.} are listed the features \emph{number of requests}, \emph{number of buses} and \emph{vehicle capacity}, respectively, for each instance. The columns \emph{Opt.} and \emph{CPU-GLPK} display the cost of the optimal solution found by the generic solver and the CPU time in minutes, respectively. The columns \emph{Firefly Sol.} and \emph{Dev.} show the solution found by the metaheuristic approach and its deviation to the optimum, this is calculated by simply dividing the value in \emph{Opt.} by the one \emph{Firefly Sol.}. Finally, the time in minutes of the solution through the Firefly algorithm can be seen in the last column.
+The results are shown in the Figure \ref{tab:evaluation-1}, which summarizes the values that we are interested in. In the columns \emph{Req}, \emph{Bus} and \emph{Cap} are listed the features \emph{number of requests}, \emph{number of buses} and \emph{vehicle capacity}, respectively, for each instance. The columns \emph{Opt.} and \emph{CPU-GLPK} display the cost of the optimal solution found by the generic solver and the CPU time in minutes, respectively. The columns \emph{Firefly Sol.} and \emph{\% Opt.} show the solution found by the metaheuristic approach and its deviation to the optimum, this is calculated by simply dividing the value in \emph{Opt.} by the one \emph{Firefly Sol.}. Finally, the time in minutes of the solution through the Firefly algorithm can be seen in the last column.
 \begin{table}[H]
 \centering
 \caption{Results of the first evaluation}
 \setstretch{1}
 \begin{tabular}{l | r | r | r | r | r | r | r | r}
 \hline
-Inst. & Req. & Buses & Cap. & Opt. & CPU-GLPK & Firefly Sol. & Dev. & CPU-Firefly\\
+Inst. & Req & Bus & Cap & Opt. & CPU-GLPK & Firefly Sol. & \% Opt. & CPU-Firefly\\
 \hline
-Test-1 & 	3 & 	2 & 	3 & 	58,05 & 	0,1 & 	69,75 & 	83,2\% & 	7,4 \\
-Test-2 & 	4 & 	2 & 	3 & 	68,10 & 	0,9 & 	98,51 & 	69,1\% & 	11,7 \\
-Test-3 & 	5 & 	2 & 	3 & 	76,27 & 	2,0 & 	134,29 & 	56,8\% & 	2,5 \\
-Test-4 & 	6 & 	2 & 	3 & 	96,54 & 	45,0 & 	149,32 & 	64,6\% & 	3,3 \\
-Test-5 & 	8 & 	2 & 	3 & 	- & 	- & 	158,67 & 	- & 	5,7 \\
+Test-1 & 	3 & 	2 & 	3 & 	58.05 & 	0.1 & 	69.75 & 	83.2\% & 	7.4 \\
+Test-2 & 	4 & 	2 & 	3 & 	68.10 & 	0.9 & 	98.51 & 	69.1\% & 	11.7 \\
+Test-3 & 	5 & 	2 & 	3 & 	76.27 & 	2.0 & 	134.29 & 	56.8\% & 	2.5 \\
+Test-4 & 	6 & 	2 & 	3 & 	96.54 & 	45.0 & 	149.32 & 	64.6\% & 	3.3 \\
+Test-5 & 	8 & 	2 & 	3 & 	- & 	- & 	158.67 & 	- & 	5.7 \\
 \hline
 \end{tabular}
 \center Source: Own authorship
 \label{tab:evaluation-1}
 \end{table}
 
-In light of the results, one can conclude that, on the one hand, GLPK is very effective for small instances, but on the other hand, due to its high complexity of both time and space, it is not capable of been applied for greater inputs, as in real applications. As opposed to that, the solution with the metaheuristic may be not so effective in delivering the optimal result. However, on the basis of its robustness, its efficiency when solving larger instances lies way above the former. One can see that in the running times of the experiments, since the algorithm's computational time presents a relatively small variation and appears to have a steady growth as the inputs become larger. This observation is supported by the subsequent experiments.
+Note that, because it had reached the execution limit, the exact approach could not solve the instance \emph{Test-5} of the experiment. This fact together with the growth of CPU time required for the GLPK to solve instances as they become bigger suggests an exponential increase in use of resources (e.g. processing time and memory) that the exact solver consumes. All in all, it confirms what one can generally expect from the generic linear programming solver when the growth of the input increases the dimension of the solution space, this is is the so-called \emph{Bellman’s curse of dimensionality}\footnote{See Bellman, Richard E. 2003. Dynamic Programming.  Courier Corporation.}
+
+In light of the results, one can conclude that, on the one hand, GLPK is very effective for small instances, but on the other hand, due to its high complexity of both time and space, it is not capable of being applied for larger inputs, as in real applications. As opposed to that, the solution with the metaheuristic may be not so effective in delivering the optimal result. However, on the basis of its robustness, its efficiency when solving larger instances lies way above the exact approach. This can be clearly seen in the column \emph{CPU-Firefly}, whereby the algorithm's computational time presents a relatively small variation and appears to have a steady growth as the inputs become larger. This observation is supported by the subsequent experiments.
+
+The second conducted evaluation analyzed the following three aspects of the problem solver, which implemented the firefly algorithm: (i) how close to the optimum the metaheuristic approach can get, i.e. the solution quality; (ii) how the solutions are improved from the initial feasible solution until the final one, this indicates in what way the optimization method in fact helps in order to minimize the cost function; (iii) how, in a temporal perspective, the application behaves regarding the increase in the input size.
+
+From the total of 24 instances 15 could be solved, the results are presented in the Table \ref{tab:evaluation-2.1}. The two first columns describe the characteristics of the data inputs, respectively name and optimal solution. The columns \emph{Final Sol.} and \emph{Optimality} show the best solution found and its proportion with respect to the instance optimum. The two last columns refer to the progress of the solutions, in \emph{Initial Sol.} is the first yielded feasible solution and in \emph{Dev. to Initial Sol.} is the deviation of the final result to the initial one, it is calculated by dividing the difference between these two values by the initial solution, in formula: $\textit{ Dev. to Initial Sol.} = (\textit{Initial Sol.} - \textit{Final Sol.}) / \textit{Initial Sol.}$.
 
 \begin{table}[H]
 \centering
-\caption{Results of the second evaluation}
+\caption{Results of the second evaluation $-$ Quality and progress}
 \setstretch{1}
 \begin{tabular}{l | r | r | r | r | r}
 \hline
-Inst. & Initial Sol. & Final Sol. & Dev. to Initial Sol. & Dev. to Optimum & CPU-Firefly\\
+Instance & Optimum & Final Sol. & Optimality & Initial Sol. & Dev. to Initial Sol.\\
 \hline
+a2-16 & 	294.25 & 	312.96 & 	94.02\% & 	335.85 & 	6.81\% \\
+a2-20 & 	344.83 & 	373.89 & 	92.23\% & 	427.48 & 	12.54\% \\
+a2-24 & 	431.12 & 	442.85 & 	97.35\% & 	496.92 & 	10.88\% \\
+a3-18 & 	300.48 & 	347.10 & 	86.57\% & 	374.20 & 	7.24\% \\
+a3-24 & 	344.83 & 	409.73 & 	84.16\% & 	456.86 & 	10.32\% \\
+a3-30 & 	494.85 & 	614.13 & 	80.58\% & 	615.99 & 	0.30\% \\
+a3-36 & 	583.19 & 	- & 	- & 	- & 	- \\
+a4-16 & 	282.68 & 	310.84 & 	90.94\% & 	354.54 & 	12.33\% \\
+a4-24 & 	375.02 & 	481.16 & 	77.94\% & 	567.63 & 	15.23\% \\
+a4-32 & 	485.50 & 	639.73 & 	75.89\% & 	665.27 & 	3.84\% \\
+a4-40 & 	557.69 & 	780.13 & 	71.49\% & 	841.92 & 	7.34\% \\
+a4-48 & 	668.82 & 	956.90 & 	69.89\% & 	1032.38 & 	7.31\% \\
+a5-40 & 	498.41 & 	779.32 & 	63.95\% & 	818.14 & 	4.74\% \\
+a5-50 & 	686.62 & 	926.23 & 	74.13\% & 	1018.84 & 	9.09\% \\
+a5-60 & 	808.42 & 	1195.94 & 	67.60\% & 	1257.38 & 	4.89\% \\
+a6-48 & 	604.12 & 	993.08 & 	60.83\% & 	1025.55 & 	3.17\% \\
 \hline
 \end{tabular}
 \center Source: Own authorship
-\label{tab:evaluation-2}
+\label{tab:evaluation-2.1}
 \end{table}
+
+Note that it was not possible to find a solution for the instance \emph{a3-36}. That is mainly due to the fact that it has a high rate request per bus, as one can see in the Table \ref{tab:instances-attributes}. it implies that with a higher number of requests in a bus route it becomes very often impossible arranging the locations in an order that fulfills the problems constraints. On this issue, one should take into consideration, that there are two distinct tasks that are affected by the density of request per bus, firstly, the assignment of requests to buses, secondly, the arrangement of each bus' route. Then, as the former is performed merely randomly, the algorithm of domain correction, which is applied solely to the routes, can be quite ineffective, since a desired effect depends broadly on the assignment of locations to the specific route.
+
+When considering the optimality of the results, one can ascertain that the implementation delivers very good solutions to the smaller instances, for instance, from the \emph{a2-16} till the \emph{a4-16} the mean is at approximately 90\%. The other outcomes, which lie below the percentage of 80\%, have a performance that should be already expected. At that, the search space becomes very large due to its high dimensionality, besides, the sparseness of the regions of feasible solutions increase, so that interaction between the fireflies can be less and less frequent, thus, almost annulling the optimization process.
+
+Moreover, the balance between \emph{exploration} and \emph{exploitation} plays an important role. A policy of exploration tends to lead the optimization process away from local optima, avoiding low quality solutions, at the expense of increasing the processing time. By contrast, a policy of exploitation tends to a local search, delivering impaired solution, but in a short period of time. To sum up, whether the solution of an instances has a better or worse quality depends also on this balance, it can be eventually improved, though the price that one have to pay might be unwanted.
+
+At last, the progress from a feasible initial solution to the best one has presented a variation at the experiments, namely from 0.3\% to over 15\%. That is mostly because of the domain correction procedure performed with the initial randomly distributed solution vectors. Since the set of initial solution happens to be highly probable to be invalid, they pass through the domain adjustment algorithm, whose heuristic for forming the feasible route may eventually be good enough to place the vector very close to the optimum.
+
+[DESCRIBE THE TABLE]
+
+\begin{table}[H]
+\centering
+\caption{Results of the second evaluation $-$ Running time}
+\setstretch{1}
+\begin{tabular}{l | r | r | r}
+\hline
+Instance & CPU$^1$ & CPU$^2$ & CPU-Firefly\\
+\hline
+a2-16 & 	68.2 	& 	0.12 & 	\textbf{63.3} \\
+a2-20 & 	133.8 	& 	0.28 & 	160.5 \\
+a2-24 & 	187.8 	& 	0.35 & 	419.3 \\
+a3-18 & 	45.4 	& 	- & 	\textbf{29.5} \\
+a3-24 & 	86.8 	& 	0.29 & 	\textbf{77.4} \\
+a3-30 & 	105.6 	& 	0.50 & 	151.2 \\
+a3-36 & 	162.6 	& 	0.83 & 	370.6 \\
+a4-16 & 	26.0 	& 	- & 	\textbf{14.5} \\
+a4-24 & 	50.8 	& 	- & 	\textbf{37.0} \\
+a4-32 & 	86.0 		& 	0.55 & 	129.4 \\
+a4-40 & 	130.6 	& 	0.78 & 	233.5 \\
+a4-48 & 	253.8 	& 	1.62 & 	\textbf{222.3} \\
+a5-40 & 	- & 	0.85 & 	\textbf{156.8} \\
+a5-50 & 	- & 	1.60 & 	\textbf{366.1} \\
+a5-60 & 	- & 	2.51 & 	\textbf{323.1} \\
+a6-48 & 	- & 	1.14 & 	\textbf{146.7} \\
+a6-60 & 	- & 	2.29 & 	279.3 \\
+a6-72 & 	- & 	4.43 & 	648.7 \\
+a7-56 & 	- & 	1.67 & 	186.2 \\
+a7-70 & 	- & 	2.88 & 	348.5 \\
+a7-84 & 	- & 	7.04 & 	553.5 \\
+a8-64 & 	- & 	2.14 & 	101.8 \\
+a8-80 & 	- & 	5.73 & 	203.7 \\
+a8-96 & 	- & 	9.92 & 	477.4 \\
+\hline
+\end{tabular}
+\center Source: Own authorship
+\label{tab:evaluation-2.2}
+\end{table}
+
+[DISCUSSION]
 
 %============================================================
 % Chapter 6. Conclusion
