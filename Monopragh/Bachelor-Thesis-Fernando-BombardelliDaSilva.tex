@@ -361,7 +361,7 @@ To formulate a linear program three specifications are required. At first, the s
 
 As a result, a linear program with $n$ variables and $m$ constraints for the minimization of a function can be written as follows.
 \minproblem*{\sum_{i=1}^{n} c_{i}x_{i}}{
-    \sum_{i=1}^{n} a_{ki}x_{i} 	\leq b_{m} 	& \forall k = 1, 2, ..., m\\
+    \sum_{i=1}^{n} a_{ki}x_{i} 	\leq b_{k} 	& \forall k = 1, 2, ..., m\\
     & x_{i}						\geq 0		& \forall i = 1, 2, ..., n
 }
 
@@ -641,6 +641,7 @@ To summarize, the procedures explained in this section show that every route of 
 
 \subsection{Distance}
 For reasons of efficiency of the implementation and in order to keep the numerical error under control, the \textbf{Manhattan distance} was used to approximate the distance between two vectors in the search space. Note that, the Manhattan distance is very convenient for combinatorial applications because, if the vectors are composed by only integer numbers, then its result will be expressed in integer numbers too. The Manhattan distance between two vector $\mathbf{p}$ and $\mathbf{q}$, both with length $n$, is defined as follows.
+
 $$d(\mathbf{p},\mathbf{q}) = \parallel \mathbf{p} - \mathbf{q} \parallel = \sum_{i=1}^{n} \mid \mathbf{p}_{i}-\mathbf{q}_{i} \mid$$
 
 \subsection{Attractiveness}\label{sec:attractiveness}
