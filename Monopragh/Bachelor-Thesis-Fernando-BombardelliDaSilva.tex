@@ -68,7 +68,7 @@
 % 
 % Informações gerais
 % 
-\title{Solving The Dial-a-Ride Problem With The Firefly Metaheuristic}
+\title{Solving the Dial-a-Ride Problem with the Firefly Metaheuristic}
 
 \author{Bombardelli da Silva}{Fernando}
 % alguns documentos podem ter varios autores:
@@ -243,7 +243,7 @@ Determination of the routes of the vehicles, in such a way that, every request i
 
 In order to make it clearer, let a route be defined as:
 \begin{definition}[Route]
-The order of the locations through which a vehicle travels. The first and the last location is the depot and a vehicle muss be able to execute the whole journey without breaking the conditions of time windows of the requests assigned to it.
+The order of the locations through which a vehicle travels. The first and the last location is the depot and a vehicle must be able to execute the whole journey without breaking the conditions of time windows of the requests assigned to it.
 \end{definition}
 
 Finally, one can calculate the duration time of the operation for every feasible solution by basically summing up the duration times of every vehicle route. Based on this, the optimal solution is defined as follows.
@@ -485,7 +485,7 @@ Furthermore, the constants $M$ and $W$ are subject to the conditions presented n
 	W_{ij}^k \geq min\{Q_k, Q_k+q_i\}				\qquad & \forall i,j \in V, k \in K
 \end{align}
 
-This procedure closely resembles \emph{Miller-Tucker-Zemlin} subtour elimination constraints for the TSP \parencite[p. 575]{cordeau_branch-and-cut_2006}. Yet it is to note that the conditions (16) and (17) are not to be included in the integer programming formulation, since it would not characterize a linear program, instead, one should assign a sufficient large positive number to $M_{ij}^k$ and $W_{ij}^k$, such that these two conditions always hold true for any problem instance that muss be solved \parencite[p. 44]{hall_integrated_2009}.
+This procedure closely resembles \emph{Miller-Tucker-Zemlin} subtour elimination constraints for the TSP \parencite[p. 575]{cordeau_branch-and-cut_2006}. Yet it is to note that the conditions (16) and (17) are not to be included in the integer programming formulation, since it would not characterize a linear program, instead, one should assign a sufficient large positive number to $M_{ij}^k$ and $W_{ij}^k$, such that these two conditions always hold true for any problem instance that must be solved \parencite[p. 44]{hall_integrated_2009}.
 
 \subsection{Implementation}
 As part of the approach of this research, we seek exact solutions for a set of instances available in the literature. The first step in order to achieve that is transcribing the above detailed mathematical model into a programming language. The chosen language was AMPL which permits a quasi direct translation of the integer programming description to AMPL's notation \parencite[p. 520]{fourer_modeling_1990}. Additionally, in a lower level lies the GLPK solver, which stands for GNU Linear Programming Kit and whose role is to interpret the written program, admit the input, validate the linear model, execute an optimization algorithm and deliver an optimal solution by outputting the assignment of values to decision variables and calculating the objective function. Details of the experiments are shown in the corresponding Chapter \ref{sec:evaluation}.
@@ -661,7 +661,7 @@ At last, due to the fact that the search space is discrete, it is wanted an inte
 The movement of a firefly $i$ towards $j$ is determined by the following equation.
 $$\mathbf{x^{t+1}_i} = \mathbf{x^{t}_i} + \beta(d(\mathbf{x^{t}_i}, \mathbf{x^{t}_j})) \cdot (\mathbf{x^{t}_j} - \mathbf{x^{t}_i}) + RandomTerm(t)$$
 
-Since the fireflies move in a discrete vector space, the terms of the sum above should also be vectors of integer numbers. The first and the last one are intrinsically in the set of the integers. Despite of that, the second term muss be rewritten, so that it delivers an integer number with the lowest possible error. Thus, we use the $\beta^{-1}$ function, defined in the Section \ref{sec:attractiveness}, and turn the multiplication into a division. Lastly, a rounding should be performed in the quotient, this is done by applying the floor function. As a result, we obtain the function below.
+Since the fireflies move in a discrete vector space, the terms of the sum above should also be vectors of integer numbers. The first and the last one are intrinsically in the set of the integers. Despite of that, the second term must be rewritten, so that it delivers an integer number with the lowest possible error. Thus, we use the $\beta^{-1}$ function, defined in the Section \ref{sec:attractiveness}, and turn the multiplication into a division. Lastly, a rounding should be performed in the quotient, this is done by applying the floor function. As a result, we obtain the function below.
 $$\mathbf{x^{t+1}_i} = \mathbf{x^{t}_i} +  \lfloor \frac{(\mathbf{x^{t}_j} - \mathbf{x^{t}_i})}{\beta^{-1}(d(\mathbf{x^{t}_i}, \mathbf{x^{t}_j}))} \rfloor + RandomTerm(t)$$
 
 It is important however to notice that the movement formula may position a firefly out of the interval where one can find solutions, since every dimension of the search space has a range in which meaningful routes can be generated from the firefly vector. On this issue the so-called \textbf{saturation arithmetic} is applied by \emph{clipping} the result, in other words, if the numerical values resulted from the calculation are outside the domain, i.e. greater than its upper limit or less than zero, then the limit values are taken instead.
@@ -675,7 +675,7 @@ Moreover, even if the vector lies inside the mentioned domain, it can still deli
     \label{fig:solution_domain}
 \end{figure}
 
-The \textbf{domain correction procedure} consists in rearranging the routes of every bus, such that the distance between the new vector and the old one is as low as possible. The Figure \ref{fig:tree_bus_route} helps to clarify the situation, it shows how the routes can be represented by a tree, note also that a branch from the root to a leaf describes a possible vehicle route. The objective of the correction function is finding a new branch in the tree, that lies near the unfeasible one. To solve the problem, one can see it as a \textbf{constraint satisfaction problem}, where the set of variables are the request locations, their domains are the possible positions in the route, and the set of constraints are the time window limitations, which tell whether a location muss be accessed before or after another one. In this work, the renowned \textbf{Arc Consistency Algorithm \#3} by \textcite{mackworth_consistency_1977} was implemented in order to correct vectors.
+The \textbf{domain correction procedure} consists in rearranging the routes of every bus, such that the distance between the new vector and the old one is as low as possible. The Figure \ref{fig:tree_bus_route} helps to clarify the situation, it shows how the routes can be represented by a tree, note also that a branch from the root to a leaf describes a possible vehicle route. The objective of the correction function is finding a new branch in the tree, that lies near the unfeasible one. To solve the problem, one can see it as a \textbf{constraint satisfaction problem}, where the set of variables are the request locations, their domains are the possible positions in the route, and the set of constraints are the time window limitations, which tell whether a location must be accessed before or after another one. In this work, the renowned \textbf{Arc Consistency Algorithm \#3} by \textcite{mackworth_consistency_1977} was implemented in order to correct vectors.
 
 To add a final observation, it is to note that, despite of all the effort to correct the firefly vector, the adjustment function may not find a valid route if, for instance, the assignment of requests to vehicles does not make it possible. In this case, the firefly lies out of domain and should have null intensity.
 
